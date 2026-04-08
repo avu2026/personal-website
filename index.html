@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Andrew Uroskie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --void: #050505;
+    --surface: #0f0f0f;
+    --offwhite: #E8E6E1;
+    --muted: #8a8880;
+    --ash: #9a9088;
+    --pure-white: #FFFFFF;
+    --font-display: 'Bodoni Moda', serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --transition-fade: 320ms ease;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--void);
+    color: var(--offwhite);
+    font-family: var(--font-mono);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  #page-home {
+    min-height: 100%;
+  }
+
+  /* noise */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* page fade system */
+  .page {
+    position: fixed; inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-fade);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .page.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* home page: scrollable on short viewports */
+  #page-home {
+    overflow-y: auto;
+    justify-content: space-between;
+  }
+
+  .home-header {
+    width: 100%;
+    padding: 2rem 4rem 0;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .site-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 5.5vw, 5rem);
+    letter-spacing: 0.14em;
+    color: var(--pure-white);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .home-center {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    padding: 0.5rem 2rem 1rem;
+    min-height: 0;
+  }
+
+  .film-frame {
+    position: relative;
+    width: min(640px, 90vw, calc((100vh - 280px) * 16/9));
+    aspect-ratio: 16/9;
+    background: #000;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .hero-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.88;
+    transition: opacity 600ms ease;
+    display: block;
+  }
+  .film-frame:hover .hero-video { opacity: 0.6; }
+
+  .frame-label {
+    position: absolute;
+    bottom: 1.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }
+  .film-frame:hover .frame-label { opacity: 1; }
+
+  /* corner brackets */
+  .bracket {
+    position: absolute;
+    width: 28px; height: 28px;
+    pointer-events: none;
+  }
+  .bracket--tl { top: 14px; left: 14px; border-top: 1px solid rgba(255,255,255,0.3); border-left: 1px solid rgba(255,255,255,0.3); }
+  .bracket--tr { top: 14px; right: 14px; border-top: 1px solid rgba(255,255,255,0.3); border-right: 1px solid rgba(255,255,255,0.3); }
+  .bracket--bl { bottom: 14px; left: 14px; border-bottom: 1px solid rgba(255,255,255,0.3); border-left: 1px solid rgba(255,255,255,0.3); }
+  .bracket--br { bottom: 14px; right: 14px; border-bottom: 1px solid rgba(255,255,255,0.3); border-right: 1px solid rgba(255,255,255,0.3); }
+
+  .play-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    transition: color 400ms ease;
+  }
+  .film-frame:hover .play-label { color: rgba(255,255,255,0.65); }
+
+  /* home nav */
+  .home-nav {
+    width: 100%;
+    padding: 0 4rem 2rem;
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  .home-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.9rem;
+    border-right: 1px solid rgba(82,82,82,0.25);
+    padding-right: 1.5rem;
+  }
+
+  .home-nav a {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    color: var(--pure-white);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color var(--transition-fade);
+  }
+  .home-nav a:hover { color: var(--ash); }
+
+  /* ── SHARED INNER PAGE LAYOUT ── */
+  .inner-page {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .inner-header {
+    position: sticky; top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.8rem 4rem;
+    background: rgba(5,5,5,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(82,82,82,0.12);
+    flex-shrink: 0;
+  }
+
+  .inner-header .wordmark {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.05rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--pure-white);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--transition-fade);
+  }
+  .inner-header .wordmark:hover { color: var(--ash); }
+
+  .inner-header nav {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .inner-header nav a {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color var(--transition-fade);
+  }
+  .inner-header nav a:hover,
+  .inner-header nav a.current { color: var(--offwhite); }
+
+  .inner-content {
+    padding: 6rem 4rem 8rem;
+    max-width: 1100px;
+  }
+
+  /* section title treatment */
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    letter-spacing: 0.04em;
+    color: var(--pure-white);
+    line-height: 1.05;
+    margin-bottom: 4rem;
+  }
+
+  /* ── WRITING PAGE ── */
+  .writing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .writing-entry {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0 3rem;
+    padding: 2.4rem 0;
+    border-top: 1px solid rgba(82,82,82,0.18);
+    transition: opacity var(--transition-fade);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .writing-entry:hover { opacity: 0.65; }
+
+  .writing-year {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ash);
+    padding-top: 0.2rem;
+  }
+
+  .writing-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--offwhite);
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .writing-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── AV WORK PAGE ── */
+
+  /* clean video thumbnail with play overlay */
+  .video-thumb {
+    position: relative;
+    background: #000;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .video-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity 500ms ease;
+    display: block;
+  }
+  .video-thumb:hover img { opacity: 0.55; }
+  .video-thumb-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px; height: 48px;
+    border: 1.5px solid rgba(255,255,255,0.45);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 400ms ease;
+    pointer-events: none;
+  }
+  .video-thumb:hover .video-thumb-play { opacity: 1; }
+  .video-thumb-play svg {
+    width: 16px; height: 16px;
+    fill: rgba(255,255,255,0.7);
+    margin-left: 2px;
+  }
+
+  /* embedded player state (replaces thumbnail on click) */
+  .video-player-active {
+    position: relative;
+    background: #000;
+  }
+  .video-player-active iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* ── WRITING PAGE ── */
+  .writing-category-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin: 2.5rem 0 1.8rem;
+  }
+
+  .book-entry {
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(82,82,82,0.18);
+    max-width: 680px;
+  }
+
+  .book-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .book-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--pure-white);
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+
+  .book-publisher {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 0.8rem;
+  }
+
+  .book-desc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.85;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 58ch;
+    margin-bottom: 0.8rem;
+  }
+
+  .book-link {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ash);
+    text-decoration: none;
+    transition: color var(--transition-fade);
+  }
+  .book-link:hover { color: var(--offwhite); }
+
+  .writing-year.in-progress {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ash);
+    font-style: italic;
+  }
+
+  .book-review-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ash);
+    cursor: pointer;
+    transition: color var(--transition-fade);
+    margin-top: 0.6rem;
+    display: block;
+  }
+  .book-review-toggle:hover { color: var(--offwhite); }
+  .book-review-toggle em { font-style: italic; text-transform: none; }
+  .book-review-toggle.open { color: var(--offwhite); }
+
+  .book-review-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 600ms ease, padding 400ms ease;
+    padding: 0;
+    border-left: 1px solid rgba(82,82,82,0.2);
+    margin-top: 0;
+  }
+  .book-review-body.open {
+    max-height: 6000px;
+    padding: 2rem 0 2rem 2rem;
+    margin-top: 1.5rem;
+  }
+
+  .review-continuation {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 600ms ease;
+  }
+  .review-continuation.open { max-height: 4000px; }
+
+  .review-continue-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ash);
+    cursor: pointer;
+    transition: color var(--transition-fade);
+    margin-top: 1rem;
+    display: block;
+  }
+  .review-continue-toggle:hover { color: var(--offwhite); }
+
+  .book-review-meta {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--ash);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .book-review-meta em { font-style: italic; text-transform: none; }
+
+  .book-review-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 2;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 62ch;
+    margin-bottom: 1.2rem;
+  }
+  .book-review-text em { font-style: italic; color: var(--ash); }
+
+
+
+  /* ── FEATURED WORK ── */
+  .featured-work {
+    margin-bottom: 3rem;
+  }
+
+  .featured-work .video-thumb,
+  .featured-work .video-player-active {
+    margin-bottom: 1.4rem;
+  }
+
+  .featured-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .featured-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--offwhite);
+    letter-spacing: 0.01em;
+  }
+
+  .featured-details {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .featured-divider {
+    color: var(--ash);
+    opacity: 0.5;
+  }
+
+  .featured-awards {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-top: 0.2rem;
+  }
+
+  .works-divider {
+    height: 1px;
+    background: rgba(82,82,82,0.18);
+    margin: 3rem 0 2rem;
+  }
+
+  .works-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-entry {
+    border-top: 1px solid rgba(82,82,82,0.18);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .work-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.8rem 0;
+    gap: 2rem;
+  }
+
+  .work-header-left {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0 3rem;
+    align-items: start;
+    flex: 1;
+  }
+
+  .work-toggle {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--ash);
+    transition: transform 320ms ease, color 320ms ease;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .work-entry.open .work-toggle {
+    transform: rotate(45deg);
+    color: var(--offwhite);
+  }
+
+  .work-player {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 500ms ease, padding 400ms ease;
+    padding: 0;
+  }
+
+  .work-entry.open .work-player {
+    max-height: 1000px;
+    padding-bottom: 2rem;
+  }
+
+
+  .courses-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+  }
+
+  @media (max-width: 800px) {
+    .courses-layout { grid-template-columns: 1fr; gap: 3rem; }
+  }
+
+  .courses-col-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(82,82,82,0.18);
+  }
+
+  .course-entry {
+    padding: 1.6rem 0;
+    border-bottom: 1px solid rgba(82,82,82,0.1);
+  }
+
+  .course-number {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--ash);
+    margin-bottom: 0.4rem;
+  }
+
+  .course-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--offwhite);
+    line-height: 1.3;
+    margin-bottom: 0.4rem;
+  }
+
+  .course-desc {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.7;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* ── ADVISEES ── */
+  .advisees-heading {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--offwhite);
+    margin-bottom: 2rem;
+  }
+
+  .advisees-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 2rem 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .advisee-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .advisee-photo {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background: var(--surface);
+    border: 1px solid rgba(82,82,82,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .advisee-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(20%);
+    opacity: 0.9;
+    transition: opacity 400ms ease;
+  }
+  .advisee-card:hover .advisee-photo img { opacity: 1; filter: grayscale(0); }
+
+  /* placeholder state before images are uploaded */
+  .advisee-photo:not(:has(img))::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(82,82,82,0.08) 0%, rgba(82,82,82,0.04) 100%);
+  }
+
+  .advisee-info { display: flex; flex-direction: column; gap: 0.3rem; }
+
+  .advisee-name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--offwhite);
+    letter-spacing: 0.01em;
+  }
+
+  .advisee-role {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .advisee-inst {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--ash);
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+
+  .advisee-phd {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 0.1rem;
+  }
+
+  .current-advisees {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .current-advisee {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0 3rem;
+    padding: 1.6rem 0;
+    border-bottom: 1px solid rgba(82,82,82,0.12);
+    align-items: baseline;
+  }
+
+  .advisee-dissertation {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── BIO PAGE ── */
+  .bio-layout {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 7rem;
+    align-items: start;
+  }
+
+  @media (max-width: 800px) {
+    .bio-layout { grid-template-columns: 1fr; gap: 3rem; }
+  }
+
+  .bio-text p {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 2;
+    color: var(--offwhite);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    max-width: 54ch;
+  }
+
+  .bio-aside-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(82,82,82,0.18);
+  }
+
+  .bio-aside-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 3rem;
+  }
+
+  .bio-aside-list li {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .contact-line {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--offwhite);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    transition: color var(--transition-fade);
+  }
+  .contact-line:hover { color: var(--ash); }
+
+  /* page load animation */
+  .page.active .inner-content > * {
+    animation: riseIn 500ms ease forwards;
+  }
+
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* responsive — tablet */
+  @media (max-width: 900px) {
+    .home-center { padding: 0.5rem 2rem 0.5rem; }
+    .home-nav { padding: 0 2rem 1.5rem; }
+    .home-nav ul { gap: 0.6rem; }
+  }
+
+  /* responsive — phone */
+  @media (max-width: 700px) {
+    .home-header { padding: 2rem 1.5rem 0; }
+    .home-center { padding: 0.25rem 1.5rem 0.25rem; }
+    .home-nav { padding: 0 1.5rem 1.5rem; }
+    .home-nav ul { gap: 0.5rem; padding-right: 1rem; }
+    .home-nav a { font-size: 1.1rem; }
+    .inner-header { padding: 1.2rem 1.5rem; }
+    .inner-header nav { display: none; }
+    .mobile-menu-btn { display: flex; }
+    .inner-content { padding: 3.5rem 1.5rem 5rem; }
+    .writing-entry { grid-template-columns: 1fr; gap: 0.3rem; }
+    .work-header-left { grid-template-columns: 1fr; gap: 0.3rem; }
+    .current-advisee { grid-template-columns: 1fr; gap: 0.3rem; }
+    .bio-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .courses-layout { grid-template-columns: 1fr; gap: 3rem; }
+  }
+
+  /* mobile menu button — hidden by default */
+  .mobile-menu-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: var(--muted);
+    transition: color var(--transition-fade);
+  }
+  .mobile-menu-btn:hover { color: var(--offwhite); }
+  .mobile-menu-btn svg { width: 20px; height: 20px; }
+
+  /* mobile nav overlay */
+  .mobile-nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(5,5,5,0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+  }
+  .mobile-nav-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .mobile-nav-overlay a {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--pure-white);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color var(--transition-fade);
+  }
+  .mobile-nav-overlay a:hover { color: var(--ash); }
+  .mobile-nav-close {
+    position: absolute;
+    top: 1.2rem; right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color var(--transition-fade);
+  }
+  .mobile-nav-close:hover { color: var(--offwhite); }
+  .mobile-nav-close svg { width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ LANDING ══════════════ -->
+<div id="page-home" class="page active">
+  <header class="home-header">
+    <h1 class="site-title">Andrew Uroskie</h1>
+  </header>
+
+  <div class="home-center">
+    <div class="film-frame" onclick="navigateTo('av-work')">
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="auto"
+        poster="splash_placeholder.jpg"
+        class="hero-video"
+        aria-label="Audiovisual work — enter to explore"
+      >
+        <source src="vdb_splash.webm" type="video/webm"/>
+        <img src="splash_placeholder.jpg" alt="Audiovisual work" class="hero-video"/>
+      </video>
+      <span class="bracket bracket--tl"></span>
+      <span class="bracket bracket--tr"></span>
+      <span class="bracket bracket--bl"></span>
+      <span class="bracket bracket--br"></span>
+      <div class="frame-label">
+        <span class="play-label">Audiovisual Work</span>
+      </div>
+    </div>
+  </div>
+
+  <nav class="home-nav" aria-label="Main navigation">
+    <ul>
+      <li><a href="#" onclick="navigateTo('writing'); return false;">Writing</a></li>
+      <li><a href="#" onclick="navigateTo('av-work'); return false;">Audiovisual</a></li>
+      <li><a href="#" onclick="navigateTo('courses'); return false;">Pedagogy</a></li>
+      <li><a href="#" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a></li>
+    </ul>
+  </nav>
+</div>
+
+<!-- ══════════════ INNER HEADER TEMPLATE (shared) ══════════════ -->
+<!-- Writing -->
+<div id="page-writing" class="page inner-page">
+  <header class="inner-header">
+    <a class="wordmark" onclick="navigateTo('home'); return false;" href="#">Andrew Uroskie</a>
+    <nav>
+      <a href="#" class="current" onclick="navigateTo('writing'); return false;">Writing</a>
+      <a href="#" onclick="navigateTo('av-work'); return false;">Audiovisual</a>
+      <a href="#" onclick="navigateTo('courses'); return false;">Pedagogy</a>
+      <a href="#" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a>
+    </nav>
+    <button class="mobile-menu-btn" onclick="openMobileNav()" aria-label="Open menu">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+    </button>
+  </header>
+  <div class="inner-content">
+    <p class="section-eyebrow">Selected Publications</p>
+    <h2 class="section-title">Writing</h2>
+
+    <!-- Books -->
+    <p class="writing-category-label">Books</p>
+
+    <div class="book-entry" style="border-bottom: none; padding-bottom: 0;">
+      <div class="book-title-row">
+        <span class="book-title">Between the Black Box and the White Cube</span>
+        <span class="writing-year" style="flex-shrink:0;">2014</span>
+      </div>
+      <div class="book-publisher">University of Chicago Press</div>
+      <div class="book-desc">Excavates the contested emergence of expanded cinema in the postwar period, tracing the transformation of experimental film practice as it moved from the cinema into the gallery space and back again.</div>
+      <button class="book-review-toggle" onclick="toggleReview(this)" aria-expanded="false">
+        Read review — Kenneth White, <em>caa.reviews</em> (2015) +
+      </button>
+      <div class="book-review-body">
+        <div class="book-review-meta">Kenneth White &nbsp;·&nbsp; <em>caa.reviews</em> &nbsp;·&nbsp; May 7, 2015 &nbsp;·&nbsp; DOI: 10.3202/caa.reviews.2015.53</div>
+        <p class="book-review-text">In the closing pages of his fine book <em>Between the Black Box and the White Cube: Expanded Cinema and Postwar Art</em>, Andrew V. Uroskie delivers a vivid explication of Ken Dewey's multimedia project <em>Selma Last Year</em> (1966). With this work, Dewey proposes to redefine the social character of media through sophisticated interrelations of technology and live performance contingent to a viewer's presence: "the act of spectatorship itself [was] staged" (226). The stakes of this staging are evidenced in the work's radical reconfiguration from its first to its second iteration. The work was initially conceived as an exhibition of photographs of the 1965 march from Selma to Montgomery, Alabama, which was a major media event of the Civil Rights Era. Dewey's installation was presented on the one-year anniversary of the march in the First Unitarian Church in the Hyde Park neighborhood of Chicago, imbuing it with a reverential poignancy. This sentiment would turn to pointed class critique in the work's second formulation for the New York Film Festival at Lincoln Center, New York. "In contrast to the relatively diverse early audiences in Chicago," Uroskie observes, "the audience at Lincoln Center would be disproportionately white and affluent. Dewey describes wanting to 'break through' the 'self-satisfied nature' of those largely insulated from the harsh reality of the civil rights struggle and rapidly becoming inured to its images of suffering" (219). In a new component to the work, viewers could watch an 8mm rear-projection continuous loop of violence committed by the police against civil rights activists in Selma on "Bloody Sunday." Set next to this repetition of widely circulated images, Dewey presents another screen, this one a television depicting viewers as they appeared eight seconds prior. The constitutive force of the work is generated in a split attention, a psychophysical tension between the process of recognizing one's own familiar image and the urgent, existential stakes of enfranchisement exemplified in the brutal crackdown of state power against its citizens.</p>
+        <p class="book-review-text">"Dewey was less interested in the creation of objects than in the production of situations" (203), Uroskie argues. <em>Selma Last Year</em> utilizes the disjunction of multimedia presentation as a means by which to concentrate on social disjunction in the mid-1960s. For these ambitions, Dewey is a central figure in Uroskie's argument for a situational rather than ontological preoccupation in multimedia experiments of the 1960s.</p>
+        <p class="book-review-text">The care and nuance Uroskie devotes to Dewey's work is characteristic of case studies presented throughout <em>Between the Black Box and the White Cube</em>. In taking as his object the idea of cinema in postwar art, Uroskie offers a model for future scholarship on the complex, multifarious activity collected under the term "expanded cinema." His achievement rests in part on his lucid discussion of the etymology of "expanded" in a broader context of postwar art. Uroskie posits "not what is cinema?" in Andre Bazin's fundamental question of film studies, but "where?" The idea of cinema is inextricable from its contingent sites.</p>
+        <button class="review-continue-toggle" onclick="event.stopPropagation(); toggleContinuation(this)" aria-expanded="false">Continue reading ↓</button>
+        <div class="review-continuation">
+        <p class="book-review-text">Uroskie argues that a complex range of immersion was broached in works such as <em>Zen for Film</em> (1964) by Nam June Paik, <em>Sleep</em> (1963) by Warhol, and <em>Moveyhouse</em> (1965) by Claes Oldenburg — each manifesting the hybrid character of the cinematic situation and articulating "a kind of 'degree zero' of cinema — a desire to reinvent not merely the formal possibilities of the cinematic image, but the sediment of social conduct and expectation that maintained a larger conceptualization of 'cinema' as such" (49).</p>
+        <p class="book-review-text">Uroskie's writing is strong on Warhol's <em>Outer and Inner Space</em> (1965) and Whitman's <em>Prune. Flat.</em> (1965). His examination of the psychic effects of split-screen formulation, the play of figure and ground, illumination and concealment exemplifies his careful balance between theoretical considerations and rich formal analysis. From a far-ranging field of projects, Uroskie does not attempt to unify a theory of expanded cinema, but rather traces, and with great effectiveness, complex impulses that took up the moving image for particular purposes.</p>
+        <p class="book-review-text"><em>Between the Black Box and the White Cube</em> is a vital contribution to growing research on the interdisciplinary character of art in the postwar period. In addition to its value for an art-historical regard of the moving image, Uroskie's study should be read in a wider spectrum of current disciplinary turns in film and media studies, media archaeology, cultural techniques, and discourses of "post-cinema" at large. In this way, <em>Between the Black Box and the White Cube</em> offers case studies toward a history of what Harun Farocki calls the "operational image": an image not for contemplation but rather a set of instructions. For these complex conditions, the moving image may be "homeless," as Uroskie concludes, yet in him it has found a thoughtful, rigorous historian.</p>
+        </div>
+        <a class="book-link" href="http://www.caareviews.org/reviews/2407" target="_blank" style="display: inline-block; margin-top: 1rem;">Full review at caa.reviews ↗</a>
+      </div>
+    </div>
+
+    <div class="book-entry" style="border-bottom: none;">
+      <div class="book-title-row">
+        <span class="book-title">Paranthropic Aesthesis</span>
+        <span class="writing-year in-progress" style="flex-shrink:0;">In progress</span>
+      </div>
+      <div class="book-desc">Develops a theoretical framework for understanding nonhuman and paranthropic perception in contemporary art practice, drawing on ecology, systems theory, cognitive science, and scalar aesthetics.</div>
+    </div>
+
+    <!-- Criticism -->
+    <div class="works-divider" style="margin: 3.5rem 0 0;"></div>
+    <p class="writing-category-label">Criticism</p>
+
+    <div class="writing-grid">
+      <div class="writing-entry">
+        <span class="writing-year">2026</span>
+        <div>
+          <div class="writing-title">"Marina Rosenfeld: Sound's Mesoscopic Realm"</div>
+          <div class="writing-meta">Exhibition catalog &nbsp;·&nbsp; The Substation, Victoria, Australia &nbsp;·&nbsp; February 2026</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2024</span>
+        <div>
+          <div class="writing-title">"15th Gwangju Biennale"</div>
+          <div class="writing-meta"><em>Artforum</em> &nbsp;·&nbsp; Vol. 63, No. 4, December 2024</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2024</span>
+        <div>
+          <div class="writing-title">"Whitney Biennial 2024"</div>
+          <div class="writing-meta"><em>Artforum</em> &nbsp;·&nbsp; Vol. 62, No. 10, Summer 2024</div>
+        </div>
+      </div>
+      <div class="writing-entry" style="border-bottom: none;">
+        <span class="writing-year">2018</span>
+        <div>
+          <div class="writing-title">"Elective Intimacies – Beyond the Thunderdome"</div>
+          <div class="writing-meta"><em>Millennium Film Journal</em> &nbsp;·&nbsp; No. 68</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Essays -->
+    <div class="works-divider" style="margin: 3.5rem 0 0;"></div>
+    <p class="writing-category-label">Essays</p>
+
+    <div class="writing-grid">
+      <div class="writing-entry">
+        <span class="writing-year">2022</span>
+        <div>
+          <div class="writing-title">"Jonas Mekas, the Living Theatre, and the Place of Performance in the Emergence"</div>
+          <div class="writing-meta">in <em>Jonas Mekas: Retrospective</em> &nbsp;·&nbsp; Yale University Press</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2020</span>
+        <div>
+          <div class="writing-title">"Interactivity without Control: David O'Reilly's <em>Everything</em> (2017) and the Representation of Totality"</div>
+          <div class="writing-meta">in Rascaroli &amp; Murphy, eds., <em>Theorizing Film through Contemporary Art: Expanding Cinema</em> &nbsp;·&nbsp; Amsterdam University Press</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2017</span>
+        <div>
+          <div class="writing-title">"Assemblage (1968) as Strategy: Collaborative Production and Collective Reception at the Origins of Artist's Television"</div>
+          <div class="writing-meta">in Bovier &amp; Mey, eds., <em>Exhibited Cinema</em> &nbsp;·&nbsp; Institut National de L'Histoire de l'Art, Paris</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2015</span>
+        <div>
+          <div class="writing-title">"Documentary Fables: The Return of History and the Collapse of Distance in the work of Pierre Huyghe and Omer Fast"</div>
+          <div class="writing-meta">Translated into Korean &nbsp;·&nbsp; <em>Contemporary Art: Beyond the Authority of Global Trends</em> &nbsp;·&nbsp; Noosphere Contemporary Art Lab, Seoul</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2012</span>
+        <div>
+          <div class="writing-title">"Visual Music after Cage: Robert Breer, Expanded Cinema and Stockhausen's <em>Originals</em> (1964)"</div>
+          <div class="writing-meta"><em>Organised Sound: An International Journal of Music and Technology</em> &nbsp;·&nbsp; 17:2 &nbsp;·&nbsp; Cambridge University Press</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2011</span>
+        <div>
+          <div class="writing-title">"Beyond the Black Box: The Lettrist Cinema of Disjunction"</div>
+          <div class="writing-meta"><em>October</em> 135 &nbsp;·&nbsp; MIT Press</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2011</span>
+        <div>
+          <div class="writing-title">"From Chronophotography and Cinematography to Photodynamism and Chromatic Music: Bergson's Critique of Photography and the Futurist Birth of the Cinematic Avant-Garde, 1910–1912"</div>
+          <div class="writing-meta"><em>Forum Italicum</em> 31 &nbsp;·&nbsp; SUNY Press</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2010</span>
+        <div>
+          <div class="writing-title">"From Pictorial College to Interdisciplinary Assemblage: <em>Variations V</em> (1965) and the Cagean Origins of VanDerBeek's Expanded Cinema"</div>
+          <div class="writing-meta"><em>Animation: An Interdisciplinary Journal</em> &nbsp;·&nbsp; 5:2 &nbsp;·&nbsp; Sage Publications</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2010</span>
+        <div>
+          <div class="writing-title">"The Philosophical Toy as Model: Duchamp, Breer and the Postwar Emergence of Cinema in the Gallery Space"</div>
+          <div class="writing-meta">Translated into Spanish &nbsp;·&nbsp; <em>Secuencias: Revista de historia del cine</em> 32 &nbsp;·&nbsp; Universidad Autónoma de Madrid</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2009</span>
+        <div>
+          <div class="writing-title">"A Labyrinth in Time and Space: Coulibeuf's <em>Dédale</em> and the Architecture of the Moving Image"</div>
+          <div class="writing-meta">Translated into Portuguese &nbsp;·&nbsp; in Fidelis, ed., <em>Dédale</em> &nbsp;·&nbsp; Iberê Camargo Foundation, Porto Alegre</div>
+        </div>
+      </div>
+      <div class="writing-entry">
+        <span class="writing-year">2008</span>
+        <div>
+          <div class="writing-title">"Siting Cinema"</div>
+          <div class="writing-meta">in Leighton, ed., <em>Art and the Moving Image: A Critical Reader</em> &nbsp;·&nbsp; Tate Modern / Afterall Press</div>
+        </div>
+      </div>
+      <div class="writing-entry" style="border-bottom: none;">
+        <span class="writing-year">2005</span>
+        <div>
+          <div class="writing-title">"La Jetée en Spirale: Robert Smithson's Stratigraphic Cinema"</div>
+          <div class="writing-meta"><em>Grey Room</em> 19 &nbsp;·&nbsp; MIT Press</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- AV Work -->
+<div id="page-av-work" class="page inner-page">
+  <header class="inner-header">
+    <a class="wordmark" onclick="navigateTo('home'); return false;" href="#">Andrew Uroskie</a>
+    <nav>
+      <a href="#" onclick="navigateTo('writing'); return false;">Writing</a>
+      <a href="#" class="current" onclick="navigateTo('av-work'); return false;">Audiovisual</a>
+      <a href="#" onclick="navigateTo('courses'); return false;">Pedagogy</a>
+      <a href="#" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a>
+    </nav>
+    <button class="mobile-menu-btn" onclick="openMobileNav()" aria-label="Open menu">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+    </button>
+  </header>
+  <div class="inner-content" style="max-width: 960px; padding-top: 4rem;">
+    <p class="section-eyebrow">Film &amp; Sound</p>
+    <h2 class="section-title">Audiovisual Work</h2>
+
+    <!-- Featured film -->
+    <div class="featured-work">
+      <div class="video-thumb" style="aspect-ratio: 1920/1014;" onclick="playVideo(this, '1105936727', '52.81%')" tabindex="0" role="button" aria-label="Play Paranthropic Audition: Prospect Park Lake" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo(this,'1105936727','52.81%')}">
+        <img src="https://vumbnail.com/1105936727.jpg" alt="Paranthropic Audition: Prospect Park Lake" />
+        <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
+      </div>
+      <div class="featured-meta">
+        <div class="featured-title">Paranthropic Audition: Prospect Park Lake</div>
+        <div class="featured-details">
+          <span class="featured-year">2025</span>
+          <span class="featured-divider">·</span>
+          <span>Film</span>
+          <span class="featured-divider">·</span>
+          <span>17 Festivals &nbsp;·&nbsp; 15 Countries</span>
+        </div>
+        <div class="featured-awards">
+          Best Nature Film &nbsp;·&nbsp; Best Experimental Film &nbsp;·&nbsp; Best No-Dialogue Film
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional works -->
+    <div class="works-divider"></div>
+
+    <div class="works-list">
+
+      <!-- Work 2 -->
+      <div class="work-entry" onclick="toggleWork(this)" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleWork(this)}">
+        <div class="work-header">
+          <div class="work-header-left">
+            <span class="writing-year">2024</span>
+            <div>
+              <div class="writing-title">3 Seconds of Laptop EM</div>
+              <div class="writing-meta">Sound &nbsp;·&nbsp; Southwest Drone Fest, January 2025</div>
+            </div>
+          </div>
+          <span class="work-toggle">+</span>
+        </div>
+        <div class="work-player">
+          <div class="video-thumb" style="aspect-ratio: 2/1;" onclick="event.stopPropagation(); playVideo(this, '1045221930', '50%')" tabindex="0" role="button" aria-label="Play 3 Seconds of Laptop EM" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();playVideo(this,'1045221930','50%')}">
+            <img src="https://vumbnail.com/1045221930.jpg" alt="3 Seconds of Laptop EM" />
+            <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Work 3 -->
+      <div class="work-entry" onclick="toggleWork(this)" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleWork(this)}">
+        <div class="work-header">
+          <div class="work-header-left">
+            <span class="writing-year">2025</span>
+            <div>
+              <div class="writing-title">Under the Full Moon (Primal Fears)</div>
+              <div class="writing-meta">Film</div>
+            </div>
+          </div>
+          <span class="work-toggle">+</span>
+        </div>
+        <div class="work-player">
+          <div class="video-thumb" style="aspect-ratio: 16/9;" onclick="event.stopPropagation(); playVideo(this, '1114427619', '56.25%')" tabindex="0" role="button" aria-label="Play Under the Full Moon (Primal Fears)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();playVideo(this,'1114427619','56.25%')}">
+            <img src="https://vumbnail.com/1114427619.jpg" alt="Under the Full Moon (Primal Fears)" />
+            <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Work 4 -->
+      <div class="work-entry" onclick="toggleWork(this)" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleWork(this)}">
+        <div class="work-header">
+          <div class="work-header-left">
+            <span class="writing-year">2025</span>
+            <div>
+              <div class="writing-title">Unfreezing: Sonic Striations Manifesting</div>
+              <div class="writing-meta">Film &amp; Sound</div>
+            </div>
+          </div>
+          <span class="work-toggle">+</span>
+        </div>
+        <div class="work-player">
+          <div class="video-thumb" style="aspect-ratio: 1920/1012;" onclick="event.stopPropagation(); playVideo(this, '1050620524', '52.73%')" tabindex="0" role="button" aria-label="Play Unfreezing: Sonic Striations Manifesting" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();playVideo(this,'1050620524','52.73%')}">
+            <img src="https://vumbnail.com/1050620524.jpg" alt="Unfreezing: Sonic Striations Manifesting" />
+            <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Courses -->
+<div id="page-courses" class="page inner-page">
+  <header class="inner-header">
+    <a class="wordmark" onclick="navigateTo('home'); return false;" href="#">Andrew Uroskie</a>
+    <nav>
+      <a href="#" onclick="navigateTo('writing'); return false;">Writing</a>
+      <a href="#" onclick="navigateTo('av-work'); return false;">Audiovisual</a>
+      <a href="#" class="current" onclick="navigateTo('courses'); return false;">Pedagogy</a>
+      <a href="#" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a>
+    </nav>
+    <button class="mobile-menu-btn" onclick="openMobileNav()" aria-label="Open menu">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+    </button>
+  </header>
+  <div class="inner-content">
+    <p class="section-eyebrow">Stony Brook University — Department of Art</p>
+    <h2 class="section-title">Pedagogy</h2>
+
+    <!-- Current Advisees — lead position -->
+    <p class="section-eyebrow" style="margin-bottom: 1rem;">Doctoral Advisees — Current</p>
+    <div class="current-advisees" style="margin-bottom: 4rem;">
+      <div class="current-advisee">
+        <div class="advisee-name">Anna Cahn</div>
+        <div class="advisee-dissertation">Kinesthetic Pleasure: Vernacular Movement as Artistic Media</div>
+      </div>
+      <div class="current-advisee">
+        <div class="advisee-name">Sangyoung Nam</div>
+        <div class="advisee-dissertation">Mutant Machines: Experimental Apparatuses in Avant-Garde Cinema</div>
+      </div>
+      <div class="current-advisee">
+        <div class="advisee-name">Yulong Hu</div>
+        <div class="advisee-dissertation">Video Art in China: Origins, History, Theory</div>
+      </div>
+      <div class="current-advisee" style="border-bottom: none;">
+        <div class="advisee-name">Reed Silverstein</div>
+        <div class="advisee-dissertation">70s Video Art &amp; Ecology <span style="color: var(--ash); font-style: italic;">— title TBA</span></div>
+      </div>
+    </div>
+
+    <!-- Past Advisees -->
+    <div class="works-divider"></div>
+    <p class="section-eyebrow" style="margin-top: 3rem; margin-bottom: 1rem;">Doctoral Advisees — Past</p>
+
+    <div class="advisees-grid">
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-goldstein.jpg" alt="Jennie Goldstein"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Jennie Goldstein</div>
+          <div class="advisee-role">Stroud Curator of the Collection</div>
+          <div class="advisee-inst">Whitney Museum of American Art, New York</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-landres.jpg" alt="Sophie Landres"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Sophie Landres</div>
+          <div class="advisee-role">Curator &amp; Exhibitions Manager</div>
+          <div class="advisee-inst">Samuel Dorsky Museum of Art, SUNY New Paltz</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-eppley.jpg" alt="Charles Eppley"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Charles Eppley</div>
+          <div class="advisee-role">Assistant Teaching Professor, Art &amp; Media History</div>
+          <div class="advisee-inst">Arizona State University</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-guerrero.jpg" alt="Juan Carlos Guerrero Hernández"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Juan Carlos Guerrero Hernández</div>
+          <div class="advisee-role">Assistant Professor, History of Art</div>
+          <div class="advisee-inst">University of Nevada, Reno</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-english.jpg" alt="Travis English"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Travis English</div>
+          <div class="advisee-role">Associate Professor &amp; Chair, Digital Media &amp; Visual Arts</div>
+          <div class="advisee-inst">Frostburg State University</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-kruglinski.jpg" alt="Jennifer Kruglinski"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Jennifer Kruglinski</div>
+          <div class="advisee-role">Associate Professor, Art History</div>
+          <div class="advisee-inst">Salisbury University</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-gasparavicius.png" alt="Gediminas Gasparavičius"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Gediminas Gasparavičius</div>
+          <div class="advisee-role">Associate Professor, Art History</div>
+          <div class="advisee-inst">University of Akron</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-williams.jpg" alt="Tom Williams"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Tom Williams</div>
+          <div class="advisee-role">Assistant Professor, Art History</div>
+          <div class="advisee-inst">Watkins College of Art, Belmont University</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Dissertation Committees -->
+    <div class="works-divider" style="margin-top: 4rem;"></div>
+    <p class="section-eyebrow" style="margin-top: 3rem; margin-bottom: 1rem;">Dissertation Committees</p>
+
+    <div class="advisees-grid">
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-pernuit.jpg" alt="Pierre Pernuit"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Pierre Pernuit</div>
+          <div class="advisee-role">Maître de conférences</div>
+          <div class="advisee-inst">Université Paris 1 Panthéon-Sorbonne</div>
+          <div class="advisee-phd">PhD, Sorbonne</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-casanovas.jpg" alt="Lluís Alexandre Casanovas Blanco"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Lluís Alexandre Casanovas Blanco</div>
+          <div class="advisee-role">Architect, Curator &amp; Scholar</div>
+          <div class="advisee-inst">New York &amp; Barcelona</div>
+          <div class="advisee-phd">PhD, Princeton</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-hines.jpg" alt="Megan Hines"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Megan Hines</div>
+          <div class="advisee-role">Assistant Professor, Art History</div>
+          <div class="advisee-inst">Berklee College of Music</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-lee.jpg" alt="Joo Yun Lee"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Joo Yun Lee</div>
+          <div class="advisee-role">Assistant Professor</div>
+          <div class="advisee-inst">Maryland Institute College of Art</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-ryan.jpg" alt="Tina Rivers Ryan"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Tina Rivers Ryan</div>
+          <div class="advisee-role">Editor-in-Chief</div>
+          <div class="advisee-inst">Artforum</div>
+          <div class="advisee-phd">PhD, Columbia</div>
+        </div>
+      </div>
+
+      <div class="advisee-card">
+        <div class="advisee-photo"><img src="advisee-modigliani.jpg" alt="Leah Modigliani"/></div>
+        <div class="advisee-info">
+          <div class="advisee-name">Leah Modigliani</div>
+          <div class="advisee-role">Associate Professor, Visual Studies</div>
+          <div class="advisee-inst">Tyler School of Art &amp; Architecture</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Graduate Courses -->
+    <div class="works-divider" style="margin-top: 5rem;"></div>
+    <p class="section-eyebrow" style="margin-top: 3rem; margin-bottom: 2rem;">Graduate Seminars</p>
+
+    <div class="course-entry">
+      <div class="course-title">Paranthropic Aesthetics</div>
+      <div class="course-desc">Surveying the interdisciplinary research landscape between contemporary biology, information science, philosophy, cognitive science, ecology, and contemporary art — focusing on nonhuman perception and cognition and scalar systems aesthetics in the 21st century.</div>
+    </div>
+    <div class="course-entry">
+      <div class="course-title">The Kinetic Imaginary: Movement, Animation, Animism</div>
+      <div class="course-desc">Surveying the imbricated history, criticism and historiography of kinetic sculpture and experimental animation from the late 19th to the early 21st century.</div>
+    </div>
+    <div class="course-entry">
+      <div class="course-title">Installation and Environment from the '60s to the Present</div>
+      <div class="course-desc">Ways in which late modern and contemporary artistic practices — from painting and sculpture to film, video and performance — have critically involved the physical, institutional and discursive dimensions of space and place.</div>
+    </div>
+    <div class="course-entry">
+      <div class="course-title">Jacques Rancière: Aesthetics / Politics <span style="color: var(--ash); font-weight: 300;">Cross-listed with Philosophy</span></div>
+      <div class="course-desc">An in-depth examination of Jacques Rancière's writing on aesthetics and politics since the 1990s, with particular attention to <em>Aisthesis: Scenes from the Aesthetic Regime of Art</em> (2012).</div>
+    </div>
+    <div class="course-entry" style="border-bottom: none; margin-bottom: 4rem;">
+      <div class="course-title">Less is More: Minimalism and the Expanded Field</div>
+      <div class="course-desc">Surveying the aesthetic and conceptual dynamics of Minimalism and Post-minimalism as they impacted the fields of painting, sculpture, music, dance and film.</div>
+    </div>
+
+    <!-- Undergraduate Courses — tertiary -->
+    <div class="works-divider"></div>
+    <p class="section-eyebrow" style="margin-top: 3rem; margin-bottom: 2rem; opacity: 0.6;">Undergraduate</p>
+
+    <div class="course-entry" style="opacity: 0.7;">
+      <div class="course-title">Contemporary Artists' Cinema</div>
+      <div class="course-desc">Explores the tremendous growth of video installation practices in global art practice and criticism since the late 1990s, with particular attention to the ways in which this genre can be understood as a continuation and departure from the prior 80 years of experimental film and video practice.</div>
+    </div>
+    <div class="course-entry" style="opacity: 0.7;">
+      <div class="course-title">Remaking Reality: Science/Fiction in 21st Century Visual Culture</div>
+      <div class="course-desc">Ethical and political issues related to the intersection of 21st century science, technology and society placed in dialogue with works of contemporary video art and more popular audiovisual practices in cinema and television.</div>
+    </div>
+    <div class="course-entry" style="opacity: 0.7;">
+      <div class="course-title">The Moving Image in 20th Century Art</div>
+      <div class="course-desc">A survey of the history and criticism of experimental film and video art over the course of the 20th century, with particular emphasis on its relationship with broader interdisciplinary movements across the arts.</div>
+    </div>
+    <div class="course-entry" style="border-bottom: none; opacity: 0.7;">
+      <div class="course-title">History of Photography</div>
+      <div class="course-desc">A survey of the origins and development of photographic technologies, the social, political, and philosophical issues raised by photographic spectatorship, and the place of photography within modern and contemporary art practice and criticism.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Bio -->
+<div id="page-bio" class="page inner-page">
+  <header class="inner-header">
+    <a class="wordmark" onclick="navigateTo('home'); return false;" href="#">Andrew Uroskie</a>
+    <nav>
+      <a href="#" onclick="navigateTo('writing'); return false;">Writing</a>
+      <a href="#" onclick="navigateTo('av-work'); return false;">Audiovisual</a>
+      <a href="#" onclick="navigateTo('courses'); return false;">Pedagogy</a>
+      <a href="#" class="current" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a>
+    </nav>
+    <button class="mobile-menu-btn" onclick="openMobileNav()" aria-label="Open menu">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+    </button>
+  </header>
+  <div class="inner-content">
+    <p class="section-eyebrow">Bio &amp; Contact</p>
+    <h2 class="section-title">Andrew V. Uroskie</h2>
+    <div class="bio-layout">
+      <div class="bio-text">
+        <p>Andrew V. Uroskie is Associate Professor with Tenure in the Department of Art at Stony Brook University, where he teaches experimental and avant-garde film, media theory, and supervises graduate research. His scholarly work spans expanded cinema, the kinetic imaginary, and nonhuman perception, drawing on ecology, systems theory, and scalar cognition.</p>
+        <p>His major publication, <em>Between the Black Box and the White Cube</em> (University of Chicago Press, 2014), excavates the contested emergence of expanded cinema in the postwar period. Books in progress extend this inquiry toward the kinetic imaginary and media theory in the age of the Anthropocene.</p>
+        <p>As a sound and video artist, his recent work engages nonhuman perceptual worlds as both artistic practice and research methodology. <em>Paranthropic Audition: Prospect Park Lake</em> (2025) has screened at 17 festivals across 15 countries, winning awards for Best Nature Film, Best Experimental Film, and Best No-Dialogue Film. His sound work <em>Three Seconds of Laptop EM</em> was performed at the Southwest Drone Fest in January 2025.</p>
+      </div>
+      <div class="bio-aside">
+        <img src="headshot.jpg" alt="Andrew V. Uroskie" style="width: 100%; margin-bottom: 2.5rem; filter: grayscale(20%); opacity: 0.92;" />
+        <p class="bio-aside-label">Affiliation</p>
+        <ul class="bio-aside-list">
+          <li>Associate Professor with Tenure</li>
+          <li>Department of Art</li>
+          <li>Stony Brook University</li>
+          <li>State University of New York</li>
+        </ul>
+
+        <p class="bio-aside-label">Research Areas</p>
+        <ul class="bio-aside-list">
+          <li>Expanded Cinema</li>
+          <li>Nonhuman Perception</li>
+          <li>Media Theory &amp; the Anthropocene</li>
+          <li>Scalar Cognition</li>
+          <li>Sound &amp; Video Art</li>
+        </ul>
+
+        <p class="bio-aside-label">Contact</p>
+        <a class="contact-line" href="/cdn-cgi/l/email-protection#e4858a80968193ca91968b978f8d81a497908b8a9d86968b8b8fca818091"><span class="__cf_email__" data-cfemail="1c7d72786e796b32696e736f7775795c6f687372657e6e73737732797869">[email&#160;protected]</span></a>
+        <a class="contact-line" href="https://www.stonybrook.edu" target="_blank">Stony Brook University</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile nav overlay -->
+<div id="mobile-nav" class="mobile-nav-overlay">
+  <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
+  </button>
+  <a href="#" onclick="navigateTo('writing'); return false;">Writing</a>
+  <a href="#" onclick="navigateTo('av-work'); return false;">Audiovisual</a>
+  <a href="#" onclick="navigateTo('courses'); return false;">Pedagogy</a>
+  <a href="#" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://player.vimeo.com/api/player.js"></script>
+<script>
+  const pages = {
+    'home':     document.getElementById('page-home'),
+    'writing':  document.getElementById('page-writing'),
+    'av-work':  document.getElementById('page-av-work'),
+    'courses':  document.getElementById('page-courses'),
+    'bio':      document.getElementById('page-bio'),
+  };
+
+  let current = 'home';
+
+  function toggleReview(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', !isOpen);
+    const label = isOpen ? '+' : '−';
+    btn.innerHTML = btn.innerHTML.replace(/[+−]$/, label);
+  }
+
+  function toggleWork(el) {
+    const isOpen = el.classList.contains('open');
+    // close all others
+    document.querySelectorAll('.work-entry.open').forEach(e => e.classList.remove('open'));
+    if (!isOpen) el.classList.add('open');
+  }
+
+  function navigateTo(id) {
+    if (id === current) return;
+    const from = pages[current];
+    const to   = pages[id];
+    if (!to) return;
+
+    // fade out current
+    from.style.opacity = '0';
+    from.style.pointerEvents = 'none';
+
+    // scroll target to top if inner page
+    if (to.classList.contains('inner-page')) to.scrollTop = 0;
+
+    // fade in after short delay
+    setTimeout(() => {
+      from.classList.remove('active');
+      to.classList.add('active');
+      // force reflow then fade in
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          to.style.opacity = '';
+          to.style.pointerEvents = '';
+        });
+      });
+      current = id;
+      // close mobile nav if open
+      const overlay = document.getElementById('mobile-nav');
+      if (overlay) overlay.classList.remove('open');
+    }, 280);
+  }
+
+  // video thumbnail → embedded player
+  function playVideo(thumb, videoId, paddingTop) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'video-player-active';
+    wrapper.style.paddingTop = paddingTop;
+    wrapper.innerHTML = '<iframe src="https://player.vimeo.com/video/' + videoId + '?autoplay=1&badge=0&autopause=0&title=0&byline=0&portrait=0&color=E8E6E1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+    thumb.replaceWith(wrapper);
+  }
+
+  // review continuation toggle
+  function toggleContinuation(btn) {
+    const cont = btn.nextElementSibling;
+    const isOpen = cont.classList.contains('open');
+    cont.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', !isOpen);
+    btn.textContent = isOpen ? 'Continue reading ↓' : 'Show less ↑';
+  }
+
+  // mobile nav
+  function openMobileNav() {
+    document.getElementById('mobile-nav').classList.add('open');
+  }
+  function closeMobileNav() {
+    document.getElementById('mobile-nav').classList.remove('open');
+  }
+
+  // update aria-expanded on work entries
+  document.querySelectorAll('.work-entry').forEach(el => {
+    const obs = new MutationObserver(() => {
+      el.setAttribute('aria-expanded', el.classList.contains('open'));
+    });
+    obs.observe(el, { attributes: true, attributeFilter: ['class'] });
+  });
+</script>
+</body>
+</html>
