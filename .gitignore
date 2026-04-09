@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+.claude/local*
+.claude/settings.local.json
+*.bak
+*.swp
+.browser-sync.pid
+.browser-sync.log

@@ -613,6 +613,21 @@
     padding-bottom: 2rem;
   }
 
+  .work-desc {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.9;
+    color: var(--offwhite);
+    font-weight: 300;
+    max-width: 108ch;
+    margin: 1.4rem 0 0;
+    padding-left: calc(80px + 3rem);
+  }
+
+  @media (max-width: 700px) {
+    .work-desc { padding-left: 0; }
+  }
+
 
   .courses-layout {
     display: grid;
@@ -1220,6 +1235,7 @@
             <img src="https://vumbnail.com/1045221930.jpg" alt="3 Seconds of Laptop EM" />
             <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
           </div>
+          <p class="work-desc">3 kinds of electromagnetic microphones were used to sample the resting state of my laptop for 3 seconds each. The resulting information was slowed down in multiples of 2 to create 64 separate tracks, which were then orchestrated into this composition- no other manipulation was performed.</p>
         </div>
       </div>
 
@@ -1256,7 +1272,7 @@
           <span class="work-toggle">+</span>
         </div>
         <div class="work-player">
-          <div class="video-thumb" style="aspect-ratio: 1920/1012;" onclick="event.stopPropagation(); playVideo(this, '1050620524', '52.73%')" tabindex="0" role="button" aria-label="Play Unfreezing: Sonic Striations Manifesting" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();playVideo(this,'1050620524','52.73%')}">
+          <div class="video-thumb" style="aspect-ratio: 16/9;" onclick="event.stopPropagation(); playVideo(this, '1050620524', '56.25%')" tabindex="0" role="button" aria-label="Play Unfreezing: Sonic Striations Manifesting" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();playVideo(this,'1050620524','56.25%')}">
             <img src="https://vumbnail.com/1050620524.jpg" alt="Unfreezing: Sonic Striations Manifesting" />
             <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
           </div>
