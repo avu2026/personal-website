@@ -278,6 +278,19 @@
     margin-bottom: 0.5rem;
   }
 
+  .writing-title a,
+  .book-title a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232,230,225,0.22);
+    transition: border-color 300ms ease, color 300ms ease;
+  }
+  .writing-title a:hover,
+  .book-title a:hover {
+    color: var(--ash);
+    border-bottom-color: rgba(154,144,136,0.6);
+  }
+
   .writing-meta {
     font-family: var(--font-mono);
     font-size: 12px;
@@ -966,7 +979,7 @@
 
     <div class="book-entry" style="border-bottom: none; padding-bottom: 0;">
       <div class="book-title-row">
-        <span class="book-title">Between the Black Box and the White Cube</span>
+        <span class="book-title"><a href="https://press.uchicago.edu/ucp/books/book/chicago/B/bo5771909.html" target="_blank" rel="noopener">Between the Black Box and the White Cube</a></span>
         <span class="writing-year" style="flex-shrink:0;">2014</span>
       </div>
       <div class="book-publisher">University of Chicago Press</div>
@@ -1012,14 +1025,14 @@
       <div class="writing-entry">
         <span class="writing-year">2024</span>
         <div>
-          <div class="writing-title">"15th Gwangju Biennale"</div>
+          <div class="writing-title"><a href="https://www.artforum.com/events/andrew-v-uroskie-15th-gwangju-biennale-2024-1234721694/" target="_blank" rel="noopener">"15th Gwangju Biennale"</a></div>
           <div class="writing-meta"><em>Artforum</em> &nbsp;·&nbsp; Vol. 63, No. 4, December 2024</div>
         </div>
       </div>
       <div class="writing-entry">
         <span class="writing-year">2024</span>
         <div>
-          <div class="writing-title">"Whitney Biennial 2024"</div>
+          <div class="writing-title"><a href="https://www.artforum.com/features/andrew-v-uroskie-whitney-biennial-2024-554713/" target="_blank" rel="noopener">"Whitney Biennial 2024"</a></div>
           <div class="writing-meta"><em>Artforum</em> &nbsp;·&nbsp; Vol. 62, No. 10, Summer 2024</div>
         </div>
       </div>
