@@ -558,6 +558,49 @@
     margin: 3rem 0 2rem;
   }
 
+  /* small square gallery links (right sidebar on Audiovisual page) */
+  .av-gallery-links {
+    position: absolute;
+    top: 50rem;
+    right: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.7rem;
+    width: max-content;
+    z-index: 2;
+  }
+  .av-gallery-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    width: 360px;
+  }
+  .av-gallery-thumb {
+    width: 360px;
+    height: 360px;
+    background: #000;
+    overflow: hidden;
+    margin-bottom: 1.35rem;
+  }
+  .av-gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity 500ms ease;
+    display: block;
+  }
+  .av-gallery-link:hover .av-gallery-thumb img { opacity: 0.55; }
+  .av-gallery-caption {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color var(--transition-fade);
+  }
+  .av-gallery-link:hover .av-gallery-caption { color: var(--offwhite); }
+
   .works-list {
     display: flex;
     flex-direction: column;
@@ -836,6 +879,13 @@
     .home-center { padding: 2.5rem 2rem 0.5rem; }
     .home-nav { padding: 0 2rem 1.5rem; }
     .home-nav ul { gap: 0.6rem; }
+    /* drop AV sidebar beneath everything in normal flow */
+    .av-gallery-links {
+      position: static;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 0 4rem 6rem;
+    }
   }
 
   /* responsive — phone */
@@ -849,6 +899,7 @@
     .inner-header nav { display: none; }
     .mobile-menu-btn { display: flex; }
     .inner-content { padding: 3.5rem 1.5rem 5rem; }
+    .av-gallery-links { padding: 0 1.5rem 4rem; }
     .writing-entry { grid-template-columns: 1fr; gap: 0.3rem; }
     .work-header-left { grid-template-columns: 1fr; gap: 0.3rem; }
     .current-advisee { grid-template-columns: 1fr; gap: 0.3rem; }
@@ -983,7 +1034,7 @@
         <span class="writing-year" style="flex-shrink:0;">2014</span>
       </div>
       <div class="book-publisher">University of Chicago Press</div>
-      <div class="book-desc">Excavates the contested emergence of expanded cinema in the postwar period, tracing the transformation of experimental film practice as it moved from the cinema into the gallery space and back again.</div>
+      <div class="book-desc">Regularly cited as a key historical and theoretical reference for contemporary moving image installation, Uroskie's work explores a period of cultural transformation in the late '50s &amp; '60s, as television broke the monopoly of the movie theater, and artists sought to reimagine cinema as both an architectural and performative medium within new spatial and institutional contexts. The work of Nam June Paik, Robert Whitman, Stan VanDerBeek, Robert Breer and Andy Warhol helped to forge a newly dialectical space for contemporary art between the "black box" of the theater and the "white cube" of the gallery.</div>
       <button class="book-review-toggle" onclick="toggleReview(this)" aria-expanded="false">
         Read review — Kenneth White, <em>caa.reviews</em> (2015) +
       </button>
@@ -1237,6 +1288,40 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Small square gallery links (right sidebar; drops below content on mobile) -->
+  <div class="av-gallery-links">
+    <a class="av-gallery-link" href="#" onclick="navigateTo('exhibition'); return false;">
+      <div class="av-gallery-thumb"><img src="exhibition-documentary.jpg" alt="Exhibition Documentary"/></div>
+      <div class="av-gallery-caption">Exhibition Documentary</div>
+    </a>
+    <a class="av-gallery-link" href="#">
+      <div class="av-gallery-thumb"><img src="wildlife-photography.jpg" alt="Wildlife Photography"/></div>
+      <div class="av-gallery-caption">Wildlife Photography</div>
+    </a>
+  </div>
+</div>
+
+<!-- Exhibition Documentary -->
+<div id="page-exhibition" class="page inner-page">
+  <header class="inner-header">
+    <a class="wordmark" onclick="navigateTo('home'); return false;" href="#">Andrew Uroskie</a>
+    <nav>
+      <a href="#" onclick="navigateTo('writing'); return false;">Writing</a>
+      <a href="#" onclick="navigateTo('av-work'); return false;">Audiovisual</a>
+      <a href="#" onclick="navigateTo('courses'); return false;">Pedagogy</a>
+      <a href="#" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a>
+    </nav>
+    <button class="mobile-menu-btn" onclick="openMobileNav()" aria-label="Open menu">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+    </button>
+  </header>
+  <div class="inner-content" style="max-width: 960px; padding-top: 4rem;">
+    <a href="#" onclick="navigateTo('av-work'); return false;" style="font-size: 0.85rem; color: var(--ash); text-decoration: none; display: inline-block; margin-bottom: 2rem;">&larr; Back to Audiovisual</a>
+    <p class="section-eyebrow">Film &amp; Sound</p>
+    <h2 class="section-title">Exhibition Documentary</h2>
+    <p style="color: var(--ash); font-style: italic; margin-top: 2rem;">Material forthcoming.</p>
   </div>
 </div>
 
@@ -1544,7 +1629,8 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
     'writing':  document.getElementById('page-writing'),
     'av-work':  document.getElementById('page-av-work'),
     'courses':  document.getElementById('page-courses'),
-    'bio':      document.getElementById('page-bio'),
+    'bio':        document.getElementById('page-bio'),
+    'exhibition': document.getElementById('page-exhibition'),
   };
 
   let current = 'home';
