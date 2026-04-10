@@ -94,13 +94,18 @@
     min-height: 0;
   }
 
+  .film-stage {
+    width: min(640px, 90vw, calc((100vh - 280px) * 16/9));
+    display: flex;
+    flex-direction: column;
+  }
+
   .film-frame {
     position: relative;
-    width: min(640px, 90vw, calc((100vh - 280px) * 16/9));
+    width: 100%;
     aspect-ratio: 16/9;
     background: #000;
     overflow: hidden;
-    cursor: pointer;
   }
 
   .hero-video {
@@ -108,44 +113,25 @@
     width: 100%; height: 100%;
     object-fit: cover;
     opacity: 0.88;
-    transition: opacity 600ms ease;
     display: block;
   }
-  .film-frame:hover .hero-video { opacity: 0.6; }
 
-  .frame-label {
-    position: absolute;
-    bottom: 1.4rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 400ms ease;
-  }
-  .film-frame:hover .frame-label { opacity: 1; }
-
-  /* corner brackets */
-  .bracket {
-    position: absolute;
-    width: 28px; height: 28px;
-    pointer-events: none;
-  }
-  .bracket--tl { top: 14px; left: 14px; border-top: 1px solid rgba(255,255,255,0.3); border-left: 1px solid rgba(255,255,255,0.3); }
-  .bracket--tr { top: 14px; right: 14px; border-top: 1px solid rgba(255,255,255,0.3); border-right: 1px solid rgba(255,255,255,0.3); }
-  .bracket--bl { bottom: 14px; left: 14px; border-bottom: 1px solid rgba(255,255,255,0.3); border-left: 1px solid rgba(255,255,255,0.3); }
-  .bracket--br { bottom: 14px; right: 14px; border-bottom: 1px solid rgba(255,255,255,0.3); border-right: 1px solid rgba(255,255,255,0.3); }
-
-  .play-label {
+  .film-caption {
+    margin-top: 0.6rem;
     font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 400;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    transition: color 400ms ease;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-align: left;
   }
-  .film-frame:hover .play-label { color: rgba(255,255,255,0.65); }
+  .film-caption em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ash);
+  }
 
   /* home nav */
   .home-nav {
@@ -926,28 +912,23 @@
   </header>
 
   <div class="home-center">
-    <div class="film-frame" onclick="navigateTo('av-work')">
-      <video
-        autoplay
-        loop
-        muted
-        playsinline
-        preload="auto"
-        poster="splash_placeholder.jpg"
-        class="hero-video"
-        aria-label="Audiovisual work — enter to explore"
-      >
-        <source src="vdb_splash.mp4" type='video/mp4; codecs="hvc1"'/>
-        <source src="vdb_splash_sdr.mp4" type='video/mp4; codecs="avc1.640028"'/>
-        <img src="splash_placeholder.jpg" alt="Audiovisual work" class="hero-video"/>
-      </video>
-      <span class="bracket bracket--tl"></span>
-      <span class="bracket bracket--tr"></span>
-      <span class="bracket bracket--bl"></span>
-      <span class="bracket bracket--br"></span>
-      <div class="frame-label">
-        <span class="play-label">Audiovisual Work</span>
+    <div class="film-stage">
+      <div class="film-frame">
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="auto"
+          poster="splash_placeholder.jpg"
+          class="hero-video"
+        >
+          <source src="vdb_splash.mp4" type='video/mp4; codecs="hvc1"'/>
+          <source src="vdb_splash_sdr.mp4" type='video/mp4; codecs="avc1.640028"'/>
+          <img src="splash_placeholder.jpg" alt="" class="hero-video"/>
+        </video>
       </div>
+      <p class="film-caption">Stan VanDerBeek &amp; Joan Brigham, <em>Steam Screens</em> (1979/2016) — Performance Documentation</p>
     </div>
   </div>
 
