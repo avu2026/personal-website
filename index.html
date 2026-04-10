@@ -558,26 +558,24 @@
     margin: 3rem 0 2rem;
   }
 
-  /* small square gallery links (right sidebar on Audiovisual page) */
+  /* square gallery links (side-by-side below videos on Audiovisual page) */
   .av-gallery-links {
-    position: absolute;
-    top: 50rem;
-    right: 4rem;
     display: flex;
-    flex-direction: column;
-    gap: 2.7rem;
-    width: max-content;
-    z-index: 2;
+    flex-direction: row;
+    gap: 4rem;
+    justify-content: center;
+    padding-bottom: 4rem;
   }
   .av-gallery-link {
     display: block;
     text-decoration: none;
     color: inherit;
-    width: 360px;
+    flex: 0 1 300px;
+    max-width: 360px;
   }
   .av-gallery-thumb {
-    width: 360px;
-    height: 360px;
+    width: 100%;
+    aspect-ratio: 1/1;
     background: #000;
     overflow: hidden;
     margin-bottom: 1.35rem;
@@ -879,12 +877,9 @@
     .home-center { padding: 2.5rem 2rem 0.5rem; }
     .home-nav { padding: 0 2rem 1.5rem; }
     .home-nav ul { gap: 0.6rem; }
-    /* drop AV sidebar beneath everything in normal flow */
     .av-gallery-links {
-      position: static;
-      flex-direction: column;
-      gap: 2rem;
-      padding: 0 4rem 6rem;
+      gap: 1.5rem;
+      padding-bottom: 4rem;
     }
   }
 
@@ -899,7 +894,7 @@
     .inner-header nav { display: none; }
     .mobile-menu-btn { display: flex; }
     .inner-content { padding: 3.5rem 1.5rem 5rem; }
-    .av-gallery-links { padding: 0 1.5rem 4rem; }
+    .av-gallery-links { flex-direction: column; align-items: center; gap: 2rem; padding-bottom: 3rem; }
     .writing-entry { grid-template-columns: 1fr; gap: 0.3rem; }
     .work-header-left { grid-template-columns: 1fr; gap: 0.3rem; }
     .current-advisee { grid-template-columns: 1fr; gap: 0.3rem; }
@@ -1272,14 +1267,14 @@
 
     <div class="works-divider"></div>
 
-    <!-- Unfreezing: Sonic Striations Manifesting -->
+    <!-- Unfreezing: Sonic Striations -->
     <div class="featured-work">
-      <div class="video-thumb" style="aspect-ratio: 16/9;" onclick="playVideo(this, '1050620524', '56.25%')" tabindex="0" role="button" aria-label="Play Unfreezing: Sonic Striations Manifesting" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo(this,'1050620524','56.25%')}">
-        <img src="https://vumbnail.com/1050620524.jpg" alt="Unfreezing: Sonic Striations Manifesting" />
+      <div class="video-thumb" style="aspect-ratio: 16/9;" onclick="playVideo(this, '1050620524', '56.25%')" tabindex="0" role="button" aria-label="Play Unfreezing: Sonic Striations" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo(this,'1050620524','56.25%')}">
+        <img src="https://vumbnail.com/1050620524.jpg" alt="Unfreezing: Sonic Striations" />
         <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
       </div>
       <div class="featured-meta">
-        <div class="featured-title">Unfreezing: Sonic Striations Manifesting</div>
+        <div class="featured-title">Unfreezing: Sonic Striations</div>
         <div class="featured-details">
           <span class="featured-year">2025</span>
           <span class="featured-divider">·</span>
@@ -1288,18 +1283,19 @@
       </div>
     </div>
 
-  </div>
+    <!-- Gallery links (below videos) -->
+    <div class="works-divider" style="width: 50%; margin: 3.5rem auto;"></div>
+    <div class="av-gallery-links">
+      <a class="av-gallery-link" href="#" onclick="navigateTo('exhibition'); return false;">
+        <div class="av-gallery-thumb"><img src="exhibition-documentary.jpg" alt="Exhibition Documentary"/></div>
+        <div class="av-gallery-caption">Exhibition Documentary</div>
+      </a>
+      <a class="av-gallery-link" href="#">
+        <div class="av-gallery-thumb"><img src="wildlife-photography.jpg" alt="Wildlife Photography"/></div>
+        <div class="av-gallery-caption">Wildlife Photography</div>
+      </a>
+    </div>
 
-  <!-- Small square gallery links (right sidebar; drops below content on mobile) -->
-  <div class="av-gallery-links">
-    <a class="av-gallery-link" href="#" onclick="navigateTo('exhibition'); return false;">
-      <div class="av-gallery-thumb"><img src="exhibition-documentary.jpg" alt="Exhibition Documentary"/></div>
-      <div class="av-gallery-caption">Exhibition Documentary</div>
-    </a>
-    <a class="av-gallery-link" href="#">
-      <div class="av-gallery-thumb"><img src="wildlife-photography.jpg" alt="Wildlife Photography"/></div>
-      <div class="av-gallery-caption">Wildlife Photography</div>
-    </a>
   </div>
 </div>
 
