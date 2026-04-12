@@ -599,6 +599,52 @@
   }
   .av-gallery-link:hover .av-gallery-caption { color: var(--offwhite); }
 
+  /* Wildlife photo grid */
+  .wildlife-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    padding-bottom: 4rem;
+  }
+  .wildlife-grid-item {
+    cursor: pointer;
+    overflow: hidden;
+    background: #000;
+  }
+  .wildlife-grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.85;
+    transition: opacity 400ms ease;
+  }
+  .wildlife-grid-item:hover img { opacity: 0.6; }
+
+  /* Wildlife lightbox */
+  .wildlife-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: rgba(0,0,0,0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+  }
+  .wildlife-lightbox.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .wildlife-lightbox img {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+  }
+
   .works-list {
     display: flex;
     flex-direction: column;
@@ -1291,7 +1337,7 @@
         <div class="av-gallery-thumb"><img src="steamscreens-poster.jpg" alt="Exhibition Documentary"/></div>
         <div class="av-gallery-caption">Exhibition Documentary</div>
       </a>
-      <a class="av-gallery-link" href="#">
+      <a class="av-gallery-link" href="#" onclick="navigateTo('wildlife'); return false;">
         <div class="av-gallery-thumb"><picture><source srcset="heron-square.avif" type="image/avif"><img src="heron-square.jpg" alt="Wildlife Documentary"/></picture></div>
         <div class="av-gallery-caption">Wildlife Documentary</div>
       </a>
@@ -1350,6 +1396,40 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Wildlife Documentary -->
+<div id="page-wildlife" class="page inner-page">
+  <header class="inner-header">
+    <a class="wordmark" onclick="navigateTo('home'); return false;" href="#">Andrew Uroskie</a>
+    <nav>
+      <a href="#" onclick="navigateTo('writing'); return false;">Writing</a>
+      <a href="#" onclick="navigateTo('av-work'); return false;">Audiovisual</a>
+      <a href="#" onclick="navigateTo('courses'); return false;">Pedagogy</a>
+      <a href="#" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a>
+    </nav>
+    <button class="mobile-menu-btn" onclick="openMobileNav()" aria-label="Open menu">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+    </button>
+  </header>
+  <div class="inner-content" style="max-width: 1200px; padding-top: 4rem;">
+    <a href="#" onclick="navigateTo('av-work'); return false;" style="font-size: 0.85rem; color: var(--ash); text-decoration: none; display: inline-block; margin-bottom: 2rem;">&larr; Back to Audiovisual</a>
+    <p class="section-eyebrow">Film &amp; Sound</p>
+    <h2 class="section-title">Wildlife Documentation</h2>
+
+    <div class="wildlife-grid">
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/egret.avif')"><img src="wildlife/egret-2.avif" alt="Egret"/></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/flight.avif')"><img src="wildlife/flight-2.avif" alt="Flight"/></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/green-heron-singing.avif')"><img src="wildlife/green-heron-singing-2.avif" alt="Green Heron Singing"/></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/night-heron.avif')"><img src="wildlife/night-heron-2.avif" alt="Night Heron"/></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/robin.avif')"><img src="wildlife/robin-2.avif" alt="Robin"/></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/bokeh-from-600-4.avif')"><img src="wildlife/bokeh-from-600-4-2.avif" alt="Bokeh from 600-4"/></div>
+    </div>
+  </div>
+
+  <div class="wildlife-lightbox" id="wildlife-lightbox" onclick="closeWildlife()">
+    <img id="wildlife-lightbox-img" src="" alt=""/>
   </div>
 </div>
 
@@ -1659,6 +1739,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
     'courses':  document.getElementById('page-courses'),
     'bio':        document.getElementById('page-bio'),
     'exhibition': document.getElementById('page-exhibition'),
+    'wildlife':   document.getElementById('page-wildlife'),
   };
 
   let current = 'home';
@@ -1702,6 +1783,16 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       const overlay = document.getElementById('mobile-nav');
       if (overlay) overlay.classList.remove('open');
     }, 280);
+  }
+
+  // wildlife lightbox
+  function openWildlife(src) {
+    var lb = document.getElementById('wildlife-lightbox');
+    document.getElementById('wildlife-lightbox-img').src = src;
+    lb.classList.add('open');
+  }
+  function closeWildlife() {
+    document.getElementById('wildlife-lightbox').classList.remove('open');
   }
 
   // video thumbnail → embedded player
