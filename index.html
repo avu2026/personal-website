@@ -1013,6 +1013,25 @@
   }
   .mobile-nav-close:hover { color: var(--offwhite); }
   .mobile-nav-close svg { width: 20px; height: 20px; }
+
+  /* browser hint — HDR video only renders correctly in Safari on macOS/iOS */
+  .browser-hint {
+    position: fixed;
+    bottom: 0.9rem;
+    left: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ash);
+    opacity: 0.75;
+    pointer-events: none;
+    z-index: 200;
+    transition: opacity var(--transition-fade);
+  }
+  .browser-hint:hover { opacity: 1; }
+  @media (max-width: 640px) { .browser-hint { display: none; } }
 </style>
 </head>
 <body>
@@ -1828,5 +1847,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
   }
 
 </script>
+
+<div class="browser-hint">Best viewed in Safari</div>
 </body>
 </html>
