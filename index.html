@@ -570,8 +570,8 @@
     display: block;
     text-decoration: none;
     color: inherit;
-    flex: 0 1 300px;
-    max-width: 360px;
+    flex: 0 1 450px;
+    max-width: 540px;
   }
   .av-gallery-thumb {
     width: 100%;
@@ -620,6 +620,26 @@
     transition: opacity 400ms ease;
   }
   .wildlife-grid-item:hover img { opacity: 0.6; }
+
+  /* Small square clickable thumb (e.g., book cover on exhibition page) */
+  .book-cover-thumb {
+    width: 560px;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    overflow: hidden;
+    background: #000;
+    margin-bottom: 1.4rem;
+  }
+  .book-cover-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9;
+    transition: opacity 400ms ease;
+  }
+  .book-cover-thumb:hover img { opacity: 0.65; }
 
   /* Wildlife lightbox */
   .wildlife-lightbox {
@@ -1137,7 +1157,7 @@
         <span class="writing-year">2026</span>
         <div>
           <div class="writing-title"><a href="writing/rosenfeld-mesoscopic-realm.pdf" target="_blank" rel="noopener">"Marina Rosenfeld: Sound's Mesoscopic Realm"</a></div>
-          <div class="writing-meta">in <em>Material Issue</em> exhibition catalog &nbsp;·&nbsp; The Substation, Victoria, Australia &nbsp;·&nbsp; February 2026</div>
+          <div class="writing-meta"><em>Material Issue</em> exhibition catalog &nbsp;·&nbsp; The Substation, Victoria, Australia &nbsp;·&nbsp; February 2026</div>
         </div>
       </div>
       <div class="writing-entry">
@@ -1161,6 +1181,13 @@
           <div class="writing-meta"><em>Millennium Film Journal</em> &nbsp;·&nbsp; No. 68</div>
         </div>
       </div>
+      <div class="writing-entry">
+        <span class="writing-year">2018</span>
+        <div>
+          <div class="writing-title"><a href="https://www.e-flux.com/announcements/180853/hiding-in-plain-sight" target="_blank" rel="noopener">"Ivana Ba&scaron;i&cacute;: A Conversation"</a></div>
+          <div class="writing-meta"><em>Hiding in Plain Sight</em> &nbsp;·&nbsp; Syracuse MFA Exhibition Catalog</div>
+        </div>
+      </div>
       <div class="writing-entry" style="border-bottom: none;">
         <span class="writing-year">2016</span>
         <div>
@@ -1179,35 +1206,35 @@
         <span class="writing-year">2022</span>
         <div>
           <div class="writing-title"><a href="writing/audiovisual-texture.pdf" target="_blank" rel="noopener">"Audiovisual &lsquo;Texture&rsquo;: Towards an Interdisciplinary Rubric"</a></div>
-          <div class="writing-meta">in Min Oh, <em>Post-Texture</em> &nbsp;·&nbsp; Workroom Specter, Seoul</div>
+          <div class="writing-meta">Min Oh, <em>Post-Texture</em> &nbsp;·&nbsp; Workroom Specter, Seoul</div>
         </div>
       </div>
       <div class="writing-entry">
         <span class="writing-year">2022</span>
         <div>
           <div class="writing-title"><a href="writing/jonas-mekas-living-theatre.pdf" target="_blank" rel="noopener">"Jonas Mekas, the Living Theatre, and the Place of Performance in the Emergence"</a></div>
-          <div class="writing-meta">in <em>Jonas Mekas: Retrospective</em> &nbsp;·&nbsp; Yale University Press</div>
+          <div class="writing-meta"><em>Jonas Mekas: Retrospective</em> &nbsp;·&nbsp; Yale University Press</div>
         </div>
       </div>
       <div class="writing-entry">
         <span class="writing-year">2020</span>
         <div>
           <div class="writing-title"><a href="writing/interactivity-without-control.pdf" target="_blank" rel="noopener">"Interactivity without Control: David O'Reilly's <em>Everything</em> (2017) and the Representation of Totality"</a></div>
-          <div class="writing-meta">in Rascaroli &amp; Murphy, eds., <em>Theorizing Film through Contemporary Art: Expanding Cinema</em> &nbsp;·&nbsp; Amsterdam University Press</div>
+          <div class="writing-meta">Rascaroli &amp; Murphy, eds., <em>Theorizing Film through Contemporary Art: Expanding Cinema</em> &nbsp;·&nbsp; Amsterdam University Press</div>
         </div>
       </div>
       <div class="writing-entry">
         <span class="writing-year">2017</span>
         <div>
           <div class="writing-title"><a href="writing/assemblage-1968-strategy.pdf" target="_blank" rel="noopener">"Assemblage (1968) as Strategy: Collaborative Production and Collective Reception at the Origins of Artist's Television"</a></div>
-          <div class="writing-meta">in Bovier &amp; Mey, eds., <em>Exhibited Cinema</em> &nbsp;·&nbsp; Institut National de L'Histoire de l'Art, Paris</div>
+          <div class="writing-meta">Bovier &amp; Mey, eds., <em>Exhibited Cinema</em> &nbsp;·&nbsp; Institut National de L'Histoire de l'Art, Paris</div>
         </div>
       </div>
       <div class="writing-entry">
         <span class="writing-year">2016</span>
         <div>
           <div class="writing-title"><a href="writing/uncanny-machines-paik.pdf" target="_blank" rel="noopener">"Uncanny Machines and Philosophical Toys: The Animation of Paik's Early Sculpture"</a></div>
-          <div class="writing-meta">in <em>NJP Reader #6: Reanimating Nam June Paik</em> &nbsp;·&nbsp; Nam June Paik Art Center</div>
+          <div class="writing-meta"><em>NJP Reader #6: Reanimating Nam June Paik</em> &nbsp;·&nbsp; Nam June Paik Art Center</div>
         </div>
       </div>
       <div class="writing-entry">
@@ -1242,7 +1269,7 @@
         <span class="writing-year">2011</span>
         <div>
           <div class="writing-title"><a href="writing/windows-in-white-cube.pdf" target="_blank" rel="noopener">"Windows in the White Cube"</a></div>
-          <div class="writing-meta">in Trodd, ed., <em>Screen/Space: The Projected Image in Contemporary Art</em> &nbsp;·&nbsp; Manchester University Press</div>
+          <div class="writing-meta">Trodd, ed., <em>Screen/Space: The Projected Image in Contemporary Art</em> &nbsp;·&nbsp; Manchester University Press</div>
         </div>
       </div>
       <div class="writing-entry">
@@ -1277,14 +1304,14 @@
         <span class="writing-year">2008</span>
         <div>
           <div class="writing-title"><a href="writing/siting-cinema.pdf" target="_blank" rel="noopener">"Siting Cinema"</a></div>
-          <div class="writing-meta">in Leighton, ed., <em>Art and the Moving Image: A Critical Reader</em> &nbsp;·&nbsp; Tate Modern / Afterall Press</div>
+          <div class="writing-meta">Leighton, ed., <em>Art and the Moving Image: A Critical Reader</em> &nbsp;·&nbsp; Tate Modern / Afterall Press</div>
         </div>
       </div>
       <div class="writing-entry">
         <span class="writing-year">2006</span>
         <div>
           <div class="writing-title"><a href="writing/far-above-madding-crowd.pdf" target="_blank" rel="noopener">"Far Above the Madding Crowd: The Spatial Rhetoric of Mass Representation"</a></div>
-          <div class="writing-meta">in Schnapp &amp; Tiews, eds., <em>Crowds</em> &nbsp;·&nbsp; Stanford University Press</div>
+          <div class="writing-meta">Schnapp &amp; Tiews, eds., <em>Crowds</em> &nbsp;·&nbsp; Stanford University Press</div>
         </div>
       </div>
       <div class="writing-entry" style="border-bottom: none;">
@@ -1462,6 +1489,32 @@
         </div>
       </div>
     </div>
+
+    <!-- VanDerBeek Movie-Mural -->
+    <div class="featured-work">
+      <div class="book-cover-thumb" onclick="openWildlife('vanderbeek-dreamlands.avif')" tabindex="0" role="button" aria-label="Expand Stan VanDerBeek, Movie-Mural image" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('vanderbeek-dreamlands.avif')}">
+        <img src="vanderbeek-dreamlands.avif" alt="Stan VanDerBeek, Movie-Mural (1964/2016), Whitney Museum of American Art" />
+      </div>
+      <div class="featured-meta">
+        <div class="featured-title">Stan VanDerBeek, <em>Movie-Mural</em> (1964/2016), Whitney Museum</div>
+        <div class="featured-details">
+          <span>4Columns &amp; VanDerBeek Estate</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ahwesh book cover -->
+    <div class="featured-work">
+      <div class="book-cover-thumb" onclick="openWildlife('ahwesh-vision-machines.avif')" tabindex="0" role="button" aria-label="Expand Peggy Ahwesh: Vision Machines cover image" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('ahwesh-vision-machines.avif')}">
+        <img src="ahwesh-vision-machines.avif" alt="Peggy Ahwesh: Vision Machines cover" />
+      </div>
+      <div class="featured-meta">
+        <div class="featured-title">Peggy Ahwesh, <em>Lessons of War</em>, 2014</div>
+        <div class="featured-details">
+          <span>Balsom and Leckie, eds., <em>Peggy Ahwesh: Vision Machines</em></span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1493,10 +1546,6 @@
       <div class="wildlife-grid-item" onclick="openWildlife('wildlife/robin.avif')"><img src="wildlife/robin-2.avif" alt="Robin"/></div>
       <div class="wildlife-grid-item" onclick="openWildlife('wildlife/bokeh-from-600-4.avif')"><img src="wildlife/bokeh-from-600-4-2.avif" alt="Bokeh from 600-4"/></div>
     </div>
-  </div>
-
-  <div class="wildlife-lightbox" id="wildlife-lightbox" onclick="closeWildlife()">
-    <img id="wildlife-lightbox-img" src="" alt=""/>
   </div>
 </div>
 
@@ -1795,6 +1844,11 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
   <a href="#" onclick="navigateTo('av-work'); return false;">Audiovisual</a>
   <a href="#" onclick="navigateTo('courses'); return false;">Pedagogy</a>
   <a href="#" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a>
+</div>
+
+<!-- Shared image lightbox (used by wildlife grid and exhibition book cover) -->
+<div class="wildlife-lightbox" id="wildlife-lightbox" onclick="closeWildlife()">
+  <img id="wildlife-lightbox-img" src="" alt=""/>
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://player.vimeo.com/api/player.js"></script>
