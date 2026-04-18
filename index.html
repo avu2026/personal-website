@@ -1828,8 +1828,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
         </ul>
 
         <p class="bio-aside-label">Contact</p>
-        <a class="contact-line" href="/cdn-cgi/l/email-protection#e4858a80968193ca91968b978f8d81a497908b8a9d86968b8b8fca818091"><span class="__cf_email__" data-cfemail="1c7d72786e796b32696e736f7775795c6f687372657e6e73737732797869">[email&#160;protected]</span></a>
-        <a class="contact-line" href="https://www.stonybrook.edu" target="_blank">Stony Brook University</a>
+        <a class="contact-line" id="contact-email" href="#">contact [at] andrewuroskie [dot] com</a>
       </div>
     </div>
   </div>
@@ -1851,7 +1850,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
   <img id="wildlife-lightbox-img" src="" alt=""/>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://player.vimeo.com/api/player.js"></script>
+<script src="https://player.vimeo.com/api/player.js"></script>
 <script>
   const pages = {
     'home':     document.getElementById('page-home'),
@@ -1941,6 +1940,15 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
   function closeMobileNav() {
     document.getElementById('mobile-nav').classList.remove('open');
   }
+
+  // contact email — assembled at runtime to slow basic scrapers
+  (function () {
+    var el = document.getElementById('contact-email');
+    if (!el) return;
+    var addr = 'contact' + String.fromCharCode(64) + 'andrewuroskie.com';
+    el.href = 'mailto:' + addr;
+    el.textContent = addr;
+  })();
 
 </script>
 
