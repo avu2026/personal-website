@@ -1564,6 +1564,7 @@
       <div class="wildlife-grid-item" onclick="openWildlife('wildlife/night-heron.avif')"><img src="wildlife/night-heron-2.avif" alt="Night Heron"/></div>
       <div class="wildlife-grid-item" onclick="openWildlife('wildlife/robin.avif')"><img src="wildlife/robin-2.avif" alt="Robin"/></div>
       <div class="wildlife-grid-item" onclick="openWildlife('wildlife/bokeh-from-600-4.avif')"><img src="wildlife/bokeh-from-600-4-2.avif" alt="Bokeh from 600-4"/></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/blue-heron.avif')"><img src="wildlife/blue-heron-2.avif" alt="Blue Heron"/></div>
     </div>
   </div>
 </div>
@@ -1899,11 +1900,21 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
     btn.innerHTML = btn.innerHTML.replace(/[+−]$/, label);
   }
 
-  function navigateTo(id) {
+  function navigateTo(id, opts) {
+    opts = opts || {};
     if (id === current) return;
     const from = pages[current];
     const to   = pages[id];
     if (!to) return;
+
+    // reflect navigation in the URL so the page is linkable / back-button works
+    if (!opts.fromHash) {
+      if (id === 'home') {
+        history.pushState(null, '', location.pathname + location.search);
+      } else if (location.hash !== '#' + id) {
+        history.pushState(null, '', '#' + id);
+      }
+    }
 
     // fade out current
     from.style.opacity = '0';
@@ -1974,6 +1985,15 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
     el.href = 'mailto:' + addr;
     el.textContent = addr;
   })();
+
+  // deep-linking: open the page named in location.hash on load + on back/forward
+  function syncFromHash() {
+    const id = location.hash.replace(/^#/, '');
+    if (id && pages[id]) navigateTo(id, { fromHash: true });
+    else if (!id && current !== 'home') navigateTo('home', { fromHash: true });
+  }
+  syncFromHash();
+  window.addEventListener('hashchange', syncFromHash);
 
 </script>
 
