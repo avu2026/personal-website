@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask the Lecture</title>
+<style>
+  :root { --serif: "Bodoni Moda", Georgia, serif; --sans: "IBM Plex Sans", system-ui, sans-serif; }
+  body { font-family: var(--sans); max-width: 720px; margin: 2rem auto; padding: 0 1rem; color:#111; }
+  h1 { font-family: var(--serif); font-weight: 600; }
+  #log { margin: 1rem 0; }
+  .turn { margin: .75rem 0; }
+  .q { font-weight: 600; }
+  .a { white-space: pre-wrap; }
+  .cites { font-size: .85rem; color:#555; border-left: 2px solid #ccc; padding-left: .6rem; margin-top:.4rem; }
+  textarea { width:100%; font-family: var(--sans); padding:.5rem; }
+  button { font-family: var(--sans); padding:.4rem .8rem; cursor:pointer; }
+  .err { color:#b00; }
+  .muted { color:#888; font-size:.85rem; }
+</style>
+</head>
+<body>
+<h1>Ask the Lecture</h1>
+<p class="muted">A course tutor for experimental film &amp; video. Grounded in the readings and lectures; it cites its sources and will say when something is outside the course.</p>
+
+<div id="gate">
+  <input id="pass" type="password" placeholder="Class passphrase" autocomplete="off">
+  <button onclick="savePass()">Enter</button>
+  <div id="gateErr" class="err"></div>
+</div>
+
+<div id="chat" hidden>
+  <div id="log"></div>
+  <textarea id="q" rows="3" placeholder="Ask a question…"></textarea>
+  <div>
+    <button onclick="ask(false)">Ask</button>
+    <button onclick="ask(true)" title="Runs a fuller, multi-step search — takes longer">Dig deeper</button>
+    <span id="status" class="muted"></span>
+  </div>
+</div>
+
+<script>
+const API = "https://ask.andrewuroskie.com/ask";
+const HKEY = "ask-lecture-history";
+let history = JSON.parse(localStorage.getItem(HKEY) || "[]");
+
+function savePass() {
+  const p = document.getElementById("pass").value.trim();
+  if (!p) return;
+  sessionStorage.setItem("ask-pass", p);
+  document.getElementById("gate").hidden = true;
+  document.getElementById("chat").hidden = false;
+  render();
+}
+if (sessionStorage.getItem("ask-pass")) savePass();
+
+function render() {
+  const log = document.getElementById("log");
+  log.innerHTML = "";
+  for (const t of history) {
+    const div = document.createElement("div");
+    div.className = "turn";
+    if (t.role === "user") { div.innerHTML = `<div class="q">${esc(t.content)}</div>`; }
+    else {
+      let cites = "";
+      if (t.citations && t.citations.length)
+        cites = `<div class="cites">Sources: ${t.citations.map(c => esc(c.label)).join(" · ")}</div>`;
+      div.innerHTML = `<div class="a">${esc(t.content)}</div>${cites}`;
+    }
+    log.appendChild(div);
+  }
+}
+function esc(s){ return (s||"").replace(/[&<>]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[m])); }
+
+async function ask(deep) {
+  const qEl = document.getElementById("q");
+  const question = qEl.value.trim();
+  if (!question) return;
+  const status = document.getElementById("status");
+  status.textContent = deep ? "Digging deeper… this takes longer." : "Thinking…";
+  history.push({ role: "user", content: question });
+  render(); qEl.value = "";
+  try {
+    const r = await fetch(API, {
+      method: "POST", headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        passphrase: sessionStorage.getItem("ask-pass"),
+        question, deep,
+        history: history.filter(h => h.role === "user" || h.role === "assistant")
+                        .map(h => ({role: h.role, content: h.content})).slice(-6)
+      })
+    });
+    if (r.status === 401) { status.innerHTML = '<span class="err">Check the class passphrase.</span>'; sessionStorage.removeItem("ask-pass"); return; }
+    if (r.status === 429) { status.innerHTML = '<span class="err">You\'re asking quickly — give it a moment.</span>'; return; }
+    if (r.status === 503) { status.innerHTML = '<span class="err">The tutor is restarting — try again in a minute.</span>'; return; }
+    const data = await r.json();
+    history.push({ role: "assistant", content: data.answer, citations: data.citations || [] });
+    localStorage.setItem(HKEY, JSON.stringify(history));
+    status.textContent = "";
+    render();
+  } catch (e) {
+    status.innerHTML = '<span class="err">Network error — try again.</span>';
+  }
+}
+</script>
+</body>
+</html>
