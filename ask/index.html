@@ -85,7 +85,7 @@ async function ask(deep) {
       body: JSON.stringify({
         passphrase: sessionStorage.getItem("ask-pass"),
         question, deep,
-        history: history.filter(h => h.role === "user" || h.role === "assistant")
+        history: history.slice(0, -1).filter(h => h.role === "user" || h.role === "assistant")
                         .map(h => ({role: h.role, content: h.content})).slice(-6)
       })
     });
