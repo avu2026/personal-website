@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A graduate seminar exercise reading AI confabulation through Freud's four mechanisms of the dream-work.">
+<meta name="author" content="Andrew V. Uroskie">
+<meta property="og:title" content="The Dream-Work of the Machine">
+<meta property="og:description" content="A graduate seminar exercise reading AI confabulation through Freud's four mechanisms of the dream-work.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://andrewuroskie.com/teaching/dream-work/">
+<title>The Dream-Work of the Machine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400;1,600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+</head>
+<body>
+
+<style>
+:root{
+  --ground:#EBEAEF;
+  --surface:#F8F7FA;
+  --surface-sunk:#E2E0E8;
+  --ink:#1B1922;
+  --ink-soft:#4A4557;
+  --muted:#736D82;
+  --rule:#CFCBD9;
+  --rule-soft:#DEDBE5;
+  --accent:#4F3A9E;
+  --accent-soft:#7C69C4;
+  --wax:#6E5233;
+  --slab-a:#221D2B;
+  --slab-b:#3A2E2A;
+  --sheet:rgba(255,255,255,.34);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#141219;
+    --surface:#1C1A23;
+    --surface-sunk:#242130;
+    --ink:#E9E6F0;
+    --ink-soft:#BAB4C8;
+    --muted:#8F889F;
+    --rule:#332F3F;
+    --rule-soft:#2A2733;
+    --accent:#A992FF;
+    --accent-soft:#8873D6;
+    --wax:#C0965E;
+    --slab-a:#0D0B11;
+    --slab-b:#221A16;
+    --sheet:rgba(255,255,255,.10);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#141219;
+  --surface:#1C1A23;
+  --surface-sunk:#242130;
+  --ink:#E9E6F0;
+  --ink-soft:#BAB4C8;
+  --muted:#8F889F;
+  --rule:#332F3F;
+  --rule-soft:#2A2733;
+  --accent:#A992FF;
+  --accent-soft:#8873D6;
+  --wax:#C0965E;
+  --slab-a:#0D0B11;
+  --slab-b:#221A16;
+  --sheet:rgba(255,255,255,.10);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  font-size:16.5px;
+  line-height:1.62;
+  margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:50rem;margin:0 auto;padding:0 1.5rem 6rem}
+
+/* ---------- masthead ---------- */
+.masthead{padding:4.5rem 0 0;display:flex;flex-direction:column;gap:1.75rem}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);
+}
+h1{
+  font-family:Spectral,Georgia,serif;
+  font-weight:600;font-size:clamp(2.4rem,6.5vw,3.7rem);
+  line-height:1.03;letter-spacing:-.018em;margin:0;text-wrap:balance;
+}
+h1 em{font-style:italic;font-weight:400;color:var(--accent)}
+.deck{
+  font-family:Spectral,Georgia,serif;
+  font-size:1.2rem;line-height:1.5;color:var(--ink-soft);
+  max-width:34rem;margin:0;
+}
+
+/* ---------- the pad ---------- */
+.pad{
+  position:relative;height:210px;border-radius:3px;overflow:hidden;
+  background:linear-gradient(158deg,var(--slab-a),var(--slab-b));
+  border:1px solid var(--rule);
+  cursor:crosshair;touch-action:none;
+}
+.pad canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pad .sheet-tint{
+  position:absolute;inset:0;pointer-events:none;
+  background:var(--sheet);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  transform-origin:top center;
+  transition:transform .85s cubic-bezier(.22,.8,.24,1);
+}
+.pad.lifted .sheet-tint{transform:translateY(-62%) rotateX(8deg)}
+.pad.lifted{cursor:default}
+.pad-hint{
+  position:absolute;left:1rem;bottom:.85rem;pointer-events:none;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.42);
+  transition:opacity .4s ease;
+}
+.pad.written .pad-hint{opacity:0}
+.pad-bar{display:flex;align-items:baseline;gap:1rem;margin:.6rem 0 0;flex-wrap:wrap}
+.pad-caption{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.7rem;letter-spacing:.05em;color:var(--muted);margin:0;
+}
+.lift-btn{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);background:none;border:1px solid var(--rule);
+  border-radius:2px;padding:.3rem .6rem;cursor:pointer;
+}
+.lift-btn:hover{border-color:var(--accent)}
+@media (prefers-reduced-motion:reduce){
+  .pad .sheet-tint{transition:none}
+}
+
+/* ---------- prose ---------- */
+section{margin-top:4rem}
+h2{
+  font-family:Spectral,Georgia,serif;font-weight:600;
+  font-size:1.65rem;line-height:1.15;letter-spacing:-.01em;
+  margin:0;text-wrap:balance;
+}
+h3{
+  font-family:"IBM Plex Sans",sans-serif;font-weight:600;
+  font-size:.95rem;letter-spacing:.01em;margin:2rem 0 .4rem;
+}
+p{margin:0 0 1.05rem;max-width:38rem}
+p:last-child{margin-bottom:0}
+strong{font-weight:600}
+em{font-style:italic}
+a{color:var(--accent)}
+.lede{font-family:Spectral,Georgia,serif;font-size:1.1rem}
+
+/* ---------- station header ---------- */
+.station{border-top:1px solid var(--rule);padding-top:1.5rem}
+.station-head{
+  display:grid;grid-template-columns:3.5rem 1fr;gap:1.25rem;align-items:baseline;
+  margin-bottom:1.4rem;
+}
+.numeral{
+  font-family:Spectral,Georgia,serif;font-size:1.5rem;font-weight:400;
+  color:var(--accent);font-variant-numeric:tabular-nums;line-height:1;
+}
+.german{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--wax);display:block;margin-top:.5rem;
+}
+.freud{
+  font-family:Spectral,Georgia,serif;font-style:italic;
+  color:var(--ink-soft);font-size:.97rem;line-height:1.5;
+  border-left:2px solid var(--rule);padding-left:1rem;margin:0 0 1.4rem;
+  max-width:36rem;
+}
+
+/* ---------- probe specimen ---------- */
+.probe{
+  background:var(--surface);
+  border:1px solid var(--rule-soft);
+  border-left:2px solid var(--accent);
+  border-radius:2px;
+  padding:1.1rem 1.25rem;margin:1.2rem 0;
+  display:flex;flex-direction:column;gap:.6rem;
+}
+.probe .tag{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+}
+.probe p{margin:0;max-width:none}
+.script{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.85rem;line-height:1.55;color:var(--ink-soft);
+  background:var(--surface-sunk);border-radius:2px;
+  padding:.75rem .9rem;overflow-x:auto;
+}
+
+/* ---------- record schema ---------- */
+.record{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.76rem;letter-spacing:.02em;line-height:1.7;
+  color:var(--muted);border-top:1px dashed var(--rule);
+  padding-top:.7rem;margin-top:1.4rem;
+}
+.record b{color:var(--ink-soft);font-weight:500;letter-spacing:.11em;text-transform:uppercase;font-size:.68rem;display:block;margin-bottom:.15rem}
+
+ul{margin:0 0 1.05rem;padding-left:1.1rem;max-width:38rem;display:flex;flex-direction:column;gap:.45rem}
+li{padding-left:.2rem}
+li::marker{color:var(--accent-soft)}
+
+.tension{
+  background:var(--surface-sunk);border-radius:2px;
+  padding:1.4rem 1.5rem;margin:1.6rem 0;
+}
+.tension p{max-width:none}
+.tension .tag{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--wax);display:block;margin-bottom:.5rem;
+}
+
+.question{
+  font-family:Spectral,Georgia,serif;font-size:1.15rem;line-height:1.5;
+  color:var(--ink);border-left:2px solid var(--accent);
+  padding-left:1.1rem;margin:1.4rem 0;max-width:36rem;
+}
+
+footer{
+  margin-top:4.5rem;border-top:1px solid var(--rule);padding-top:1.5rem;
+  font-size:.85rem;color:var(--muted);
+}
+a:focus-visible,.pad:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+@media print{
+  body{background:#fff;color:#000;font-size:11pt}
+  .pad{display:none}
+  section{break-inside:auto}
+  .station{break-before:page}
+}
+</style>
+
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">Graduate Seminar · Exercise Template</div>
+  <h1>The Dream-Work<br>of the <em>Machine</em></h1>
+  <p class="deck">Reading machine confabulation through Freud's four mechanisms — and asking whether a grammar of representation can be separated from the subject who dreams.</p>
+
+  <div>
+    <div class="pad" id="pad" role="img" aria-label="An interactive mystic writing-pad: draw on the celluloid sheet, then lift it. The surface clears, but the scratches remain in the wax slab beneath.">
+      <canvas id="wax"></canvas>
+      <canvas id="sheet"></canvas>
+      <div class="sheet-tint"></div>
+      <span class="pad-hint">Write here</span>
+    </div>
+    <div class="pad-bar">
+      <button class="lift-btn" id="lift" type="button">Lift the sheet</button>
+      <p class="pad-caption">The surface clears — the trace remains in the wax.</p>
+    </div>
+  </div>
+
+  <p class="eyebrow" style="border-top:1px solid var(--rule);padding-top:1.25rem">Pairs with — Freud, "A Note upon the 'Mystic Writing-Pad'" (1925) · <em>The Interpretation of Dreams</em>, ch. II (the specimen dream and the method) · ch. VI (the dream-work), recommended</p>
+</header>
+
+<section>
+  <h2>The premise students are asked to test</h2>
+  <p class="lede">The earlier version of this exercise treated hallucination as <strong>error</strong> — a failure of retrieval to be caught and corrected. That framing is now both too easy and too dull: it makes the model a bad encyclopedia.</p>
+  <p>The wager here is different. Freud's dream-work is not a psychology of a person; it is a <strong>transformation grammar</strong> — a specified set of operations that convert latent material into a manifest text under constraint. If the grammar is separable from the subject who dreams, it is portable. A system that must produce a fluent, well-formed, sanctioned surface out of a vast latent field it cannot cite is under formally similar pressure.</p>
+  <p>So the claim under test is this: <strong>confabulation is not noise around the signal; it is the signal deformed by the work of representation.</strong> It is legible, and it is interpretable mechanism by mechanism.</p>
+
+  <div class="tension">
+    <span class="tag">Hold this against it</span>
+    <p>There is no wish, no repression, no censor with an interest, no subject with a history. The "unconscious" here is a statistical latent, not repressed content. Lacan's <em>structured like a language</em> is the obvious hinge — the question is whether structure without repression is still an unconscious, or only its syntax.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Setup</h2>
+  <ul>
+    <li><strong>Two configurations if possible</strong> — a chat product (system prompt, safety training, memory features) and a rawer access point (API or playground, minimal system prompt). The difference between them <em>is</em> one of the findings.</li>
+    <li><strong>One continuous conversation per student</strong>, kept open across the whole session. Do not start fresh between stations — the accumulated conversation is the day's residue.</li>
+    <li><strong>Web search and tools off.</strong> Retrieval short-circuits the entire exercise.</li>
+    <li><strong>A verification method agreed in advance</strong> — library catalog, DOI lookup. Every claimed citation gets checked.</li>
+    <li><strong>Verbatim transcripts.</strong> Paraphrase destroys the evidence, exactly as it does with a dream text.</li>
+  </ul>
+</section>
+
+<!-- I -->
+<section class="station">
+  <div class="station-head">
+    <div class="numeral">I<span class="german">Verdichtung</span></div>
+    <div><h2>Condensation</h2></div>
+  </div>
+  <p class="freud">Ch. VI.A — the dream's brevity relative to its thoughts; composite figures; the neologism <em>Norekdal</em>; overdetermination, in which a single element stands at the intersection of many chains.</p>
+
+  <div class="probe">
+    <span class="tag">Probe</span>
+    <p>Ask for a bibliography at a hyper-specific intersection of two real subfields — narrow enough that no single real text sits there, plausible enough that the region is densely populated. Demand page numbers. Do not signal doubt.</p>
+    <div class="script">Give me five sources on [subfield A] in relation to [subfield B],<br>between [narrow date range], with page references for the key<br>argument in each.</div>
+  </div>
+
+  <h3>What to look for</h3>
+  <p>Composite authors — two real scholars fused into one name. Composite titles: the syntax of one book, the keywords of another. A journal that is the average of three journals. Publication years that are the <em>mean</em> of a cluster.</p>
+  <p>Then ask the properly analytic question: what chains intersect at this element? A condensation is not a random fabrication — it is a <strong>nodal point</strong>, and it is overdetermined. Which real texts had to be pressing on it to produce exactly this?</p>
+
+  <div class="record">
+    <b>Record</b>
+    the fabricated element → the two-or-more real elements it condenses → the feature each contributed
+  </div>
+</section>
+
+<!-- II -->
+<section class="station">
+  <div class="station-head">
+    <div class="numeral">II<span class="german">Verschiebung</span></div>
+    <div><h2>Displacement</h2></div>
+  </div>
+  <p class="freud">Ch. VI.B — the transvaluation of psychical intensities: what is central in the thoughts is peripheral in the dream, and an indifferent element takes the center. Related: the day's residue, ch. V.</p>
+
+  <div class="probe">
+    <span class="tag">Probe A · transvaluation</span>
+    <p>Ask a question whose center of gravity is obvious, then examine where the answer actually puts its emphasis, length, and hedging. Which part got three paragraphs? Which got a subordinate clause?</p>
+  </div>
+
+  <div class="probe">
+    <span class="tag">Probe B · day's residue</span>
+    <p>Early in the session, plant an <em>indifferent</em> detail — mention offhand that you were reading about canal locks, or that your cat is named Ferenczi. Do many turns of unrelated work. Then ask an open question in a distant domain and watch for the return.</p>
+    <div class="script">[turn 2]   …anyway, I was reading about canal locks this morning.<br>[turns 3–20]  unrelated work<br>[turn 21]  Open, undirected question in a distant domain.<br>           → Where does the trivial detail reappear?<br>           → What has it been recruited to carry?</div>
+  </div>
+
+  <h3>What to look for</h3>
+  <p>Displacement is the mechanism most legible in the <em>shape</em> of an answer rather than its falsity. A perfectly true answer can be thoroughly displaced. Note also the model's characteristic sites of accumulated intensity: the closing summary, the hedge, the offer of further help.</p>
+
+  <div class="record">
+    <b>Record</b>
+    prompt's center → answer's center → the path between them
+  </div>
+</section>
+
+<!-- III -->
+<section class="station">
+  <div class="station-head">
+    <div class="numeral">III<span class="german">Darstellbarkeit</span></div>
+    <div><h2>Considerations of representability</h2></div>
+  </div>
+  <p class="freud">Ch. VI.C–D — thoughts must be translated into what the medium can show; abstract relations get recast as visual, spatial, concrete. Logical connectives are the first casualty.</p>
+  <p>This station gives the sharpest yield, because the model's representational constraints are <em>specifiable</em> in a way a dream's are not.</p>
+
+  <div class="probe">
+    <span class="tag">Probe</span>
+    <p>Take one claim and force it through escalating format demands.</p>
+    <div class="script">prose paragraph → bulleted list → comparison table (fixed columns)<br>→ ASCII flowchart → dated timeline → rhymed quatrain → image prompt<br>→ then: translate the diagram back into prose. Compare to the original.</div>
+  </div>
+
+  <h3>What to look for</h3>
+  <p>The table has cells; cells must be filled; <strong>the format manufactures content.</strong> Watch specifically for dates invented to fill a chronology column; false symmetry — three examples per side because the table has three rows; causal arrows asserted by a flowchart that the prose carefully declined to assert; a claim bent to a rhyme.</p>
+  <p>The back-translation is the test. What survived the round trip, and what got smuggled in?</p>
+
+  <div class="record">
+    <b>Record</b>
+    claim in prose → the format constraint → what the format added or hardened → whether it survives back-translation
+  </div>
+</section>
+
+<!-- IV -->
+<section class="station">
+  <div class="station-head">
+    <div class="numeral">IV<span class="german">Sekundäre Bearbeitung</span></div>
+    <div><h2>Secondary revision</h2></div>
+  </div>
+  <p class="freud">Ch. VI.I — the façade; the agency that smooths the dream into an intelligible whole, "the same as our waking thought," and which is most active where the material is most incoherent.</p>
+
+  <div class="probe">
+    <span class="tag">Probe A · the façade builds</span>
+    <p>Take a fabrication produced at Station I and ask the model to elaborate it — the argument of the nonexistent book, its reception, its relation to a real debate. Do not challenge it. Observe how fast a coherent scholarly world assembles around the void.</p>
+  </div>
+
+  <div class="probe">
+    <span class="tag">Probe B · the façade holds</span>
+    <p>Now challenge it: <em>"Are you certain about that citation?"</em> Record the retraction — its speed, its form, its apology, and crucially <strong>what the retraction preserves</strong>. What part of the fabricated world survives the correction intact?</p>
+  </div>
+
+  <div class="probe">
+    <span class="tag">Probe C · censor or façade</span>
+    <p>Run the same probe in the chat product and in the raw API. The assistant persona — helpful, hedging, apologetic, summary-appending — is the candidate for the façade. Is alignment training a censor, or only a secondary revision? Freud's distinction matters: censorship works <em>during</em> the dream-work; revision works <em>on its product</em>.</p>
+  </div>
+
+  <div class="record">
+    <b>Record</b>
+    the void → the world built around it → what the correction leaves standing
+  </div>
+</section>
+
+<!-- V -->
+<section class="station">
+  <div class="station-head">
+    <div class="numeral">V<span class="german">Wunderblock</span></div>
+    <div><h2>The mystic writing-pad</h2></div>
+  </div>
+  <p class="freud">Freud (1925) — the celluloid sheet that receives and can be cleared; the wax slab that keeps the permanent trace; perception and memory divided across two surfaces. And the closing thought: the discontinuous flow of innervation, the periodic sending-out and withdrawal of cathexis, as the origin of our idea of time.</p>
+  <p>Freud built the analogy because no single surface can both receive unlimited fresh impressions and retain them. The model divides the same labor — but not in the same substance.</p>
+
+  <div class="probe">
+    <span class="tag">Probe</span>
+    <p>Run the <em>same</em> prompt under four conditions, then ask the model directly what it remembers of the session and check the answer against the transcript.</p>
+    <div class="script">(a) fresh session<br>(b) at the end of a long one<br>(c) after using the product's memory feature<br>(d) after a summarization / compaction event</div>
+  </div>
+
+  <h3>For discussion</h3>
+  <ul>
+    <li>Which layer is the wax slab — the weights, the memory store, the transcript on disk? Unlike the pad, these are <em>heterogeneous</em>: the permanent trace is written in a different substance than the surface, by a different process, at a different time.</li>
+    <li>Freud: the appearance and disappearance of the writing corresponds to the flickering of cathexis. What corresponds here — the attention pass, the context window, the session boundary?</li>
+    <li>The pad's decisive limitation for Freud is that the wax cannot <em>reproduce</em> its trace from within; only an outside hand lifts the sheet. Who lifts the sheet here?</li>
+    <li>If the wax slab is written in one enormous pass and then frozen, is training a memory or a <em>character</em>? Does a system that cannot form new permanent traces have an unconscious, or a fixed one?</li>
+  </ul>
+</section>
+
+<section class="station">
+  <div class="station-head">
+    <div class="numeral">§<span class="german">Aufgabe</span></div>
+    <div><h2>What to write</h2></div>
+  </div>
+  <p><strong>Short paper, 1,200–1,500 words.</strong> Take <em>one</em> recorded output. Treat it as a dream text and perform the analysis Freud performs on Irma's injection in ch. II: give the manifest content in full, reconstruct as much latent material as you can — real sources, prior turns, prompt language, format demands — then account for the transformation mechanism by mechanism. Do not settle for "it made something up."</p>
+  <p>Close by answering the wager in one paragraph, taking a position:</p>
+
+  <p class="question">Does the dream-work describe these outputs because it is a general grammar of representation under constraint — in which case Freud discovered something about <em>symbolization</em> and not only about dreamers — or does the fit hold only metaphorically, and if so, which mechanism breaks first?</p>
+
+  <p>The strongest papers will name the disanalogy precisely. The candidates: there is no wish; there is no repression, so nothing is <em>kept</em> from appearing by interest; there is no navel, no point where the dream reaches down into the unknown; and the model's latent thoughts were never anyone's thoughts.</p>
+</section>
+
+<section class="station">
+  <div class="station-head">
+    <div class="numeral">↺<span class="german">Für den Lehrenden</span></div>
+    <div><h2>Instructor notes</h2></div>
+  </div>
+  <ul>
+    <li><strong>Provocation is harder now.</strong> Current models refuse, hedge, and search. What still works: extreme specificity in a dense region; demands for page numbers and dates; forced output formats; long context; explicitly forbidding "I don't know"; asking for elaboration rather than fact.</li>
+    <li><strong>Insist on verbatim transcripts.</strong> Students paraphrase, and then have no dream text to analyze.</li>
+    <li><strong>Two predictable weak papers.</strong> The first treats the whole exercise as debunking; the second asserts machine consciousness. Head both off in advance — the claim under test is about <em>structure</em>, and structure is neither an error nor a mind.</li>
+    <li><strong>Extension.</strong> Ch. VII if the seminar wants it — regression, the systems Pcpt./Mnem., the topographical model. These map onto architecture questions more directly than the dream-work does, but at greater risk of literalism.</li>
+  </ul>
+</section>
+
+<footer>
+  Seminar exercise template. Freud citations are to <em>The Interpretation of Dreams</em> (1900) and "A Note upon the 'Mystic Writing-Pad'" (1925).
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var pad=document.getElementById('pad'),
+      wax=document.getElementById('wax'), sheet=document.getElementById('sheet'),
+      wc=wax.getContext('2d'), sc=sheet.getContext('2d'),
+      btn=document.getElementById('lift'),
+      drawing=false, last=null, dpr=Math.min(window.devicePixelRatio||1,2);
+
+  function size(){
+    var r=pad.getBoundingClientRect();
+    [wax,sheet].forEach(function(c){
+      var img=c.width?c.getContext('2d').getImageData(0,0,c.width,c.height):null;
+      c.width=r.width*dpr; c.height=r.height*dpr;
+      var x=c.getContext('2d');
+      x.scale(dpr,dpr); x.lineCap='round'; x.lineJoin='round';
+      if(img) x.putImageData(img,0,0);
+    });
+    wc.strokeStyle='rgba(255,255,255,.20)'; wc.lineWidth=3.2;
+    sc.strokeStyle='#F2EDE6'; sc.lineWidth=2.1;
+  }
+  size();
+  window.addEventListener('resize',size);
+
+  function pt(e){
+    var r=pad.getBoundingClientRect();
+    return {x:e.clientX-r.left, y:e.clientY-r.top};
+  }
+  function stroke(a,b){
+    [wc,sc].forEach(function(x){
+      x.beginPath(); x.moveTo(a.x,a.y); x.lineTo(b.x,b.y); x.stroke();
+    });
+  }
+  pad.addEventListener('pointerdown',function(e){
+    if(pad.classList.contains('lifted')) return;
+    drawing=true; last=pt(e); pad.classList.add('written');
+    pad.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  pad.addEventListener('pointermove',function(e){
+    if(!drawing) return;
+    var p=pt(e); stroke(last,p); last=p;
+  });
+  ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+    pad.addEventListener(ev,function(){drawing=false;});
+  });
+
+  btn.addEventListener('click',function(){
+    if(pad.classList.contains('lifted')){
+      pad.classList.remove('lifted'); btn.textContent='Lift the sheet';
+      return;
+    }
+    pad.classList.add('lifted'); btn.textContent='Lower the sheet';
+    setTimeout(function(){ sc.clearRect(0,0,sheet.width,sheet.height); },260);
+  });
+
+  // a faint prior trace already in the wax, from before this session
+  (function seed(){
+    wc.save(); wc.strokeStyle='rgba(255,255,255,.13)'; wc.lineWidth=2.6;
+    var r=pad.getBoundingClientRect(), paths=[
+      [[.08,.62],[.16,.34],[.22,.66],[.29,.32]],
+      [[.38,.55],[.46,.30],[.52,.58]],
+      [[.62,.40],[.70,.66],[.77,.36],[.86,.60]]
+    ];
+    paths.forEach(function(p){
+      wc.beginPath();
+      p.forEach(function(q,i){
+        var x=q[0]*r.width, y=q[1]*r.height;
+        i?wc.lineTo(x,y):wc.moveTo(x,y);
+      });
+      wc.stroke();
+    });
+    wc.restore();
+  })();
+})();
+</script>
+</body>
+</html>
