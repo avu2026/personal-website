@@ -14,93 +14,217 @@
   .cites { font-size: .85rem; color:#555; border-left: 2px solid #ccc; padding-left: .6rem; margin-top:.4rem; }
   textarea { width:100%; font-family: var(--sans); padding:.5rem; }
   button { font-family: var(--sans); padding:.4rem .8rem; cursor:pointer; }
+  button:disabled, textarea:disabled { cursor:wait; opacity:.65; }
   .err { color:#b00; }
   .muted { color:#888; font-size:.85rem; }
 </style>
 </head>
 <body>
 <h1>Ask the Lecture</h1>
-<p class="muted">A course tutor for experimental film &amp; video. Grounded in the readings and lectures; it cites its sources and will say when something is outside the course.</p>
+<p class="muted">Test release: answers show exact excerpts from course sources, with citations. Dig deeper searches more passages.</p>
+<p class="muted">ARH 210 · Fall 2026. Grounded in assigned readings and a partial lecture-slide guide; it cites text sources and says when a question is outside the course. Text only: it cannot recognize uploaded images.</p>
 
 <div id="gate">
   <input id="pass" type="password" placeholder="Class passphrase" autocomplete="off">
-  <button onclick="savePass()">Enter</button>
-  <div id="gateErr" class="err"></div>
+  <button id="enterBtn" type="button" onclick="savePass()">Enter</button>
+  <div id="gateErr" class="err" role="alert"></div>
 </div>
 
 <div id="chat" hidden>
   <div id="log"></div>
   <textarea id="q" rows="3" placeholder="Ask a question…"></textarea>
   <div>
-    <button onclick="ask(false)">Ask</button>
-    <button onclick="ask(true)" title="Runs a fuller, multi-step search — takes longer">Dig deeper</button>
-    <span id="status" class="muted"></span>
+    <button id="askBtn" type="button" onclick="ask(false)">Ask</button>
+    <button id="deepBtn" type="button" onclick="ask(true)" title="Runs a fuller, multi-step search — takes longer">Dig deeper</button>
+    <button id="retryBtn" type="button" onclick="retryLast()" hidden>Retry last question</button>
+    <span id="status" class="muted" role="status" aria-live="polite"></span>
   </div>
 </div>
 
 <script>
-const API = "https://ask.andrewuroskie.com/ask";
+const API = ["andrewuroskie.com", "www.andrewuroskie.com"].includes(location.hostname) || location.protocol === "file:"
+  ? "https://ask.andrewuroskie.com/ask"
+  : "/ask";
 const HKEY = "ask-lecture-history";
-let history = JSON.parse(localStorage.getItem(HKEY) || "[]");
+const passEl = document.getElementById("pass");
+const gateEl = document.getElementById("gate");
+const gateErrEl = document.getElementById("gateErr");
+const chatEl = document.getElementById("chat");
+const logEl = document.getElementById("log");
+const qEl = document.getElementById("q");
+const statusEl = document.getElementById("status");
+const askBtn = document.getElementById("askBtn");
+const deepBtn = document.getElementById("deepBtn");
+const retryBtn = document.getElementById("retryBtn");
+
+let history = loadHistory();
+let pending = null;
+let retryState = null;
+
+function loadHistory() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(HKEY) || "[]");
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(t => t && (t.role === "user" || t.role === "assistant") && typeof t.content === "string");
+  } catch (_) {
+    return [];
+  }
+}
+
+function persistHistory() {
+  try { localStorage.setItem(HKEY, JSON.stringify(history)); } catch (_) { /* Private mode or quota; keep the live turn visible. */ }
+}
+
+function setStatus(message, isError = false) {
+  statusEl.textContent = message;
+  statusEl.classList.toggle("err", isError);
+}
+
+function updateRetryButton() {
+  retryBtn.hidden = !retryState || Boolean(pending) || gateEl.hidden === false;
+}
+
+function openChat() {
+  gateEl.hidden = true;
+  chatEl.hidden = false;
+  gateErrEl.textContent = "";
+  render();
+  updateRetryButton();
+}
+
+function showGate(message = "") {
+  gateEl.hidden = false;
+  chatEl.hidden = true;
+  gateErrEl.textContent = message;
+  passEl.value = "";
+  passEl.focus();
+  updateRetryButton();
+}
 
 function savePass() {
-  const p = document.getElementById("pass").value.trim();
-  if (!p) return;
+  const p = passEl.value.trim();
+  if (!p) {
+    gateErrEl.textContent = "Enter the class passphrase.";
+    passEl.focus();
+    return;
+  }
   sessionStorage.setItem("ask-pass", p);
-  document.getElementById("gate").hidden = true;
-  document.getElementById("chat").hidden = false;
-  render();
+  openChat();
+  if (retryState) setStatus("Passphrase saved. Retry the last question when ready.");
 }
-if (sessionStorage.getItem("ask-pass")) savePass();
+
+function restorePass() {
+  // Read the stored value directly. The password input is intentionally empty on reload.
+  if (sessionStorage.getItem("ask-pass")) openChat();
+}
 
 function render() {
-  const log = document.getElementById("log");
-  log.innerHTML = "";
+  logEl.innerHTML = "";
   for (const t of history) {
     const div = document.createElement("div");
     div.className = "turn";
-    if (t.role === "user") { div.innerHTML = `<div class="q">${esc(t.content)}</div>`; }
-    else {
+    if (t.role === "user") {
+      div.innerHTML = `<div class="q">${esc(t.content)}</div>`;
+    } else {
       let cites = "";
-      if (t.citations && t.citations.length)
-        cites = `<div class="cites">Sources: ${t.citations.map(c => esc(c.label)).join(" · ")}</div>`;
+      const citations = Array.isArray(t.citations) ? t.citations : [];
+      const labels = citations.map(c => c && typeof c.label === "string" ? (Number.isInteger(c.marker) ? `[${c.marker}] ` : "") + esc(c.label) : "").filter(Boolean);
+      if (labels.length) cites = `<div class="cites">Sources: ${labels.join(" · ")}</div>`;
       div.innerHTML = `<div class="a">${esc(t.content)}</div>${cites}`;
     }
-    log.appendChild(div);
+    logEl.appendChild(div);
   }
 }
-function esc(s){ return (s||"").replace(/[&<>]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[m])); }
+
+function esc(s) {
+  return String(s || "").replace(/[&<>]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));
+}
+
+function setBusy(isBusy) {
+  askBtn.disabled = isBusy;
+  deepBtn.disabled = isBusy;
+  qEl.disabled = isBusy;
+  chatEl.setAttribute("aria-busy", String(isBusy));
+  updateRetryButton();
+}
+
+function removePendingTurn() {
+  if (pending && history[history.length - 1] === pending.turn) history.pop();
+}
+
+function offerRetry(message) {
+  removePendingTurn();
+  qEl.value = pending.question;
+  retryState = { question: pending.question, deep: pending.deep };
+  setStatus(message, true);
+}
+
+function retryLast() {
+  if (!retryState || pending) return;
+  qEl.value = retryState.question;
+  const deep = retryState.deep;
+  retryState = null;
+  updateRetryButton();
+  return ask(deep);
+}
 
 async function ask(deep) {
-  const qEl = document.getElementById("q");
+  if (pending) return;
   const question = qEl.value.trim();
   if (!question) return;
-  const status = document.getElementById("status");
-  status.textContent = deep ? "Digging deeper… this takes longer." : "Thinking…";
-  history.push({ role: "user", content: question });
-  render(); qEl.value = "";
+
+  retryState = null;
+  pending = { question, deep, turn: { role: "user", content: question } };
+  history.push(pending.turn);
+  render();
+  qEl.value = "";
+  setBusy(true);
+  setStatus(deep ? "Digging deeper… this takes longer." : "Thinking…");
+
   try {
     const r = await fetch(API, {
-      method: "POST", headers: {"Content-Type": "application/json"},
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         passphrase: sessionStorage.getItem("ask-pass"),
-        question, deep,
-        history: history.slice(0, -1).filter(h => h.role === "user" || h.role === "assistant")
+        question,
+        deep,
+        history: history.filter(h => h !== pending.turn)
                         .map(h => ({role: h.role, content: h.content})).slice(-6)
       })
     });
-    if (r.status === 401) { status.innerHTML = '<span class="err">Check the class passphrase.</span>'; sessionStorage.removeItem("ask-pass"); return; }
-    if (r.status === 429) { status.innerHTML = '<span class="err">You\'re asking quickly — give it a moment.</span>'; return; }
-    if (r.status === 503) { status.innerHTML = '<span class="err">The tutor is restarting — try again in a minute.</span>'; return; }
-    const data = await r.json();
-    history.push({ role: "assistant", content: data.answer, citations: data.citations || [] });
-    localStorage.setItem(HKEY, JSON.stringify(history));
-    status.textContent = "";
+
+    if (r.status === 401) {
+      removePendingTurn();
+      retryState = { question, deep };
+      sessionStorage.removeItem("ask-pass");
+      qEl.value = question;
+      showGate("That passphrase was not accepted. Enter it again to retry.");
+      return;
+    }
+    if (r.status === 429) { offerRetry("You’re asking quickly — wait a moment, then retry."); return; }
+    if (r.status === 503) { offerRetry("The tutor is restarting — wait a moment, then retry."); return; }
+    if (!r.ok) { offerRetry(`The tutor could not answer (${r.status}). Retry in a moment.`); return; }
+
+    let data;
+    try { data = await r.json(); } catch (_) { offerRetry("The tutor returned an unreadable response. Retry in a moment."); return; }
+    if (!data || typeof data.answer !== "string") { offerRetry("The tutor returned no answer. Retry in a moment."); return; }
+
+    history.push({ role: "assistant", content: data.answer, citations: Array.isArray(data.citations) ? data.citations : [] });
+    persistHistory();
+    setStatus("");
     render();
-  } catch (e) {
-    status.innerHTML = '<span class="err">Network error — try again.</span>';
+  } catch (_) {
+    offerRetry("Network error — check the connection, then retry.");
+  } finally {
+    pending = null;
+    setBusy(false);
+    updateRetryButton();
   }
 }
+
+passEl.addEventListener("keydown", e => { if (e.key === "Enter") savePass(); });
+restorePass();
 </script>
 </body>
 </html>
