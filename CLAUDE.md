@@ -49,3 +49,7 @@ If npm is unreachable and `/preview` can't start `browser-sync`:
 python3 -m http.server 8000
 ```
 No live-reload, but the site renders at `http://localhost:8000`.
+
+## Website settings
+
+Typography settings: see `.claude/website-settings.md`.
