@@ -318,6 +318,8 @@
     text-transform: uppercase;
   }
 
+  .writing-file { text-transform: none; letter-spacing: 0.06em; color: var(--ash); }
+
   /* ── AV WORK PAGE ── */
 
   /* clean video thumbnail with play overlay */
@@ -403,6 +405,9 @@
     line-height: 1.2;
   }
 
+  .book-figure { margin: 1.4rem 0 1.6rem; }
+  .book-figure img { display: block; width: 100%; height: auto; }
+
   .book-publisher {
     font-family: var(--font-mono);
     font-size: calc(12px + var(--text-bump));
@@ -413,12 +418,12 @@
   }
 
   .book-desc {
-    font-family: var(--font-mono);
-    font-size: calc(13px + var(--text-bump));
-    line-height: 1.85;
+    font-family: var(--font-display);
+    font-size: calc(17px + var(--text-bump));
+    line-height: 1.6;
     color: var(--muted);
-    font-weight: 300;
-    max-width: 58ch;
+    font-weight: 400;
+    max-width: 62ch;
     margin-bottom: 0.8rem;
   }
 
@@ -508,11 +513,11 @@
   .book-review-meta em { font-style: italic; text-transform: none; }
 
   .book-review-text {
-    font-family: var(--font-mono);
-    font-size: calc(13px + var(--text-bump));
-    line-height: 2;
+    font-family: var(--font-display);
+    font-size: calc(17px + var(--text-bump));
+    line-height: 1.6;
     color: var(--muted);
-    font-weight: 300;
+    font-weight: 400;
     max-width: 62ch;
     margin-bottom: 1.2rem;
   }
@@ -904,13 +909,13 @@
   }
 
   .bio-text p {
-    font-family: var(--font-mono);
-    font-size: calc(14px + var(--text-bump));
-    line-height: 2;
+    font-family: var(--font-display);
+    font-size: calc(17px + var(--text-bump));
+    line-height: 1.6;
     color: var(--offwhite);
-    font-weight: 300;
+    font-weight: 400;
     margin-bottom: 1.5rem;
-    max-width: 54ch;
+    max-width: 62ch;
   }
 
   .bio-aside-label {
@@ -1203,6 +1208,10 @@
         <span class="book-title">Paranthropic Aesthesis</span>
         <span class="writing-year in-progress" style="flex-shrink:0;">In progress</span>
       </div>
+      <figure class="book-figure">
+        <img src="levin-double-headed-planaria.avif" width="1600" height="1067" alt="A stereo microscope lit from below in a dark gallery, its light pooling on a white plinth" loading="lazy" decoding="async"/>
+        <figcaption class="film-caption">Michael Levin, <em>Double-Headed Planaria</em> (ongoing research), installation view, <em>Strange Rules</em>, Venice, 2026</figcaption>
+      </figure>
       <div class="book-desc">Drawing on recent work in scalar and systems theory, ecology and evolution, and the cognitive sciences, I argue that perception and cognition have always operated below, beside, and beyond the human &mdash; and that art truly contemporary with the Anthropocene forsakes individual expression for an aesthetics of instrumentation. The argument unfolds across the two faces of this new aesthesis, where technologically mediated sensing displaces human phenomenology, and intelligence is ever more distributed across diverse substrates. If perception and cognition have always operated outside the classical humanist subject, contemporary artists are now building the cognitive and technical infrastructure to collectively sense, and thus think, the nonhuman scales on which our future depends.</div>
     </div>
 
@@ -1211,6 +1220,10 @@
         <span class="book-title"><a href="https://press.uchicago.edu/ucp/books/book/chicago/B/bo5771909.html" target="_blank" rel="noopener">Between the Black Box and the White Cube</a></span>
         <span class="writing-year" style="flex-shrink:0;">2014</span>
       </div>
+      <figure class="book-figure">
+        <img src="black-box-theater.avif" width="1280" height="774" alt="Janet Cardiff and George Bures Miller, The Paradise Institute: an empty miniature theater, a close-up of an eye on its screen" loading="lazy" decoding="async"/>
+        <figcaption class="film-caption">Janet Cardiff &amp; George Bures Miller, <em>The Paradise Institute</em> (2001)</figcaption>
+      </figure>
       <div class="book-publisher">University of Chicago Press</div>
       <div class="book-desc">Regularly cited as a key historical and theoretical reference for contemporary moving image installation, Uroskie's work explores a period of cultural transformation in the late '50s &amp; '60s, as television broke the monopoly of the movie theater, and artists sought to reimagine cinema as both an architectural and performative medium within new spatial and institutional contexts. The work of Nam June Paik, Robert Whitman, Stan VanDerBeek, Robert Breer and Andy Warhol helped to forge a newly dialectical site for contemporary art between the "black box" of the cinematic theater and the "white cube" of the modern art gallery.</div>
       <button class="book-review-toggle" onclick="toggleReview(this)" aria-expanded="false">
@@ -1240,7 +1253,7 @@
         <span class="writing-year" itemprop="datePublished">2026</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/rosenfeld-mesoscopic-realm.pdf" target="_blank" rel="noopener">"Marina Rosenfeld: Sound's Mesoscopic Realm"</a></div>
-          <div class="writing-meta"><em>Material Issue</em> exhibition catalog &nbsp;·&nbsp; The Substation, Victoria, Australia &nbsp;·&nbsp; February 2026</div>
+          <div class="writing-meta"><em>Material Issue</em> exhibition catalog &nbsp;·&nbsp; The Substation, Victoria, Australia &nbsp;·&nbsp; February 2026 &nbsp;·&nbsp; <span class="writing-file">PDF, 730 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/Article"><meta itemprop="author" content="Andrew V. Uroskie"/>
@@ -1261,7 +1274,7 @@
         <span class="writing-year" itemprop="datePublished">2018</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/elective-intimacies-thunderdome.pdf" target="_blank" rel="noopener">"Elective Intimacies – Beyond the Thunderdome"</a></div>
-          <div class="writing-meta"><em>Millennium Film Journal</em> &nbsp;·&nbsp; No. 68</div>
+          <div class="writing-meta"><em>Millennium Film Journal</em> &nbsp;·&nbsp; No. 68 &nbsp;·&nbsp; <span class="writing-file">PDF, 2.0 MB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/Article"><meta itemprop="author" content="Andrew V. Uroskie"/>
@@ -1289,105 +1302,105 @@
         <span class="writing-year" itemprop="datePublished">2022</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/audiovisual-texture.pdf" target="_blank" rel="noopener">"Audiovisual &lsquo;Texture&rsquo;: Towards an Interdisciplinary Rubric"</a></div>
-          <div class="writing-meta">Min Oh, <em>Post-Texture</em> &nbsp;·&nbsp; Workroom Specter, Seoul</div>
+          <div class="writing-meta">Min Oh, <em>Post-Texture</em> &nbsp;·&nbsp; Workroom Specter, Seoul &nbsp;·&nbsp; <span class="writing-file">PDF, 220 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2022</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/jonas-mekas-living-theatre.pdf" target="_blank" rel="noopener">"Jonas Mekas, the Living Theatre, and the Place of Performance"</a></div>
-          <div class="writing-meta"><em>Jonas Mekas: Retrospective</em> &nbsp;·&nbsp; Yale University Press</div>
+          <div class="writing-meta"><em>Jonas Mekas: Retrospective</em> &nbsp;·&nbsp; Yale University Press &nbsp;·&nbsp; <span class="writing-file">PDF, 1.0 MB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2020</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/interactivity-without-control.pdf" target="_blank" rel="noopener">"Interactivity without Control: David O'Reilly's <em>Everything</em> (2017) and the Representation of Totality"</a></div>
-          <div class="writing-meta">Rascaroli &amp; Murphy, eds., <em>Theorizing Film through Contemporary Art: Expanding Cinema</em> &nbsp;·&nbsp; Amsterdam University Press</div>
+          <div class="writing-meta">Rascaroli &amp; Murphy, eds., <em>Theorizing Film through Contemporary Art: Expanding Cinema</em> &nbsp;·&nbsp; Amsterdam University Press &nbsp;·&nbsp; <span class="writing-file">PDF, 490 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2017</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/assemblage-1968-strategy.pdf" target="_blank" rel="noopener">"Assemblage (1968) as Strategy: Collaborative Production and Collective Reception at the Origins of Artist's Television"</a></div>
-          <div class="writing-meta">Bovier &amp; Mey, eds., <em>Exhibited Cinema</em> &nbsp;·&nbsp; Institut National de L'Histoire de l'Art, Paris</div>
+          <div class="writing-meta">Bovier &amp; Mey, eds., <em>Exhibited Cinema</em> &nbsp;·&nbsp; Institut National de L'Histoire de l'Art, Paris &nbsp;·&nbsp; <span class="writing-file">PDF, 140 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2016</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/uncanny-machines-paik.pdf" target="_blank" rel="noopener">"Uncanny Machines and Philosophical Toys: The Animation of Paik's Early Sculpture"</a></div>
-          <div class="writing-meta"><em>NJP Reader #6: Reanimating Nam June Paik</em> &nbsp;·&nbsp; Nam June Paik Art Center</div>
+          <div class="writing-meta"><em>NJP Reader #6: Reanimating Nam June Paik</em> &nbsp;·&nbsp; Nam June Paik Art Center &nbsp;·&nbsp; <span class="writing-file">PDF, 230 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2015</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/documentary-fables-kr.pdf" target="_blank" rel="noopener">"Documentary Fables: The Return of History and the Collapse of Distance in the work of Pierre Huyghe and Omer Fast"</a></div>
-          <div class="writing-meta">Translated into Korean &nbsp;·&nbsp; <em>Contemporary Art: Beyond the Authority of Global Trends</em> &nbsp;·&nbsp; Noosphere Contemporary Art Lab, Seoul</div>
+          <div class="writing-meta">Translated into Korean &nbsp;·&nbsp; <em>Contemporary Art: Beyond the Authority of Global Trends</em> &nbsp;·&nbsp; Noosphere Contemporary Art Lab, Seoul &nbsp;·&nbsp; <span class="writing-file">PDF, 30 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2012</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/visual-music-after-cage-breer.pdf" target="_blank" rel="noopener">"Visual Music after Cage: Robert Breer, Expanded Cinema and Stockhausen's <em>Originals</em> (1964)"</a></div>
-          <div class="writing-meta"><em>Organised Sound: An International Journal of Music and Technology</em> &nbsp;·&nbsp; 17:2 &nbsp;·&nbsp; Cambridge University Press</div>
+          <div class="writing-meta"><em>Organised Sound: An International Journal of Music and Technology</em> &nbsp;·&nbsp; 17:2 &nbsp;·&nbsp; Cambridge University Press &nbsp;·&nbsp; <span class="writing-file">PDF, 210 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2011</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/beyond-black-box-lettrist.pdf" target="_blank" rel="noopener">"Beyond the Black Box: The Lettrist Cinema of Disjunction"</a></div>
-          <div class="writing-meta"><em>October</em> 135 &nbsp;·&nbsp; MIT Press</div>
+          <div class="writing-meta"><em>October</em> 135 &nbsp;·&nbsp; MIT Press &nbsp;·&nbsp; <span class="writing-file">PDF, 330 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2011</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/futurist-film-photography.pdf" target="_blank" rel="noopener">"From Chronophotography and Cinematography to Photodynamism and Chromatic Music: Bergson's Critique of Photography and the Futurist Birth of the Cinematic Avant-Garde, 1910–1912"</a></div>
-          <div class="writing-meta"><em>Forum Italicum</em> 31 &nbsp;·&nbsp; SUNY Press</div>
+          <div class="writing-meta"><em>Forum Italicum</em> 31 &nbsp;·&nbsp; SUNY Press &nbsp;·&nbsp; <span class="writing-file">PDF, 750 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2011</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/windows-in-white-cube.pdf" target="_blank" rel="noopener">"Windows in the White Cube"</a></div>
-          <div class="writing-meta">Trodd, ed., <em>Screen/Space: The Projected Image in Contemporary Art</em> &nbsp;·&nbsp; Manchester University Press</div>
+          <div class="writing-meta">Trodd, ed., <em>Screen/Space: The Projected Image in Contemporary Art</em> &nbsp;·&nbsp; Manchester University Press &nbsp;·&nbsp; <span class="writing-file">PDF, 1.5 MB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2011</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/sonic-arts-audio-cultures-intro.pdf" target="_blank" rel="noopener">"Sonic Arts and Audio Cultures: Writing about Audiovisual Culture"</a></div>
-          <div class="writing-meta">with Margaret Schedel &nbsp;·&nbsp; <em>Journal of Visual Culture</em> &nbsp;·&nbsp; 10:2 &nbsp;·&nbsp; SAGE Publications</div>
+          <div class="writing-meta">with Margaret Schedel &nbsp;·&nbsp; <em>Journal of Visual Culture</em> &nbsp;·&nbsp; 10:2 &nbsp;·&nbsp; SAGE Publications &nbsp;·&nbsp; <span class="writing-file">PDF, 80 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2010</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/pictorial-collage-variations-v.pdf" target="_blank" rel="noopener">"From Pictorial Collage to Interdisciplinary Assemblage: <em>Variations V</em> (1965) and the Cagean Origins of VanDerBeek's Expanded Cinema"</a></div>
-          <div class="writing-meta"><em>Animation: An Interdisciplinary Journal</em> &nbsp;·&nbsp; 5:2 &nbsp;·&nbsp; Sage Publications</div>
+          <div class="writing-meta"><em>Animation: An Interdisciplinary Journal</em> &nbsp;·&nbsp; 5:2 &nbsp;·&nbsp; Sage Publications &nbsp;·&nbsp; <span class="writing-file">PDF, 210 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2010</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/philosophical-toy-duchamp-breer-es.pdf" target="_blank" rel="noopener">"The Philosophical Toy as Model: Duchamp, Breer and the Postwar Emergence of Cinema in the Gallery Space"</a></div>
-          <div class="writing-meta">Translated into Spanish &nbsp;·&nbsp; <em>Secuencias: Revista de historia del cine</em> 32 &nbsp;·&nbsp; Universidad Autónoma de Madrid</div>
+          <div class="writing-meta">Translated into Spanish &nbsp;·&nbsp; <em>Secuencias: Revista de historia del cine</em> 32 &nbsp;·&nbsp; Universidad Autónoma de Madrid &nbsp;·&nbsp; <span class="writing-file">PDF, 1.3 MB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2009</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/labyrinth-coulibeuf-dedale-pt.pdf" target="_blank" rel="noopener">"A Labyrinth in Time and Space: Coulibeuf's <em>Dédale</em> and the Architecture of the Moving Image"</a></div>
-          <div class="writing-meta">Translated into Portuguese &nbsp;·&nbsp; in Fidelis, ed., <em>Dédale</em> &nbsp;·&nbsp; Iberê Camargo Foundation, Porto Alegre</div>
+          <div class="writing-meta">Translated into Portuguese &nbsp;·&nbsp; in Fidelis, ed., <em>Dédale</em> &nbsp;·&nbsp; Iberê Camargo Foundation, Porto Alegre &nbsp;·&nbsp; <span class="writing-file">PDF, 560 KB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
         <span class="writing-year" itemprop="datePublished">2008</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/siting-cinema.pdf" target="_blank" rel="noopener">"Siting Cinema"</a></div>
-          <div class="writing-meta">Leighton, ed., <em>Art and the Moving Image: A Critical Reader</em> &nbsp;·&nbsp; Tate Modern / Afterall Press</div>
+          <div class="writing-meta">Leighton, ed., <em>Art and the Moving Image: A Critical Reader</em> &nbsp;·&nbsp; Tate Modern / Afterall Press &nbsp;·&nbsp; <span class="writing-file">PDF, 1.5 MB</span></div>
         </div>
       </div>
       <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
@@ -1401,14 +1414,14 @@
         <span class="writing-year" itemprop="datePublished">2006</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/far-above-madding-crowd.pdf" target="_blank" rel="noopener">"Far Above the Madding Crowd: The Spatial Rhetoric of Mass Representation"</a></div>
-          <div class="writing-meta">Schnapp &amp; Tiews, eds., <em>Crowds</em> &nbsp;·&nbsp; Stanford University Press</div>
+          <div class="writing-meta">Schnapp &amp; Tiews, eds., <em>Crowds</em> &nbsp;·&nbsp; Stanford University Press &nbsp;·&nbsp; <span class="writing-file">PDF, 2.9 MB</span></div>
         </div>
       </div>
       <div class="writing-entry" style="border-bottom: none;">
         <span class="writing-year" itemprop="datePublished">2005</span>
         <div>
           <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/smithson-stratigraphic-cinema.pdf" target="_blank" rel="noopener">"La Jetée en Spirale: Robert Smithson's Stratigraphic Cinema"</a></div>
-          <div class="writing-meta"><em>Grey Room</em> 19 &nbsp;·&nbsp; MIT Press</div>
+          <div class="writing-meta"><em>Grey Room</em> 19 &nbsp;·&nbsp; MIT Press &nbsp;·&nbsp; <span class="writing-file">PDF, 330 KB</span></div>
         </div>
       </div>
     </div>
