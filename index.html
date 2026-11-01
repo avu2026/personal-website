@@ -4,6 +4,22 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Andrew Uroskie</title>
+<meta name="description" content="Andrew V. Uroskie, Associate Professor of Modern Art and Media at Stony Brook University: scholarship, criticism, and audiovisual work on film, video, sound, installation and performance."/>
+<link rel="canonical" href="https://andrewuroskie.com/"/>
+<meta name="theme-color" content="#050505"/>
+<meta property="og:type" content="profile"/>
+<meta property="og:site_name" content="Andrew Uroskie"/>
+<meta property="og:title" content="Andrew Uroskie"/>
+<meta property="og:description" content="Scholarship, criticism, and audiovisual work on film, video, sound, installation and performance."/>
+<meta property="og:url" content="https://andrewuroskie.com/"/>
+<meta property="og:image" content="https://andrewuroskie.com/splash_placeholder.jpg"/>
+<meta property="og:image:width" content="1302"/>
+<meta property="og:image:height" content="730"/>
+<meta property="og:image:alt" content="Stan VanDerBeek &amp; Joan Brigham, Steam Screens (1979/2016)"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="favicon.ico" sizes="any"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="preload" as="image" href="splash_placeholder.avif" type="image/avif" fetchpriority="high"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
@@ -20,6 +36,7 @@
     --font-display: 'Bodoni Moda', serif;
     --font-mono: 'IBM Plex Mono', monospace;
     --transition-fade: 320ms ease;
+    --text-bump: 2pt;  /* added to every font size */
   }
 
   html, body {
@@ -31,6 +48,8 @@
     -webkit-font-smoothing: antialiased;
     overflow: hidden;
   }
+
+  body { font-size: calc(1rem + var(--text-bump)); }
 
   #page-home {
     min-height: 100%;
@@ -77,7 +96,7 @@
   .site-title {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(2.2rem, 5.5vw, 5rem);
+    font-size: calc(clamp(2.2rem, 5.5vw, 5rem) + var(--text-bump));
     letter-spacing: 0.14em;
     color: var(--pure-white);
     text-transform: uppercase;
@@ -119,7 +138,7 @@
   .film-caption {
     margin-top: 0.6rem;
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: calc(10px + var(--text-bump));
     font-weight: 300;
     letter-spacing: 0.12em;
     color: var(--muted);
@@ -128,7 +147,7 @@
   .film-caption em {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.04em;
     color: var(--ash);
   }
@@ -155,7 +174,7 @@
   .home-nav a {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+    font-size: calc(clamp(1.25rem, 2.2vw, 1.65rem) + var(--text-bump));
     color: var(--pure-white);
     text-decoration: none;
     letter-spacing: 0.02em;
@@ -186,7 +205,7 @@
   .inner-header .wordmark {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: 1.05rem;
+    font-size: calc(1.05rem + var(--text-bump));
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--pure-white);
@@ -204,7 +223,7 @@
 
   .inner-header nav a {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: calc(12px + var(--text-bump));
     font-weight: 400;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -223,7 +242,7 @@
   /* section title treatment */
   .section-eyebrow {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--ash);
@@ -233,7 +252,7 @@
   .section-title {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    font-size: calc(clamp(2.2rem, 4vw, 3.8rem) + var(--text-bump));
     letter-spacing: 0.04em;
     color: var(--pure-white);
     line-height: 1.05;
@@ -262,7 +281,7 @@
 
   .writing-year {
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: calc(13px + var(--text-bump));
     letter-spacing: 0.1em;
     color: var(--ash);
     padding-top: 0.2rem;
@@ -271,7 +290,7 @@
   .writing-title {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 1.4rem;
+    font-size: calc(1.4rem + var(--text-bump));
     font-weight: 400;
     color: var(--offwhite);
     line-height: 1.3;
@@ -293,7 +312,7 @@
 
   .writing-meta {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: calc(12px + var(--text-bump));
     letter-spacing: 0.12em;
     color: var(--muted);
     text-transform: uppercase;
@@ -353,7 +372,7 @@
   /* ── WRITING PAGE ── */
   .writing-category-label {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--ash);
@@ -377,7 +396,7 @@
   .book-title {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 1.55rem;
+    font-size: calc(1.55rem + var(--text-bump));
     font-weight: 400;
     color: var(--pure-white);
     letter-spacing: 0.01em;
@@ -386,7 +405,7 @@
 
   .book-publisher {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: calc(12px + var(--text-bump));
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ash);
@@ -395,7 +414,7 @@
 
   .book-desc {
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: calc(13px + var(--text-bump));
     line-height: 1.85;
     color: var(--muted);
     font-weight: 300;
@@ -405,7 +424,7 @@
 
   .book-link {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ash);
@@ -416,7 +435,7 @@
 
   .writing-year.in-progress {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ash);
@@ -428,7 +447,7 @@
     border: none;
     padding: 0;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ash);
@@ -467,7 +486,7 @@
     border: none;
     padding: 0;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ash);
@@ -480,7 +499,7 @@
 
   .book-review-meta {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.14em;
     color: var(--ash);
     margin-bottom: 1.5rem;
@@ -490,7 +509,7 @@
 
   .book-review-text {
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: calc(13px + var(--text-bump));
     line-height: 2;
     color: var(--muted);
     font-weight: 300;
@@ -520,7 +539,7 @@
   .featured-title {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 1.45rem;
+    font-size: calc(1.45rem + var(--text-bump));
     font-weight: 400;
     color: var(--offwhite);
     letter-spacing: 0.01em;
@@ -528,7 +547,7 @@
 
   .featured-details {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: calc(12px + var(--text-bump));
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--muted);
@@ -545,7 +564,7 @@
 
   .featured-awards {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ash);
@@ -591,7 +610,7 @@
   .av-gallery-link:hover .av-gallery-thumb img { opacity: 0.55; }
   .av-gallery-caption {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: calc(12px + var(--text-bump));
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--muted);
@@ -691,7 +710,7 @@
 
   .work-desc {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: calc(12px + var(--text-bump));
     line-height: 1.9;
     color: var(--offwhite);
     font-weight: 300;
@@ -717,7 +736,7 @@
 
   .courses-col-label {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--ash);
@@ -733,7 +752,7 @@
 
   .course-number {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.18em;
     color: var(--ash);
     margin-bottom: 0.4rem;
@@ -742,7 +761,7 @@
   .course-title {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 1.25rem;
+    font-size: calc(1.25rem + var(--text-bump));
     font-weight: 400;
     color: var(--offwhite);
     line-height: 1.3;
@@ -751,7 +770,7 @@
 
   .course-desc {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: calc(12px + var(--text-bump));
     line-height: 1.7;
     color: var(--muted);
     font-weight: 300;
@@ -760,7 +779,7 @@
   /* ── ADVISEES ── */
   .advisees-heading {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.26em;
     text-transform: uppercase;
     color: var(--offwhite);
@@ -817,7 +836,7 @@
   .advisee-name {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 1.15rem;
+    font-size: calc(1.15rem + var(--text-bump));
     font-weight: 400;
     color: var(--offwhite);
     letter-spacing: 0.01em;
@@ -825,7 +844,7 @@
 
   .advisee-role {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: calc(12px + var(--text-bump));
     letter-spacing: 0.08em;
     color: var(--muted);
     line-height: 1.5;
@@ -833,7 +852,7 @@
 
   .advisee-inst {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.1em;
     color: var(--ash);
     text-transform: uppercase;
@@ -842,7 +861,7 @@
 
   .advisee-phd {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.1em;
     color: var(--muted);
     font-style: italic;
@@ -866,7 +885,7 @@
   .advisee-dissertation {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 1.15rem;
+    font-size: calc(1.15rem + var(--text-bump));
     font-weight: 400;
     color: var(--muted);
     line-height: 1.4;
@@ -886,7 +905,7 @@
 
   .bio-text p {
     font-family: var(--font-mono);
-    font-size: 14px;
+    font-size: calc(14px + var(--text-bump));
     line-height: 2;
     color: var(--offwhite);
     font-weight: 300;
@@ -896,7 +915,7 @@
 
   .bio-aside-label {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: calc(11px + var(--text-bump));
     letter-spacing: 0.26em;
     text-transform: uppercase;
     color: var(--ash);
@@ -915,7 +934,7 @@
 
   .bio-aside-list li {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: calc(12px + var(--text-bump));
     letter-spacing: 0.06em;
     color: var(--muted);
     line-height: 1.5;
@@ -925,7 +944,7 @@
   .contact-line {
     display: block;
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: calc(12px + var(--text-bump));
     letter-spacing: 0.1em;
     color: var(--offwhite);
     text-decoration: none;
@@ -937,7 +956,7 @@
   .contact-note {
     display: block;
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: calc(10px + var(--text-bump));
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--muted);
@@ -968,12 +987,18 @@
   }
 
   /* responsive — phone */
+  /* header nav needs ~975px at the bumped text size; collapse to the menu button below that */
+  @media (max-width: 1000px) {
+    .inner-header nav { display: none; }
+    .mobile-menu-btn { display: flex; }
+  }
+
   @media (max-width: 700px) {
     .home-header { padding: 3.5rem 1.5rem 0; }
     .home-center { padding: 1.75rem 1.5rem 0.25rem; }
     .home-nav { padding: 0 1.5rem 1.5rem; }
     .home-nav ul { gap: 0.5rem; padding-right: 1rem; }
-    .home-nav a { font-size: 1.1rem; }
+    .home-nav a { font-size: calc(1.1rem + var(--text-bump)); }
     .inner-header { padding: 1.2rem 1.5rem; }
     .inner-header nav { display: none; }
     .mobile-menu-btn { display: flex; }
@@ -1026,7 +1051,7 @@
   .mobile-nav-overlay a {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: 1.6rem;
+    font-size: calc(1.6rem + var(--text-bump));
     color: var(--pure-white);
     text-decoration: none;
     letter-spacing: 0.02em;
@@ -1052,7 +1077,7 @@
     bottom: 0.9rem;
     left: 1rem;
     font-family: var(--font-mono);
-    font-size: 0.625rem;
+    font-size: calc(0.625rem + var(--text-bump));
     font-weight: 300;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -1064,9 +1089,55 @@
   }
   .browser-hint:hover { opacity: 1; }
   @media (max-width: 640px) { .browser-hint { display: none; } }
+  /* ── ACCESSIBILITY ── */
+  /* inactive pages and closed overlays leave the tab order, the accessibility tree, and the
+     image queue (content-visibility keeps their lazy images from loading until opened) */
+  .page:not(.active) { visibility: hidden; content-visibility: hidden; }
+  .mobile-nav-overlay:not(.open),
+  .wildlife-lightbox:not(.open) { visibility: hidden; transition: opacity 300ms ease, visibility 0s linear 300ms; }
+
+  /* width/height attributes reserve layout space; let CSS widths keep the aspect ratio */
+  :where(img[width][height]) { height: auto; }
+
+  :focus-visible { outline: 2px solid var(--offwhite); outline-offset: 3px; }
+  [tabindex="-1"]:focus { outline: none; }
+
+  .skip-link {
+    position: fixed; top: 1rem; left: 1rem; z-index: 200;
+    padding: 0.7rem 1.1rem;
+    background: var(--offwhite); color: var(--void);
+    font-family: var(--font-mono); font-size: calc(12px + var(--text-bump)); font-weight: 400;
+    letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
+    transform: translateY(-300%);
+  }
+  .skip-link:focus { transform: none; }
+
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Andrew V. Uroskie",
+  "url": "https://andrewuroskie.com/",
+  "image": "https://andrewuroskie.com/headshot.jpg",
+  "jobTitle": "Associate Professor of Modern Art and Media",
+  "affiliation": { "@type": "CollegeOrUniversity", "name": "Stony Brook University", "url": "https://www.stonybrook.edu/" },
+  "knowsAbout": ["Expanded Cinema", "Nonhuman Perception", "Media Theory", "Anthropocene", "Scalar Cognition", "Sound Art", "Video Art"],
+  "sameAs": ["https://www.instagram.com/andrew.uroskie/"],
+  "award": "Andy Warhol Foundation Arts Writers Book Award",
+  "subjectOf": {
+    "@type": "Book",
+    "name": "Between the Black Box and the White Cube: Expanded Cinema and Postwar Art",
+    "author": { "@type": "Person", "name": "Andrew V. Uroskie" },
+    "publisher": { "@type": "Organization", "name": "University of Chicago Press" },
+    "datePublished": "2014",
+    "url": "https://press.uchicago.edu/ucp/books/book/chicago/B/bo5771909.html"
+  }
+}
+</script>
 </head>
 <body>
+<a class="skip-link" href="#" onclick="skipToContent(event)">Skip to content</a>
 
 <!-- ══════════════ LANDING ══════════════ -->
 <div id="page-home" class="page active">
@@ -1083,12 +1154,12 @@
           muted
           playsinline
           preload="metadata"
-          poster="splash_placeholder.jpg"
+          poster="splash_placeholder.avif"
           class="hero-video"
         >
           <source src="vdb_splash.mp4" type='video/mp4; codecs="hvc1"'/>
           <source src="vdb_splash_sdr.mp4" type='video/mp4; codecs="avc1.640028"'/>
-          <img src="splash_placeholder.jpg" alt="" class="hero-video"/>
+          <img src="splash_placeholder.avif" alt="" class="hero-video"/>
         </video>
       </div>
       <p class="film-caption">Stan VanDerBeek &amp; Joan Brigham, <em>Steam Screens</em> (1979/2016)</p>
@@ -1165,45 +1236,45 @@
     <p class="writing-category-label">Criticism</p>
 
     <div class="writing-grid">
-      <div class="writing-entry">
-        <span class="writing-year">2026</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/Article"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2026</span>
         <div>
-          <div class="writing-title"><a href="writing/rosenfeld-mesoscopic-realm.pdf" target="_blank" rel="noopener">"Marina Rosenfeld: Sound's Mesoscopic Realm"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/rosenfeld-mesoscopic-realm.pdf" target="_blank" rel="noopener">"Marina Rosenfeld: Sound's Mesoscopic Realm"</a></div>
           <div class="writing-meta"><em>Material Issue</em> exhibition catalog &nbsp;·&nbsp; The Substation, Victoria, Australia &nbsp;·&nbsp; February 2026</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2024</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/Article"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2024</span>
         <div>
-          <div class="writing-title"><a href="https://www.artforum.com/events/andrew-v-uroskie-15th-gwangju-biennale-2024-1234721694/" target="_blank" rel="noopener">"15th Gwangju Biennale"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="https://www.artforum.com/events/andrew-v-uroskie-15th-gwangju-biennale-2024-1234721694/" target="_blank" rel="noopener">"15th Gwangju Biennale"</a></div>
           <div class="writing-meta"><em>Artforum</em> &nbsp;·&nbsp; Vol. 63, No. 4, December 2024</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2024</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/Article"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2024</span>
         <div>
-          <div class="writing-title"><a href="https://www.artforum.com/features/andrew-v-uroskie-whitney-biennial-2024-554713/" target="_blank" rel="noopener">"Whitney Biennial 2024"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="https://www.artforum.com/features/andrew-v-uroskie-whitney-biennial-2024-554713/" target="_blank" rel="noopener">"Whitney Biennial 2024"</a></div>
           <div class="writing-meta"><em>Artforum</em> &nbsp;·&nbsp; Vol. 62, No. 10, Summer 2024</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2018</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/Article"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2018</span>
         <div>
-          <div class="writing-title"><a href="writing/elective-intimacies-thunderdome.pdf" target="_blank" rel="noopener">"Elective Intimacies – Beyond the Thunderdome"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/elective-intimacies-thunderdome.pdf" target="_blank" rel="noopener">"Elective Intimacies – Beyond the Thunderdome"</a></div>
           <div class="writing-meta"><em>Millennium Film Journal</em> &nbsp;·&nbsp; No. 68</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2018</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/Article"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2018</span>
         <div>
-          <div class="writing-title"><a href="https://www.e-flux.com/announcements/180853/hiding-in-plain-sight" target="_blank" rel="noopener">"Ivana Ba&scaron;i&cacute;: A Conversation"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="https://www.e-flux.com/announcements/180853/hiding-in-plain-sight" target="_blank" rel="noopener">"Ivana Ba&scaron;i&cacute;: A Conversation"</a></div>
           <div class="writing-meta"><em>Hiding in Plain Sight</em> &nbsp;·&nbsp; Syracuse MFA Exhibition Catalog</div>
         </div>
       </div>
       <div class="writing-entry" style="border-bottom: none;">
-        <span class="writing-year">2016</span>
+        <span class="writing-year" itemprop="datePublished">2016</span>
         <div>
-          <div class="writing-title"><a href="https://4columns.org/uroskie-andrew/dreamlands-immersive-cinema-and-art" target="_blank" rel="noopener">Review of <em>Dreamlands: Immersive Cinema and Art</em></a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="https://4columns.org/uroskie-andrew/dreamlands-immersive-cinema-and-art" target="_blank" rel="noopener">Review of <em>Dreamlands: Immersive Cinema and Art</em></a></div>
           <div class="writing-meta"><em>4Columns</em> &nbsp;·&nbsp; December 2016</div>
         </div>
       </div>
@@ -1214,129 +1285,129 @@
     <p class="writing-category-label">Selected Essays</p>
 
     <div class="writing-grid">
-      <div class="writing-entry">
-        <span class="writing-year">2022</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2022</span>
         <div>
-          <div class="writing-title"><a href="writing/audiovisual-texture.pdf" target="_blank" rel="noopener">"Audiovisual &lsquo;Texture&rsquo;: Towards an Interdisciplinary Rubric"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/audiovisual-texture.pdf" target="_blank" rel="noopener">"Audiovisual &lsquo;Texture&rsquo;: Towards an Interdisciplinary Rubric"</a></div>
           <div class="writing-meta">Min Oh, <em>Post-Texture</em> &nbsp;·&nbsp; Workroom Specter, Seoul</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2022</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2022</span>
         <div>
-          <div class="writing-title"><a href="writing/jonas-mekas-living-theatre.pdf" target="_blank" rel="noopener">"Jonas Mekas, the Living Theatre, and the Place of Performance"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/jonas-mekas-living-theatre.pdf" target="_blank" rel="noopener">"Jonas Mekas, the Living Theatre, and the Place of Performance"</a></div>
           <div class="writing-meta"><em>Jonas Mekas: Retrospective</em> &nbsp;·&nbsp; Yale University Press</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2020</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2020</span>
         <div>
-          <div class="writing-title"><a href="writing/interactivity-without-control.pdf" target="_blank" rel="noopener">"Interactivity without Control: David O'Reilly's <em>Everything</em> (2017) and the Representation of Totality"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/interactivity-without-control.pdf" target="_blank" rel="noopener">"Interactivity without Control: David O'Reilly's <em>Everything</em> (2017) and the Representation of Totality"</a></div>
           <div class="writing-meta">Rascaroli &amp; Murphy, eds., <em>Theorizing Film through Contemporary Art: Expanding Cinema</em> &nbsp;·&nbsp; Amsterdam University Press</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2017</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2017</span>
         <div>
-          <div class="writing-title"><a href="writing/assemblage-1968-strategy.pdf" target="_blank" rel="noopener">"Assemblage (1968) as Strategy: Collaborative Production and Collective Reception at the Origins of Artist's Television"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/assemblage-1968-strategy.pdf" target="_blank" rel="noopener">"Assemblage (1968) as Strategy: Collaborative Production and Collective Reception at the Origins of Artist's Television"</a></div>
           <div class="writing-meta">Bovier &amp; Mey, eds., <em>Exhibited Cinema</em> &nbsp;·&nbsp; Institut National de L'Histoire de l'Art, Paris</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2016</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2016</span>
         <div>
-          <div class="writing-title"><a href="writing/uncanny-machines-paik.pdf" target="_blank" rel="noopener">"Uncanny Machines and Philosophical Toys: The Animation of Paik's Early Sculpture"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/uncanny-machines-paik.pdf" target="_blank" rel="noopener">"Uncanny Machines and Philosophical Toys: The Animation of Paik's Early Sculpture"</a></div>
           <div class="writing-meta"><em>NJP Reader #6: Reanimating Nam June Paik</em> &nbsp;·&nbsp; Nam June Paik Art Center</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2015</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2015</span>
         <div>
-          <div class="writing-title"><a href="writing/documentary-fables-kr.pdf" target="_blank" rel="noopener">"Documentary Fables: The Return of History and the Collapse of Distance in the work of Pierre Huyghe and Omer Fast"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/documentary-fables-kr.pdf" target="_blank" rel="noopener">"Documentary Fables: The Return of History and the Collapse of Distance in the work of Pierre Huyghe and Omer Fast"</a></div>
           <div class="writing-meta">Translated into Korean &nbsp;·&nbsp; <em>Contemporary Art: Beyond the Authority of Global Trends</em> &nbsp;·&nbsp; Noosphere Contemporary Art Lab, Seoul</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2012</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2012</span>
         <div>
-          <div class="writing-title"><a href="writing/visual-music-after-cage-breer.pdf" target="_blank" rel="noopener">"Visual Music after Cage: Robert Breer, Expanded Cinema and Stockhausen's <em>Originals</em> (1964)"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/visual-music-after-cage-breer.pdf" target="_blank" rel="noopener">"Visual Music after Cage: Robert Breer, Expanded Cinema and Stockhausen's <em>Originals</em> (1964)"</a></div>
           <div class="writing-meta"><em>Organised Sound: An International Journal of Music and Technology</em> &nbsp;·&nbsp; 17:2 &nbsp;·&nbsp; Cambridge University Press</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2011</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2011</span>
         <div>
-          <div class="writing-title"><a href="writing/beyond-black-box-lettrist.pdf" target="_blank" rel="noopener">"Beyond the Black Box: The Lettrist Cinema of Disjunction"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/beyond-black-box-lettrist.pdf" target="_blank" rel="noopener">"Beyond the Black Box: The Lettrist Cinema of Disjunction"</a></div>
           <div class="writing-meta"><em>October</em> 135 &nbsp;·&nbsp; MIT Press</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2011</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2011</span>
         <div>
-          <div class="writing-title"><a href="writing/futurist-film-photography.pdf" target="_blank" rel="noopener">"From Chronophotography and Cinematography to Photodynamism and Chromatic Music: Bergson's Critique of Photography and the Futurist Birth of the Cinematic Avant-Garde, 1910–1912"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/futurist-film-photography.pdf" target="_blank" rel="noopener">"From Chronophotography and Cinematography to Photodynamism and Chromatic Music: Bergson's Critique of Photography and the Futurist Birth of the Cinematic Avant-Garde, 1910–1912"</a></div>
           <div class="writing-meta"><em>Forum Italicum</em> 31 &nbsp;·&nbsp; SUNY Press</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2011</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2011</span>
         <div>
-          <div class="writing-title"><a href="writing/windows-in-white-cube.pdf" target="_blank" rel="noopener">"Windows in the White Cube"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/windows-in-white-cube.pdf" target="_blank" rel="noopener">"Windows in the White Cube"</a></div>
           <div class="writing-meta">Trodd, ed., <em>Screen/Space: The Projected Image in Contemporary Art</em> &nbsp;·&nbsp; Manchester University Press</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2011</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2011</span>
         <div>
-          <div class="writing-title"><a href="writing/sonic-arts-audio-cultures-intro.pdf" target="_blank" rel="noopener">"Sonic Arts and Audio Cultures: Writing about Audiovisual Culture"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/sonic-arts-audio-cultures-intro.pdf" target="_blank" rel="noopener">"Sonic Arts and Audio Cultures: Writing about Audiovisual Culture"</a></div>
           <div class="writing-meta">with Margaret Schedel &nbsp;·&nbsp; <em>Journal of Visual Culture</em> &nbsp;·&nbsp; 10:2 &nbsp;·&nbsp; SAGE Publications</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2010</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2010</span>
         <div>
-          <div class="writing-title"><a href="writing/pictorial-collage-variations-v.pdf" target="_blank" rel="noopener">"From Pictorial Collage to Interdisciplinary Assemblage: <em>Variations V</em> (1965) and the Cagean Origins of VanDerBeek's Expanded Cinema"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/pictorial-collage-variations-v.pdf" target="_blank" rel="noopener">"From Pictorial Collage to Interdisciplinary Assemblage: <em>Variations V</em> (1965) and the Cagean Origins of VanDerBeek's Expanded Cinema"</a></div>
           <div class="writing-meta"><em>Animation: An Interdisciplinary Journal</em> &nbsp;·&nbsp; 5:2 &nbsp;·&nbsp; Sage Publications</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2010</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2010</span>
         <div>
-          <div class="writing-title"><a href="writing/philosophical-toy-duchamp-breer-es.pdf" target="_blank" rel="noopener">"The Philosophical Toy as Model: Duchamp, Breer and the Postwar Emergence of Cinema in the Gallery Space"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/philosophical-toy-duchamp-breer-es.pdf" target="_blank" rel="noopener">"The Philosophical Toy as Model: Duchamp, Breer and the Postwar Emergence of Cinema in the Gallery Space"</a></div>
           <div class="writing-meta">Translated into Spanish &nbsp;·&nbsp; <em>Secuencias: Revista de historia del cine</em> 32 &nbsp;·&nbsp; Universidad Autónoma de Madrid</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2009</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2009</span>
         <div>
-          <div class="writing-title"><a href="writing/labyrinth-coulibeuf-dedale-pt.pdf" target="_blank" rel="noopener">"A Labyrinth in Time and Space: Coulibeuf's <em>Dédale</em> and the Architecture of the Moving Image"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/labyrinth-coulibeuf-dedale-pt.pdf" target="_blank" rel="noopener">"A Labyrinth in Time and Space: Coulibeuf's <em>Dédale</em> and the Architecture of the Moving Image"</a></div>
           <div class="writing-meta">Translated into Portuguese &nbsp;·&nbsp; in Fidelis, ed., <em>Dédale</em> &nbsp;·&nbsp; Iberê Camargo Foundation, Porto Alegre</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2008</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2008</span>
         <div>
-          <div class="writing-title"><a href="writing/siting-cinema.pdf" target="_blank" rel="noopener">"Siting Cinema"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/siting-cinema.pdf" target="_blank" rel="noopener">"Siting Cinema"</a></div>
           <div class="writing-meta">Leighton, ed., <em>Art and the Moving Image: A Critical Reader</em> &nbsp;·&nbsp; Tate Modern / Afterall Press</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2008</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2008</span>
         <div>
           <div class="writing-title">"An Impossible Situation: Spectatorship Between the Black Box and the White Cube"</div>
           <div class="writing-meta">Translated into Spanish and Basque &nbsp;·&nbsp; Adelantado, ed., <em>Demand the Impossible, Vol 2: Impossible Cinema</em> &nbsp;·&nbsp; Centro Montehermoso, Barcelona</div>
         </div>
       </div>
-      <div class="writing-entry">
-        <span class="writing-year">2006</span>
+      <div class="writing-entry" itemscope itemtype="https://schema.org/ScholarlyArticle"><meta itemprop="author" content="Andrew V. Uroskie"/>
+        <span class="writing-year" itemprop="datePublished">2006</span>
         <div>
-          <div class="writing-title"><a href="writing/far-above-madding-crowd.pdf" target="_blank" rel="noopener">"Far Above the Madding Crowd: The Spatial Rhetoric of Mass Representation"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/far-above-madding-crowd.pdf" target="_blank" rel="noopener">"Far Above the Madding Crowd: The Spatial Rhetoric of Mass Representation"</a></div>
           <div class="writing-meta">Schnapp &amp; Tiews, eds., <em>Crowds</em> &nbsp;·&nbsp; Stanford University Press</div>
         </div>
       </div>
       <div class="writing-entry" style="border-bottom: none;">
-        <span class="writing-year">2005</span>
+        <span class="writing-year" itemprop="datePublished">2005</span>
         <div>
-          <div class="writing-title"><a href="writing/smithson-stratigraphic-cinema.pdf" target="_blank" rel="noopener">"La Jetée en Spirale: Robert Smithson's Stratigraphic Cinema"</a></div>
+          <div class="writing-title" itemprop="headline"><a itemprop="url" href="writing/smithson-stratigraphic-cinema.pdf" target="_blank" rel="noopener">"La Jetée en Spirale: Robert Smithson's Stratigraphic Cinema"</a></div>
           <div class="writing-meta"><em>Grey Room</em> 19 &nbsp;·&nbsp; MIT Press</div>
         </div>
       </div>
@@ -1366,7 +1437,7 @@
     <!-- Featured film -->
     <div class="featured-work">
       <div class="video-thumb" style="aspect-ratio: 1920/1014;" onclick="playVideo(this, '1182021092', '52.81%')" tabindex="0" role="button" aria-label="Play Paranthropic Audition: Prospect Park Lake" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo(this,'1182021092','52.81%')}">
-        <img src="ParanthropicPOSTER.jpg" alt="Paranthropic Audition: Prospect Park Lake" />
+        <img src="ParanthropicPOSTER.avif" alt="Paranthropic Audition: Prospect Park Lake" width="1916" height="1014" loading="lazy" decoding="async" />
         <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
       </div>
       <div class="featured-meta">
@@ -1391,7 +1462,7 @@
     <!-- 3 Seconds of Laptop EM -->
     <div class="featured-work">
       <div class="video-thumb" style="aspect-ratio: 2/1;" onclick="playVideo(this, '1045221930', '50%')" tabindex="0" role="button" aria-label="Play 3 Seconds of Laptop EM" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo(this,'1045221930','50%')}">
-        <img src="https://vumbnail.com/1045221930.jpg" alt="3 Seconds of Laptop EM" />
+        <img src="https://vumbnail.com/1045221930.jpg" alt="3 Seconds of Laptop EM" loading="lazy" decoding="async" />
         <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
       </div>
       <div class="featured-meta">
@@ -1412,7 +1483,7 @@
     <!-- Under the Full Moon (Primal Fears) -->
     <div class="featured-work">
       <div class="video-thumb" style="aspect-ratio: 16/9;" onclick="playVideo(this, '1114427619', '56.25%')" tabindex="0" role="button" aria-label="Play Under the Full Moon (Primal Fears)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo(this,'1114427619','56.25%')}">
-        <img src="https://vumbnail.com/1114427619.jpg" alt="Under the Full Moon (Primal Fears)" />
+        <img src="https://vumbnail.com/1114427619.jpg" alt="Under the Full Moon (Primal Fears)" loading="lazy" decoding="async" />
         <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
       </div>
       <div class="featured-meta">
@@ -1430,7 +1501,7 @@
     <!-- Unfreezing: Sonic Striations -->
     <div class="featured-work">
       <div class="video-thumb" style="aspect-ratio: 16/9;" onclick="playVideo(this, '1050620524', '56.25%')" tabindex="0" role="button" aria-label="Play Unfreezing: Sonic Striations" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo(this,'1050620524','56.25%')}">
-        <img src="https://vumbnail.com/1050620524.jpg" alt="Unfreezing: Sonic Striations" />
+        <img src="https://vumbnail.com/1050620524.jpg" alt="Unfreezing: Sonic Striations" loading="lazy" decoding="async" />
         <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
       </div>
       <div class="featured-meta">
@@ -1447,11 +1518,11 @@
     <div class="works-divider" style="width: 50%; margin: 3.5rem auto;"></div>
     <div class="av-gallery-links">
       <a class="av-gallery-link" href="#exhibition" onclick="navigateTo('exhibition'); return false;">
-        <div class="av-gallery-thumb"><img src="steamscreens-poster.jpg" alt="Exhibition Documentary"/></div>
+        <div class="av-gallery-thumb"><img src="steamscreens-poster.avif" alt="Exhibition Documentary" width="1650" height="872" loading="lazy" decoding="async" /></div>
         <div class="av-gallery-caption">Exhibition Documentary</div>
       </a>
       <a class="av-gallery-link" href="#wildlife" onclick="navigateTo('wildlife'); return false;">
-        <div class="av-gallery-thumb"><picture><source srcset="heron-square.avif" type="image/avif"><img src="heron-square.jpg" alt="Wildlife Documentary"/></picture></div>
+        <div class="av-gallery-thumb"><picture><source srcset="heron-square.avif" type="image/avif"><img src="heron-square.jpg" alt="Wildlife Documentary" width="600" height="600" loading="lazy" decoding="async" /></picture></div>
         <div class="av-gallery-caption">Wildlife Documentary</div>
       </a>
     </div>
@@ -1474,13 +1545,13 @@
     </button>
   </header>
   <div class="inner-content" style="max-width: 960px; padding-top: 4rem;">
-    <a href="#av-work" onclick="navigateTo('av-work'); return false;" style="font-size: 0.85rem; color: var(--ash); text-decoration: none; display: inline-block; margin-bottom: 2rem;">&larr; Back to Audiovisual</a>
+    <a href="#av-work" onclick="navigateTo('av-work'); return false;" style="font-size: calc(0.85rem + var(--text-bump)); color: var(--ash); text-decoration: none; display: inline-block; margin-bottom: 2rem;">&larr; Back to Audiovisual</a>
     <h2 class="section-title">Exhibition Documentary</h2>
 
     <!-- Steam Screens -->
     <div class="featured-work">
       <div class="video-thumb" style="aspect-ratio: 16/9;" onclick="playVideo(this, '1182020752', '56.25%')" tabindex="0" role="button" aria-label="Play Steam Screens (VanDerBeek & Brigham, 1979-2015)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo(this,'1182020752','56.25%')}">
-        <img src="steamscreens-poster.jpg" alt="Steam Screens (VanDerBeek & Brigham, 1979-2015)" />
+        <img src="steamscreens-poster.avif" alt="Steam Screens (VanDerBeek & Brigham, 1979-2015)" width="1650" height="872" loading="lazy" decoding="async" />
         <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
       </div>
       <div class="featured-meta">
@@ -1496,7 +1567,7 @@
     <!-- HPSCHD -->
     <div class="featured-work">
       <div class="video-thumb" style="aspect-ratio: 16/9;" onclick="playVideo(this, '1182260817', '56.25%')" tabindex="0" role="button" aria-label="Play John Cage & Lejaren Hiller, HPSCHD (1969/2013)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playVideo(this,'1182260817','56.25%')}">
-        <img src="hpschd-poster.jpg" alt="John Cage & Lejaren Hiller, HPSCHD (1969/2013)" />
+        <img src="hpschd-poster.avif" alt="John Cage & Lejaren Hiller, HPSCHD (1969/2013)" width="1920" height="1080" loading="lazy" decoding="async" />
         <div class="video-thumb-play"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
       </div>
       <div class="featured-meta">
@@ -1512,7 +1583,7 @@
     <!-- VanDerBeek Movie-Mural -->
     <div class="featured-work">
       <div class="book-cover-thumb" onclick="openWildlife('vanderbeek-dreamlands.avif')" tabindex="0" role="button" aria-label="Expand Stan VanDerBeek, Movie-Mural image" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('vanderbeek-dreamlands.avif')}">
-        <img src="vanderbeek-dreamlands.avif" alt="Stan VanDerBeek, Movie-Mural (1964/2016), Whitney Museum of American Art" />
+        <img src="vanderbeek-dreamlands.avif" alt="Stan VanDerBeek, Movie-Mural (1964/2016), Whitney Museum of American Art" width="2329" height="1508" loading="lazy" decoding="async" />
       </div>
       <div class="featured-meta">
         <div class="featured-title">Stan VanDerBeek, <em>Movie-Mural</em> (1964/2016), Whitney Museum</div>
@@ -1525,7 +1596,7 @@
     <!-- Ahwesh book cover -->
     <div class="featured-work">
       <div class="book-cover-thumb" onclick="openWildlife('ahwesh-vision-machines.avif')" tabindex="0" role="button" aria-label="Expand Peggy Ahwesh: Vision Machines cover image" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('ahwesh-vision-machines.avif')}">
-        <img src="ahwesh-vision-machines.avif" alt="Peggy Ahwesh: Vision Machines cover" />
+        <img src="ahwesh-vision-machines.avif" alt="Peggy Ahwesh: Vision Machines cover" width="997" height="1620" loading="lazy" decoding="async" />
       </div>
       <div class="featured-meta">
         <div class="featured-title">Peggy Ahwesh, <em>Lessons of War</em>, 2014</div>
@@ -1552,19 +1623,19 @@
     </button>
   </header>
   <div class="inner-content" style="max-width: 1200px; padding-top: 4rem;">
-    <a href="#av-work" onclick="navigateTo('av-work'); return false;" style="font-size: 0.85rem; color: var(--ash); text-decoration: none; display: inline-block; margin-bottom: 2rem;">&larr; Back to Audiovisual</a>
+    <a href="#av-work" onclick="navigateTo('av-work'); return false;" style="font-size: calc(0.85rem + var(--text-bump)); color: var(--ash); text-decoration: none; display: inline-block; margin-bottom: 2rem;">&larr; Back to Audiovisual</a>
     <h2 class="section-title">Wildlife Documentation</h2>
 
-    <p style="font-size: 0.75rem; color: #fff; margin: 0;">click to enlarge, click again to return to grid</p>
+    <p style="font-size: calc(0.75rem + var(--text-bump)); color: #fff; margin: 0;">click to enlarge, click again to return to grid</p>
     <div style="height: 1.5rem;"></div>
     <div class="wildlife-grid">
-      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/egret.avif')"><img src="wildlife/egret-2.avif" alt="Egret"/></div>
-      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/flight.avif')"><img src="wildlife/flight-2.avif" alt="Flight"/></div>
-      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/green-heron-singing.avif')"><img src="wildlife/green-heron-singing-2.avif" alt="Green Heron Singing"/></div>
-      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/night-heron.avif')"><img src="wildlife/night-heron-2.avif" alt="Night Heron"/></div>
-      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/robin.avif')"><img src="wildlife/robin-2.avif" alt="Robin"/></div>
-      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/bokeh-from-600-4.avif')"><img src="wildlife/bokeh-from-600-4-2.avif" alt="Bokeh from 600-4"/></div>
-      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/blue-heron.avif')"><img src="wildlife/blue-heron-2.avif" alt="Blue Heron"/></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/egret.avif')" tabindex="0" role="button" aria-label="Enlarge Egret" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('wildlife/egret.avif')}"><img src="wildlife/egret-2.avif" alt="Egret" width="600" height="600" loading="lazy" decoding="async" /></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/flight.avif')" tabindex="0" role="button" aria-label="Enlarge Flight" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('wildlife/flight.avif')}"><img src="wildlife/flight-2.avif" alt="Flight" width="600" height="600" loading="lazy" decoding="async" /></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/green-heron-singing.avif')" tabindex="0" role="button" aria-label="Enlarge Green Heron Singing" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('wildlife/green-heron-singing.avif')}"><img src="wildlife/green-heron-singing-2.avif" alt="Green Heron Singing" width="1800" height="1800" loading="lazy" decoding="async" /></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/night-heron.avif')" tabindex="0" role="button" aria-label="Enlarge Night Heron" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('wildlife/night-heron.avif')}"><img src="wildlife/night-heron-2.avif" alt="Night Heron" width="600" height="600" loading="lazy" decoding="async" /></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/robin.avif')" tabindex="0" role="button" aria-label="Enlarge Robin" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('wildlife/robin.avif')}"><img src="wildlife/robin-2.avif" alt="Robin" width="562" height="600" loading="lazy" decoding="async" /></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/bokeh-from-600-4.avif')" tabindex="0" role="button" aria-label="Enlarge Bokeh from 600-4" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('wildlife/bokeh-from-600-4.avif')}"><img src="wildlife/bokeh-from-600-4-2.avif" alt="Bokeh from 600-4" width="600" height="600" loading="lazy" decoding="async" /></div>
+      <div class="wildlife-grid-item" onclick="openWildlife('wildlife/blue-heron.avif')" tabindex="0" role="button" aria-label="Enlarge Blue Heron" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openWildlife('wildlife/blue-heron.avif')}"><img src="wildlife/blue-heron-2.avif" alt="Blue Heron" width="600" height="600" loading="lazy" decoding="async" /></div>
     </div>
   </div>
 </div>
@@ -1616,7 +1687,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
     <div class="advisees-grid">
 
       <a class="advisee-card" href="https://www.arteporexcelencias.com/en/news/jennie-goldstein-named-inaugural-marion-boulton-kippy-stroud-curator-collection" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/jennie.jpg" alt="Jennie Goldstein"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/jennie.avif" alt="Jennie Goldstein" width="600" height="556" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Jennie Goldstein</div>
           <div class="advisee-role">Stroud Curator of the Collection</div>
@@ -1625,7 +1696,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://www.rvacollective.org/sophie-landres" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/sophie%20landres.jpg" alt="Sophie Landres"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/sophie%20landres.avif" alt="Sophie Landres" width="600" height="558" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Sophie Landres</div>
           <div class="advisee-role">Curator &amp; Exhibitions Manager</div>
@@ -1634,7 +1705,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://www.charleseppley.com/" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/charles%20eppley.jpg" alt="Charles Eppley"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/charles%20eppley.avif" alt="Charles Eppley" width="600" height="600" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Charles Eppley</div>
           <div class="advisee-role">Assistant Teaching Professor, Art &amp; Media History</div>
@@ -1643,7 +1714,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://www.unr.edu/art/people/juan-carlos-guerrero-hernandez" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/juan.jpg" alt="Juan Carlos Guerrero Hernández"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/juan.avif" alt="Juan Carlos Guerrero Hernández" width="600" height="600" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Juan Carlos Guerrero Hernández</div>
           <div class="advisee-role">Assistant Professor, History of Art</div>
@@ -1652,7 +1723,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://www.frostburg.edu/departments/visual-arts/faculty-and-staff.php" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/travis.jpg" alt="Travis English"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/travis.avif" alt="Travis English" width="600" height="600" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Travis English</div>
           <div class="advisee-role">Associate Professor &amp; Chair, Digital Media &amp; Visual Arts</div>
@@ -1661,7 +1732,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://www.salisbury.edu/faculty-and-staff/jmkruglinski" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/advisee-kruglinski.jpg" alt="Jennifer Kruglinski"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/advisee-kruglinski.avif" alt="Jennifer Kruglinski" width="599" height="600" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Jennifer Kruglinski</div>
           <div class="advisee-role">Associate Professor, Art History</div>
@@ -1670,7 +1741,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://www.uakron.edu/art/our-people/bio-detail.dot?u=ggasparavicius" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/gedas.jpg" alt="Gediminas Gasparavičius"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/gedas.avif" alt="Gediminas Gasparavičius" width="472" height="600" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Gediminas Gasparavičius</div>
           <div class="advisee-role">Associate Professor, Art History</div>
@@ -1679,7 +1750,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://www.belmont.edu/profiles/tom-williams/" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/tom%20williams.jpg" alt="Tom Williams"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/tom%20williams.avif" alt="Tom Williams" width="600" height="600" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Tom Williams</div>
           <div class="advisee-role">Assistant Professor, Art History</div>
@@ -1696,7 +1767,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
     <div class="advisees-grid">
 
       <a class="advisee-card" href="https://www.pantheonsorbonne.fr/page-perso/pjpernuit" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/pernuit.jpg" alt="Pierre Pernuit"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/pernuit.avif" alt="Pierre Pernuit" width="559" height="600" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Pierre Pernuit</div>
           <div class="advisee-role">Maître de conférences</div>
@@ -1706,7 +1777,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://lluisalexandrecasanovas.com/" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/advisee-casanovas.jpg" alt="Lluís Alexandre Casanovas Blanco"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/advisee-casanovas.avif" alt="Lluís Alexandre Casanovas Blanco" width="600" height="580" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Lluís Alexandre Casanovas Blanco</div>
           <div class="advisee-role">Architect, Curator &amp; Scholar</div>
@@ -1716,7 +1787,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://college.berklee.edu/faculty/megan-hines" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/Megan%20Hines%20Image.jpg" alt="Megan Hines"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/Megan%20Hines%20Image.avif" alt="Megan Hines" width="600" height="600" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Megan Hines</div>
           <div class="advisee-role">Assistant Professor, Art History</div>
@@ -1725,7 +1796,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://www.mica.edu/academics/undergraduate-majors-minors/history-of-art-design-and-visual-culture/joo-yun-lee/" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/joo-yun-lee.jpg" alt="Joo Yun Lee"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/joo-yun-lee.avif" alt="Joo Yun Lee" width="600" height="600" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Joo Yun Lee</div>
           <div class="advisee-role">Assistant Professor</div>
@@ -1734,7 +1805,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="http://www.tinariversryan.com/" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/tina%20rivers%20ryan.jpg" alt="Tina Rivers Ryan"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/tina%20rivers%20ryan.avif" alt="Tina Rivers Ryan" width="600" height="600" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Tina Rivers Ryan</div>
           <div class="advisee-role">Editor-in-Chief</div>
@@ -1744,7 +1815,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       </a>
 
       <a class="advisee-card" href="https://www.leahmodigliani.net/" target="_blank" rel="noopener">
-        <div class="advisee-photo"><img src="phd_headshots/advisee-modigliani.jpg" alt="Leah Modigliani"/></div>
+        <div class="advisee-photo"><img src="phd_headshots/advisee-modigliani.avif" alt="Leah Modigliani" width="600" height="573" loading="lazy" decoding="async" /></div>
         <div class="advisee-info">
           <div class="advisee-name">Leah Modigliani</div>
           <div class="advisee-role">Associate Professor, Visual Studies</div>
@@ -1829,7 +1900,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
         <p>His most recent work engages nonhuman perceptual worlds as both artistic practice and research methodology. His short film <em>Paranthropic Audition: Prospect Park Lake</em> (2025) has screened at twenty festivals across sixteen countries, winning awards for Best Nature Film, Best Experimental Film, and Best No-Dialogue Film, while his sound piece <em>3 Seconds of Laptop EM</em> debuted at the Southwest Drone Fest in January 2025.</p>
       </div>
       <div class="bio-aside">
-        <img src="headshot.jpg" alt="Andrew V. Uroskie" style="width: 100%; margin-bottom: 2.5rem; filter: grayscale(20%); opacity: 0.92;" />
+        <img src="headshot.avif" alt="Andrew V. Uroskie" style="width: 100%; margin-bottom: 2.5rem; filter: grayscale(20%); opacity: 0.92;" width="600" height="600" loading="lazy" decoding="async" />
         <p class="bio-aside-label">Affiliation</p>
         <ul class="bio-aside-list">
           <li>Associate Professor with Tenure</li>
@@ -1872,11 +1943,10 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
 </div>
 
 <!-- Shared image lightbox (used by wildlife grid and exhibition book cover) -->
-<div class="wildlife-lightbox" id="wildlife-lightbox" onclick="closeWildlife()">
+<div class="wildlife-lightbox" id="wildlife-lightbox" onclick="closeWildlife()" role="dialog" aria-modal="true" aria-label="Enlarged image (press Escape to close)" tabindex="-1">
   <img id="wildlife-lightbox-img" src="" alt=""/>
 </div>
 
-<script src="https://player.vimeo.com/api/player.js"></script>
 <script>
   const pages = {
     'home':     document.getElementById('page-home'),
@@ -1935,6 +2005,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
         });
       });
       current = id;
+      if (!opts.fromHash) focusPage(to);
       // close mobile nav if open
       const overlay = document.getElementById('mobile-nav');
       if (overlay) overlay.classList.remove('open');
@@ -1942,13 +2013,33 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
   }
 
   // wildlife lightbox
+  let lightboxReturn = null;
   function openWildlife(src) {
     var lb = document.getElementById('wildlife-lightbox');
-    document.getElementById('wildlife-lightbox-img').src = src;
+    var img = document.getElementById('wildlife-lightbox-img');
+    lightboxReturn = document.activeElement;
+    var thumb = lightboxReturn && lightboxReturn.querySelector && lightboxReturn.querySelector('img');
+    img.alt = thumb ? thumb.alt : '';
+    img.src = src;
     lb.classList.add('open');
+    lb.focus({ preventScroll: true });
   }
   function closeWildlife() {
     document.getElementById('wildlife-lightbox').classList.remove('open');
+    if (lightboxReturn && lightboxReturn.focus) lightboxReturn.focus({ preventScroll: true });
+    lightboxReturn = null;
+  }
+
+  // move focus into the page just shown, so keyboard and screen-reader users land on it
+  function focusPage(page) {
+    var target = page.querySelector('.section-title') || page.querySelector('.home-nav a');
+    if (!target) return;
+    if (!target.matches('a, button')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  }
+  function skipToContent(e) {
+    e.preventDefault();
+    focusPage(pages[current]);
   }
 
   // video thumbnail → embedded player
@@ -1971,11 +2062,22 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
 
   // mobile nav
   function openMobileNav() {
-    document.getElementById('mobile-nav').classList.add('open');
+    var nav = document.getElementById('mobile-nav');
+    nav.classList.add('open');
+    nav.querySelector('.mobile-nav-close').focus();
   }
   function closeMobileNav() {
     document.getElementById('mobile-nav').classList.remove('open');
+    var btn = pages[current].querySelector('.mobile-menu-btn');
+    if (btn) btn.focus();
   }
+
+  // Escape closes whichever overlay is open
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (document.getElementById('wildlife-lightbox').classList.contains('open')) closeWildlife();
+    else if (document.getElementById('mobile-nav').classList.contains('open')) closeMobileNav();
+  });
 
   // respect reduced-motion: show the poster instead of the autoplaying loop
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
