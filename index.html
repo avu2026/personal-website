@@ -80,58 +80,59 @@
     pointer-events: all;
   }
 
-  /* home page: the film is the page */
+  /* home page: scrollable on short viewports */
   #page-home {
-    overflow: hidden;
+    overflow-y: auto;
+    justify-content: space-between;
+  }
+
+  .home-header {
+    width: 100%;
+    padding: 4rem 4rem 0;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .site-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: calc(clamp(2.2rem, 5.5vw, 5rem) + var(--text-bump));
+    letter-spacing: 0.14em;
+    color: var(--pure-white);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .home-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 2.5rem 2rem 1rem;
+    min-height: 0;
+  }
+
+  .film-stage {
+    width: min(640px, 90vw, calc((100vh - 280px) * 16/9));
+    display: flex;
+    flex-direction: column;
+  }
+
+  .film-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
     background: #000;
+    overflow: hidden;
   }
 
   .hero-video {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
-    opacity: 0.92;
+    opacity: 0.88;
     display: block;
-  }
-
-  /* darkens the top and bottom edges so caption, name and nav stay legible */
-  .home-shade {
-    position: absolute; inset: 0;
-    background:
-      linear-gradient(to top, rgba(5,5,5,0.82), rgba(5,5,5,0) 46%),
-      linear-gradient(to bottom, rgba(5,5,5,0.5), rgba(5,5,5,0) 22%);
-    pointer-events: none;
-  }
-
-  .home-foot {
-    position: absolute;
-    left: 4rem; right: 4rem; bottom: 2.75rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 1.5rem;
-  }
-
-  /* the name: a hairline outline that the film's light fills from behind */
-  .home-name { position: relative; }
-
-  .site-title {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: min(11vw, 19vh);
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    line-height: 0.88;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(232,230,225,0.42);
-  }
-  .site-title span { display: block; }
-  .site-title-fill {
-    position: absolute; inset: 0;
-    color: var(--pure-white);
-    -webkit-text-stroke: 0;
-    mix-blend-mode: overlay;
   }
 
   .film-caption {
@@ -150,16 +151,15 @@
     letter-spacing: 0.04em;
     color: var(--ash);
   }
-  .home-caption {
-    position: absolute;
-    top: 2rem; left: 4rem; right: 4rem;
-    margin-top: 0;
-    color: var(--offwhite);
-  }
-  .home-caption em { color: var(--offwhite); }
 
   /* home nav */
-  .home-nav { margin-left: auto; }
+  .home-nav {
+    width: 100%;
+    padding: 0 4rem 2rem;
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
 
   .home-nav ul {
     list-style: none;
@@ -995,8 +995,8 @@
 
   /* responsive — tablet */
   @media (max-width: 900px) {
-    .home-foot { left: 2rem; right: 2rem; }
-    .home-caption { left: 2rem; right: 2rem; }
+    .home-center { padding: 2.5rem 2rem 0.5rem; }
+    .home-nav { padding: 0 2rem 1.5rem; }
     .home-nav ul { gap: 0.6rem; }
     .av-gallery-links {
       gap: 1.5rem;
@@ -1012,9 +1012,9 @@
   }
 
   @media (max-width: 700px) {
-    .home-foot { left: 1.5rem; right: 1.5rem; bottom: 1.75rem; }
-    .home-caption { top: 1.5rem; left: 1.5rem; right: 1.5rem; }
-    .site-title { font-size: min(13vw, 19vh); }
+    .home-header { padding: 3.5rem 1.5rem 0; }
+    .home-center { padding: 1.75rem 1.5rem 0.25rem; }
+    .home-nav { padding: 0 1.5rem 1.5rem; }
     .home-nav ul { gap: 0.5rem; padding-right: 1rem; }
     .home-nav a { font-size: calc(1.1rem + var(--text-bump)); }
     .inner-header { padding: 1.2rem 1.5rem; }
@@ -1107,7 +1107,6 @@
   }
   .browser-hint:hover { opacity: 1; }
   @media (max-width: 640px) { .browser-hint { display: none; } }
-  body:has(#page-home.active) .browser-hint { display: none; }
   /* ── ACCESSIBILITY ── */
   /* inactive pages and closed overlays leave the tab order, the accessibility tree, and the
      image queue (content-visibility keeps their lazy images from loading until opened) */
@@ -1160,38 +1159,39 @@
 
 <!-- ══════════════ LANDING ══════════════ -->
 <div id="page-home" class="page active">
-  <video
-    autoplay
-    loop
-    muted
-    playsinline
-    preload="metadata"
-    poster="splash_placeholder.avif"
-    class="hero-video"
-  >
-    <source src="vdb_splash.mp4" type='video/mp4; codecs="hvc1"'/>
-    <source src="vdb_splash_sdr.mp4" type='video/mp4; codecs="avc1.640028"'/>
-    <img src="splash_placeholder.avif" alt="" class="hero-video"/>
-  </video>
-  <div class="home-shade"></div>
+  <header class="home-header">
+    <h1 class="site-title">Andrew Uroskie</h1>
+  </header>
 
-  <p class="film-caption home-caption">Stan VanDerBeek &amp; Joan Brigham, <em>Steam Screens</em> (1979/2016)</p>
-
-  <div class="home-foot">
-    <header class="home-name">
-      <h1 class="site-title"><span>Andrew</span> <span>Uroskie</span></h1>
-      <div class="site-title site-title-fill" aria-hidden="true"><span>Andrew</span> <span>Uroskie</span></div>
-    </header>
-
-    <nav class="home-nav" aria-label="Main navigation">
-      <ul>
-        <li><a href="#writing" onclick="navigateTo('writing'); return false;">Writing</a></li>
-        <li><a href="#av-work" onclick="navigateTo('av-work'); return false;">Audiovisual</a></li>
-        <li><a href="#courses" onclick="navigateTo('courses'); return false;">Pedagogy</a></li>
-        <li><a href="#bio" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a></li>
-      </ul>
-    </nav>
+  <div class="home-center">
+    <div class="film-stage">
+      <div class="film-frame">
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          poster="splash_placeholder.avif"
+          class="hero-video"
+        >
+          <source src="vdb_splash.mp4" type='video/mp4; codecs="hvc1"'/>
+          <source src="vdb_splash_sdr.mp4" type='video/mp4; codecs="avc1.640028"'/>
+          <img src="splash_placeholder.avif" alt="" class="hero-video"/>
+        </video>
+      </div>
+      <p class="film-caption">Stan VanDerBeek &amp; Joan Brigham, <em>Steam Screens</em> (1979/2016)</p>
+    </div>
   </div>
+
+  <nav class="home-nav" aria-label="Main navigation">
+    <ul>
+      <li><a href="#writing" onclick="navigateTo('writing'); return false;">Writing</a></li>
+      <li><a href="#av-work" onclick="navigateTo('av-work'); return false;">Audiovisual</a></li>
+      <li><a href="#courses" onclick="navigateTo('courses'); return false;">Pedagogy</a></li>
+      <li><a href="#bio" onclick="navigateTo('bio'); return false;">Bio &amp; Contact</a></li>
+    </ul>
+  </nav>
 </div>
 
 <!-- ══════════════ INNER HEADER TEMPLATE (shared) ══════════════ -->
