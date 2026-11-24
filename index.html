@@ -133,6 +133,16 @@
     -webkit-text-stroke: 0;
     mix-blend-mode: overlay;
   }
+  /* phones and tablets: the name is solid white, no outline. iOS cannot blend the fill
+     layer over the film, and the hairline is hard to read at phone size. */
+  @media (hover: none) and (pointer: coarse) {
+    .site-title-fill { display: none; }
+    .site-title { color: var(--pure-white); -webkit-text-stroke: 0; }
+  }
+  @supports (-webkit-touch-callout: none) {
+    .site-title-fill { display: none; }
+    .site-title { color: var(--pure-white); -webkit-text-stroke: 0; }
+  }
 
   .film-caption {
     margin-top: 0.6rem;
