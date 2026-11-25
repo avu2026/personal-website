@@ -1038,15 +1038,15 @@
 
   @media (max-width: 700px) {
     /* splash settings, phone. The name sits as far from the left edge as the nav text does
-       from the right (1.5rem + 1rem), and is lowered so the baseline of "Andrew" sits on the
-       baseline of the third link ("Pedagogy"): two nav rows (1.53 nav ems + the 0.5rem gap
-       each) less the capital height (0.75 name ems). A negative shift moves it down. */
+       from the right (1.5rem + 1rem), and is lowered by one nav row (1.53 nav ems + the
+       0.5rem gap) so the tops of its capitals sit on the baseline of the second link
+       ("Audiovisual") instead of the first. A negative shift moves it down. */
     .home-foot {
       left: 1.5rem; right: 1.5rem; bottom: 1.75rem;
       --name-size: min(6.5vw, 9.5vh);
       --nav-size: calc(1.1rem + var(--text-bump));
       --name-shift-x: 1rem;
-      --name-shift-y: calc(0.75 * var(--name-size) - 2 * (1.53 * var(--nav-size) + 0.5rem));
+      --name-shift-y: calc(-1 * (1.53 * var(--nav-size) + 0.5rem));
       --nav-shift-x: 0rem; --nav-shift-y: 0rem;
     }
     .home-caption { top: 1.5rem; left: 1.5rem; right: 1.5rem; }
