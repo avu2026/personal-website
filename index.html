@@ -2157,9 +2157,9 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
     });
   }
 
-  // wind on the name. HTML-in-canvas (recent desktop Chrome) snapshots the name
+  // wind on the name. HTML-in-canvas (recent Chrome) snapshots the name
   // into a WebGL texture, and a shader ripples it toward and away from the viewer.
-  // Without the API, on touch devices, or under reduced motion, this returns null
+  // Without the API or under reduced motion, this returns null
   // and the static name stays exactly as it was.
   var titleWind = (function () {
     var host = document.querySelector('.home-name');
@@ -2168,8 +2168,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
     if (!h1 || !('requestPaint' in HTMLCanvasElement.prototype) ||
         !window.WebGL2RenderingContext ||
         !('texElementSubImage2D' in WebGL2RenderingContext.prototype) ||
-        mq('(prefers-reduced-motion: reduce)') ||
-        mq('(hover: none) and (pointer: coarse)')) return null;
+        mq('(prefers-reduced-motion: reduce)')) return null;
 
     var VERT = '#version 300 es\n' +
       'in vec2 a_pos; void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }';
