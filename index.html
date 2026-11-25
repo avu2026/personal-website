@@ -105,44 +105,50 @@
 
   .home-foot {
     position: absolute;
-    left: 4rem; right: 4rem; bottom: 2.75rem;
+    left: 4rem; right: 4rem; bottom: 1.5rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 1.5rem;
+    --name-size: min(5.5vw, 9.5vh);
+    --nav-size: calc(clamp(1.25rem, 2.2vw, 1.65rem) + var(--text-bump));
   }
 
-  /* the name: a hairline outline that the film's light fills from behind */
-  .home-name { position: relative; }
+  /* the name: solid white. It hangs from the nav: the tops of its capitals sit on the
+     baseline of the first link ("Writing"). 1.125 is that baseline's depth below the top
+     of the nav, in nav ems; 0.054 is the gap above the capitals, in name ems. */
+  .home-name {
+    position: relative;
+    margin-left: 2rem;
+    margin-top: calc(1.125 * var(--nav-size) - 0.054 * var(--name-size));
+  }
 
   .site-title {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: min(11vw, 19vh);
+    font-size: var(--name-size);
     letter-spacing: 0.03em;
     text-transform: uppercase;
     line-height: 0.88;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(232,230,225,0.42);
+    color: var(--pure-white);
   }
   .site-title span { display: block; }
-  .site-title-fill {
-    position: absolute; inset: 0;
-    color: var(--pure-white);
-    -webkit-text-stroke: 0;
-    mix-blend-mode: overlay;
+
+  /* wind: where the browser has HTML-in-canvas, the name is redrawn through a
+     shader that ripples it with the steam (see titleWind in the script). The canvas
+     overhangs the name by --wind-pad so the ripple is never clipped. Everywhere
+     else these rules are inert and the static name above shows. */
+  .title-wind {
+    position: absolute;
+    top: calc(-1 * var(--wind-pad, 0px));
+    left: calc(-1 * var(--wind-pad, 0px));
+    width: calc(100% + 2 * var(--wind-pad, 0px));
+    height: calc(100% + 2 * var(--wind-pad, 0px));
+    pointer-events: none;
   }
-  /* phones and tablets: the name is solid white, no outline. iOS cannot blend the fill
-     layer over the film, and the hairline is hard to read at phone size. */
-  @media (hover: none) and (pointer: coarse) {
-    .site-title-fill { display: none; }
-    .site-title { color: var(--pure-white); -webkit-text-stroke: 0; }
-  }
-  @supports (-webkit-touch-callout: none) {
-    .site-title-fill { display: none; }
-    .site-title { color: var(--pure-white); -webkit-text-stroke: 0; }
-  }
+  .title-wind > .site-title { padding: var(--wind-pad, 0px); white-space: nowrap; }
+  .home-name.wind-on > .site-title { opacity: 0; }
 
   .film-caption {
     margin-top: 0.6rem;
@@ -184,7 +190,7 @@
   .home-nav a {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: calc(clamp(1.25rem, 2.2vw, 1.65rem) + var(--text-bump));
+    font-size: var(--nav-size);
     color: var(--pure-white);
     text-decoration: none;
     letter-spacing: 0.02em;
@@ -1022,11 +1028,9 @@
   }
 
   @media (max-width: 700px) {
-    .home-foot { left: 1.5rem; right: 1.5rem; bottom: 1.75rem; }
+    .home-foot { left: 1.5rem; right: 1.5rem; bottom: 1.75rem; --name-size: min(6.5vw, 9.5vh); --nav-size: calc(1.1rem + var(--text-bump)); }
     .home-caption { top: 1.5rem; left: 1.5rem; right: 1.5rem; }
-    .site-title { font-size: min(13vw, 19vh); }
     .home-nav ul { gap: 0.5rem; padding-right: 1rem; }
-    .home-nav a { font-size: calc(1.1rem + var(--text-bump)); }
     .inner-header { padding: 1.2rem 1.5rem; }
     .inner-header nav { display: none; }
     .mobile-menu-btn { display: flex; }
@@ -1190,7 +1194,6 @@
   <div class="home-foot">
     <header class="home-name">
       <h1 class="site-title"><span>Andrew</span> <span>Uroskie</span></h1>
-      <div class="site-title site-title-fill" aria-hidden="true"><span>Andrew</span> <span>Uroskie</span></div>
     </header>
 
     <nav class="home-nav" aria-label="Main navigation">
@@ -2046,6 +2049,7 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
         });
       });
       current = id;
+      if (id === 'home' && titleWind) titleWind.wake();
       if (!opts.fromHash) focusPage(to);
       // close mobile nav if open
       const overlay = document.getElementById('mobile-nav');
@@ -2120,6 +2124,11 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
     else if (document.getElementById('mobile-nav').classList.contains('open')) closeMobileNav();
   });
 
+  // the film plays at three-quarter speed, so each loop lasts about 8s instead of 6
+  document.querySelectorAll('video.hero-video').forEach(function (v) {
+    v.defaultPlaybackRate = v.playbackRate = 0.75;
+  });
+
   // respect reduced-motion: show the poster instead of the autoplaying loop
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('video.hero-video').forEach(function (v) {
@@ -2127,6 +2136,194 @@ City-as-Exhibitionscape, and the Digital Oral History Archive</div>
       v.pause();
     });
   }
+
+  // wind on the name. HTML-in-canvas (recent desktop Chrome) snapshots the name
+  // into a WebGL texture, and a shader ripples it toward and away from the viewer.
+  // Without the API, on touch devices, or under reduced motion, this returns null
+  // and the static name stays exactly as it was.
+  var titleWind = (function () {
+    var host = document.querySelector('.home-name');
+    var h1 = host && host.querySelector('h1.site-title');
+    var mq = function (q) { return window.matchMedia && window.matchMedia(q).matches; };
+    if (!h1 || !('requestPaint' in HTMLCanvasElement.prototype) ||
+        !window.WebGL2RenderingContext ||
+        !('texElementSubImage2D' in WebGL2RenderingContext.prototype) ||
+        mq('(prefers-reduced-motion: reduce)') ||
+        mq('(hover: none) and (pointer: coarse)')) return null;
+
+    var VERT = '#version 300 es\n' +
+      'in vec2 a_pos; void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }';
+    // The wind comes out of the centre of the frame and blows toward the bottom-left
+    // corner, where the name sits. depth() is a rippling surface whose waves travel
+    // outward from that centre; where it bulges toward us the letters swell, where it
+    // falls away they shrink. Gusts cross the name as arcs on the same heading, and
+    // each one blows the name back toward the bottom-left corner of the frame,
+    // shrinking it a little (api.shrink); it never grows past its resting size.
+    // Lengths are in ems so it scales with the name.
+    var FRAG = '#version 300 es\n' +
+      'precision highp float;\n' +
+      'uniform sampler2D u_tex; uniform vec2 u_tex_size; uniform float u_canvas_h;\n' +
+      'uniform float u_em; uniform float u_time; uniform float u_amp; uniform float u_shrink; uniform float u_liquid; uniform vec2 u_corner; uniform vec2 u_origin;\n' +
+      'out vec4 o;\n' +
+      'float hash(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }\n' +
+      'float noise(vec3 p) {\n' +
+      '  vec3 i = floor(p), f = fract(p); f = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);\n' +
+      '  vec2 e = vec2(0, 1);\n' +
+      '  return mix(mix(mix(hash(i + e.xxx), hash(i + e.yxx), f.x),\n' +
+      '                 mix(hash(i + e.xyx), hash(i + e.yyx), f.x), f.y),\n' +
+      '             mix(mix(hash(i + e.xxy), hash(i + e.yxy), f.x),\n' +
+      '                 mix(hash(i + e.xyy), hash(i + e.yyy), f.x), f.y), f.z);\n' +
+      '}\n' +
+      'vec2 downwind(vec2 p) {\n' +  // coordinates that travel outward from the centre of the frame
+      '  vec2 d = p - u_origin / u_em;\n' +
+      '  float r = length(d);\n' +
+      '  float across = atan(d.x + d.y, d.y - d.x) * r;\n' +  // arc length off the bottom-left diagonal
+      '  return vec2(r - u_time, across);\n' +
+      '}\n' +
+      'vec2 swirl(vec2 q, float t) {\n' +
+      '  return vec2(noise(vec3(q, t)), noise(vec3(q + 17.3, t + 4.1))) * 2.0 - 1.0;\n' +
+      '}\n' +
+      'float depth(vec2 p) {\n' +
+      '  vec2 q = downwind(p);\n' +
+      '  return (noise(vec3(q * 0.8, u_time * 0.6)) +\n' +
+      '          0.4 * noise(vec3(q * 2.2 + 31.7, u_time))) / 0.7 - 1.0;\n' +
+      '}\n' +
+      'void main() {\n' +
+      '  vec2 px = vec2(gl_FragCoord.x, u_canvas_h - gl_FragCoord.y);\n' +
+      '  vec2 p = px / u_em;\n' +
+      '  vec2 h = vec2(0.05, 0.0);\n' +
+      '  vec2 slope = vec2(depth(p + h.xy) - depth(p - h.xy), depth(p + h.yx) - depth(p - h.yx)) / 0.1;\n' +
+      '  float along = length(p - u_origin / u_em);\n' +
+      '  float gust = 0.35 + 0.65 * noise(vec3(along * 0.35 - u_time * 0.9, u_time * 0.3, 9.0));\n' +
+      '  float push = noise(vec3(along * 0.25 - u_time * 0.8, 11.0, 5.0));\n' +
+      '  float shrink = u_shrink * smoothstep(0.15, 0.85, push);\n' +
+      '  vec2 q = downwind(p);\n' +  // liquid: a slow swirl that is itself bent by a second swirl
+      '  vec2 bend = swirl(q * 0.6, u_time * 0.35);\n' +
+      '  vec2 liquid = swirl(q * 1.0 + 1.6 * bend + 40.0, u_time * 0.5);\n' +
+      '  vec2 src = u_corner + (px - u_corner) / (1.0 - shrink)\n' +
+      '           + slope * 0.7 * u_amp * gust * u_em\n' +
+      '           + liquid * u_liquid * gust * u_em;\n' +
+      '  vec2 uv = src / u_tex_size;\n' +
+      '  bool inside = all(greaterThanEqual(uv, vec2(0.0))) && all(lessThanEqual(uv, vec2(1.0)));\n' +
+      '  o = inside ? texture(u_tex, vec2(uv.x, 1.0 - uv.y)) : vec4(0.0);\n' +
+      '}';
+
+    var api = { amp: 0.05, liquid: 0.14, shrink: 0.09, speed: 1.5, wake: wake };
+    var layers = [], drawn = 0, dead = false, fontPx = 0;
+
+    function running() { return !dead && current === 'home' && !document.hidden; }
+    function wake() { layers.forEach(function (l) { l.canvas.requestPaint(); }); }
+    function fail() {
+      if (dead) return;
+      dead = true;
+      host.classList.remove('wind-on');
+      layers.forEach(function (l) { l.canvas.remove(); });
+    }
+    function measure() {
+      fontPx = parseFloat(getComputedStyle(h1).fontSize);
+      host.style.setProperty('--wind-pad', Math.ceil(fontPx * 0.4) + 'px');
+    }
+
+    function addLayer(cls) {
+      var canvas = document.createElement('canvas');
+      canvas.className = 'title-wind ' + cls;
+      canvas.setAttribute('content', 'drawable');
+      canvas.setAttribute('aria-hidden', 'true');
+      var clone = document.createElement('div');
+      clone.className = 'site-title';
+      clone.setAttribute('drawable', '');
+      clone.innerHTML = h1.innerHTML;
+      canvas.appendChild(clone);
+      host.appendChild(canvas);
+
+      var gl = canvas.getContext('webgl2', { premultipliedAlpha: true, antialias: false });
+      if (!gl) { canvas.remove(); throw new Error('no webgl2'); }
+      var prog = gl.createProgram();
+      [[gl.VERTEX_SHADER, VERT], [gl.FRAGMENT_SHADER, FRAG]].forEach(function (s) {
+        var sh = gl.createShader(s[0]);
+        gl.shaderSource(sh, s[1]);
+        gl.compileShader(sh);
+        if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh));
+        gl.attachShader(prog, sh);
+      });
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+      gl.useProgram(prog);
+      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      var pos = gl.getAttribLocation(prog, 'a_pos');
+      gl.enableVertexAttribArray(pos);
+      gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+      gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+      var u = {};
+      ['u_tex_size', 'u_canvas_h', 'u_em', 'u_time', 'u_amp', 'u_liquid', 'u_shrink', 'u_corner', 'u_origin'].forEach(function (n) {
+        u[n] = gl.getUniformLocation(prog, n);
+      });
+
+      var layer = { canvas: canvas, stale: true, first: true };
+
+      // the browser calls this once the clone has been laid out and snapshotted
+      canvas.onpaint = function (e) {
+        if (dead) return;
+        try {
+          if (layer.stale || (e.changedElements && e.changedElements.length)) {
+            var size = canvas.getElementImageDefaultSize(clone);
+            var w = Math.ceil(size.width), h = Math.ceil(size.height);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            gl.texElementSubImage2D(gl.TEXTURE_2D, 0, 0, 0, clone);
+            gl.uniform2f(u.u_tex_size, w, h);
+            if (gl.getError()) throw new Error('gl error');
+            layer.stale = false;
+          }
+          gl.viewport(0, 0, canvas.width, canvas.height);
+          gl.uniform1f(u.u_canvas_h, canvas.height);
+          var dpr = canvas.width / canvas.clientWidth;
+          gl.uniform1f(u.u_em, fontPx * dpr);
+          gl.uniform1f(u.u_shrink, api.shrink);
+          var box = canvas.getBoundingClientRect();
+          gl.uniform2f(u.u_origin, (innerWidth / 2 - box.left) * dpr, (innerHeight / 2 - box.top) * dpr);
+          gl.uniform2f(u.u_corner, -box.left * dpr, (innerHeight - box.top) * dpr);
+          gl.uniform1f(u.u_time, document.timeline.currentTime / 1000 * api.speed);
+          gl.uniform1f(u.u_amp, api.amp);
+          gl.uniform1f(u.u_liquid, api.liquid);
+          gl.clearColor(0, 0, 0, 0);
+          gl.clear(gl.COLOR_BUFFER_BIT);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        } catch (err) { fail(); return; }
+        // swap the static name out only once every layer has really drawn
+        if (layer.first) {
+          layer.first = false;
+          if (++drawn === layers.length) host.classList.add('wind-on');
+        }
+        if (running()) canvas.requestPaint();
+      };
+      canvas.addEventListener('webglcontextlost', fail);
+
+      new ResizeObserver(function (entries) {
+        var box = entries[0].devicePixelContentBoxSize[0];
+        if (!box.inlineSize || !box.blockSize) return;
+        canvas.width = box.inlineSize;
+        canvas.height = box.blockSize;
+        layer.stale = true;
+        canvas.requestPaint();
+      }).observe(canvas, { box: 'device-pixel-content-box' });
+
+      return layer;
+    }
+
+    try {
+      measure();
+      layers.push(addLayer('title-wind-solid'));
+    } catch (err) { fail(); return null; }
+    window.addEventListener('resize', measure);
+    document.addEventListener('visibilitychange', wake);
+    return api;
+  })();
 
   // contact email — assembled at runtime to slow basic scrapers
   (function () {
