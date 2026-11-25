@@ -111,10 +111,11 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 1.5rem;
-    --name-size: min(5.5vw, 9.5vh);
+    --name-size: min(6.2vw, 10.7vh);
     --nav-size: calc(clamp(1.25rem, 2.2vw, 1.65rem) + var(--text-bump));
     /* splash settings, desktop; the phone values are in the max-width: 700px block */
     --name-shift-x: 2rem;   /* name inset from the left edge of the foot */
+    --name-shift-y: 1rem;   /* name moved up by this much */
     --nav-shift-x: 2rem;    /* nav moved left by this much */
     --nav-shift-y: 1.5rem;  /* nav moved up by this much */
   }
@@ -126,6 +127,7 @@
   .home-name {
     position: relative;
     margin-left: var(--name-shift-x);
+    top: calc(-1 * var(--name-shift-y));
     margin-top: calc(1.125 * var(--nav-size) - 0.054 * var(--name-size));
   }
 
@@ -1035,7 +1037,7 @@
   }
 
   @media (max-width: 700px) {
-    .home-foot { left: 1.5rem; right: 1.5rem; bottom: 1.75rem; --name-size: min(6.5vw, 9.5vh); --nav-size: calc(1.1rem + var(--text-bump)); --name-shift-x: 2rem; --nav-shift-x: 0rem; --nav-shift-y: 0rem; }
+    .home-foot { left: 1.5rem; right: 1.5rem; bottom: 1.75rem; --name-size: min(6.5vw, 9.5vh); --nav-size: calc(1.1rem + var(--text-bump)); --name-shift-x: 2rem; --name-shift-y: 0rem; --nav-shift-x: 0rem; --nav-shift-y: 0rem; }
     .home-caption { top: 1.5rem; left: 1.5rem; right: 1.5rem; }
     .home-nav ul { gap: 0.5rem; padding-right: 1rem; }
     .inner-header { padding: 1.2rem 1.5rem; }
